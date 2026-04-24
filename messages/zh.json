@@ -1,0 +1,47 @@
+{
+  "brand": {
+    "name": "CAS Incubator OS",
+    "tagline": "建構想法。塑造專案。創造影響。"
+  },
+  "nav": {
+    "home": "首頁",
+    "projects": "專案",
+    "mentors": "導師",
+    "workspaces": "工作區",
+    "tasks": "任務",
+    "aiAssistant": "AI 助手",
+    "resources": "資源",
+    "community": "社群",
+    "settings": "設定"
+  },
+  "common": {
+    "signIn": "登入",
+    "signUp": "註冊",
+    "signOut": "登出",
+    "loading": "載入中…",
+    "save": "儲存",
+    "cancel": "取消",
+    "delete": "刪除",
+    "edit": "編輯"
+  },
+  "landing": {
+    "hero": {
+      "title": "建構想法。塑造專案。創造影響。",
+      "subtitle": "AI 驅動的專案式學習平台，引導學生從問題發現走向真實解決方案。",
+      "cta": "加入候補名單"
+    },
+    "features": {
+      "h2": "為下一代創業者打造"
+    },
+    "disclaimer": "本平台目前處於開發階段。請參閱我們的服務條款與隱私政策。"
+  },
+  "auth": {
+    "welcome": "歡迎回來",
+    "continueWith": "繼續使用"
+  },
+  "languageSwitcher": {
+    "label": "語言切換",
+    "zh": "中文",
+    "en": "EN"
+  }
+}

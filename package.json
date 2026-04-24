@@ -1,0 +1,32 @@
+{
+  "name": "cas-incubator-os",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "@clerk/nextjs": "latest",
+    "@supabase/supabase-js": "latest",
+    "next-intl": "latest",
+    "@vercel/blob": "latest",
+    "resend": "latest",
+    "lucide-react": "latest",
+    "clsx": "latest",
+    "tailwind-merge": "latest"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4",
+    "@tailwindcss/postcss": "^4",
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
+  }
+}

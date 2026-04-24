@@ -1,0 +1,47 @@
+{
+  "brand": {
+    "name": "CAS Incubator OS",
+    "tagline": "Build Ideas. Shape Projects. Launch Impact."
+  },
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "mentors": "Mentors",
+    "workspaces": "Workspaces",
+    "tasks": "Tasks",
+    "aiAssistant": "AI Assistant",
+    "resources": "Resources",
+    "community": "Community",
+    "settings": "Settings"
+  },
+  "common": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "loading": "Loading…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit"
+  },
+  "landing": {
+    "hero": {
+      "title": "Build Ideas. Shape Projects. Launch Impact.",
+      "subtitle": "An AI-powered project-based learning platform that guides students from problem discovery to real-world solutions.",
+      "cta": "Join the Waitlist"
+    },
+    "features": {
+      "h2": "Built for the Next Generation of Builders"
+    },
+    "disclaimer": "This platform is currently in development. See our Terms of Service and Privacy Policy."
+  },
+  "auth": {
+    "welcome": "Welcome back",
+    "continueWith": "Continue with"
+  },
+  "languageSwitcher": {
+    "label": "Switch language",
+    "zh": "中文",
+    "en": "EN"
+  }
+}
