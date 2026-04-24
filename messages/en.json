@@ -115,8 +115,12 @@
   },
   "join": {
     "title": "Join CAS Incubator OS",
-    "subtitle": "Enter a class code to join your cohort.",
+    "subtitle": "Enter the class code your teacher gave you.",
     "signInToJoin": "Sign In to Join",
+    "codeLabel": "Class Code",
+    "codeRequired": "Please enter a class code",
+    "continue": "Continue",
+    "codeHint": "Format: CAS-INC-XXXX-YYYY (your teacher will share it)",
     "unauthMessage": "Sign in or create an account to join with class code:",
     "joiningCohort": "Joining cohort",
     "selectRole": "How are you joining?",

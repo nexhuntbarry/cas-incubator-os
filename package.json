@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.71",
     "@clerk/nextjs": "latest",
     "@clerk/themes": "^2.4.57",
     "@supabase/supabase-js": "latest",
     "@vercel/blob": "latest",
+    "ai": "^6.0.168",
     "clsx": "latest",
     "lucide-react": "latest",
     "next": "latest",

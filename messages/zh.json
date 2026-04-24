@@ -115,8 +115,12 @@
   },
   "join": {
     "title": "加入 CAS Incubator OS",
-    "subtitle": "輸入班級代碼以加入您的班級。",
+    "subtitle": "輸入老師給你的班級代碼以加入。",
     "signInToJoin": "登入以加入",
+    "codeLabel": "班級代碼",
+    "codeRequired": "請輸入班級代碼",
+    "continue": "繼續",
+    "codeHint": "代碼格式：CAS-INC-XXXX-YYYY (老師會給你)",
     "unauthMessage": "請登入或建立帳號，以使用班級代碼加入：",
     "joiningCohort": "加入班級",
     "selectRole": "您的身份是？",
