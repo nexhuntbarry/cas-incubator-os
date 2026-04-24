@@ -7,6 +7,7 @@ import { UserButton } from "@clerk/nextjs";
 import { ChevronLeft, MessageSquarePlus } from "lucide-react";
 import StageProgressBar from "@/components/shared/StageProgressBar";
 import FlagRiskButton from "@/components/shared/FlagRiskButton";
+import WorkLinksGrid from "@/components/project/WorkLinksGrid";
 
 export default async function TeacherProjectDetailPage({
   params,
@@ -26,6 +27,10 @@ export default async function TeacherProjectDetailPage({
       id, title, description, problem_statement, target_user, value_proposition,
       mvp_definition, current_stage, stage_status, ai_classification_json,
       student_user_id,
+      live_product_url, demo_video_url, presentation_slide_url,
+      github_repo_url, figma_or_design_url, screenshot_gallery_urls,
+      github_url, figma_url, presentation_url,
+      last_url_update_at, last_url_update_by,
       project_type_definitions(name, slug),
       users!projects_student_user_id_fkey(id, display_name, email, avatar_url),
       enrollment_records!projects_enrollment_id_fkey(cohorts(name))
@@ -44,6 +49,17 @@ export default async function TeacherProjectDetailPage({
     .from("student_method_progress")
     .select("stage_number, status, submitted_at, student_notes")
     .eq("project_id", id);
+
+  // Resolve last_url_update_by display name
+  let lastUpdatedByName: string | null = null;
+  if (project.last_url_update_by) {
+    const { data: updaterUser } = await supabase
+      .from("users")
+      .select("display_name")
+      .eq("id", project.last_url_update_by)
+      .single();
+    lastUpdatedByName = updaterUser?.display_name ?? null;
+  }
 
   const stagesWithStatus = (stages ?? []).map((s) => {
     const p = progress?.find((pr) => pr.stage_number === s.stage_number);
@@ -83,6 +99,25 @@ export default async function TeacherProjectDetailPage({
             {cohort && <><span>·</span><span>{cohort.name}</span></>}
           </div>
         </div>
+
+        {/* Student's Submitted Work */}
+        <WorkLinksGrid
+          links={{
+            live_product_url: project.live_product_url,
+            demo_video_url: project.demo_video_url,
+            presentation_slide_url: project.presentation_slide_url,
+            github_repo_url: project.github_repo_url,
+            figma_or_design_url: project.figma_or_design_url,
+            screenshot_gallery_urls: Array.isArray(project.screenshot_gallery_urls)
+              ? project.screenshot_gallery_urls as string[]
+              : [],
+            github_url: project.github_url,
+            figma_url: project.figma_url,
+            presentation_url: project.presentation_url,
+          }}
+          lastUpdatedAt={project.last_url_update_at}
+          lastUpdatedBy={lastUpdatedByName}
+        />
 
         {/* Method progress */}
         <div className="rounded-xl border border-white/8 bg-white/3 p-5">
