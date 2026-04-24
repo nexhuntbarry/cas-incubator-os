@@ -9,6 +9,11 @@ import {
   renderRiskAlertText,
   type RiskAlertEmailData,
 } from "./templates/risk-alert";
+import {
+  renderWelcomeHtml,
+  renderWelcomeText,
+  type WelcomeEmailData,
+} from "./templates/welcome";
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -76,6 +81,37 @@ export async function sendRiskAlert(
     return { success: true, id: result.data?.id };
   } catch (err) {
     console.error("[email] sendRiskAlert exception:", err);
+    return { success: false, error: String(err) };
+  }
+}
+
+export async function sendWelcomeEmail(
+  to: string,
+  data: WelcomeEmailData
+): Promise<SendResult> {
+  if (isDev) {
+    console.log("[email:dev] sendWelcomeEmail →", to, data.displayName);
+    return { success: true, id: "dev-mock" };
+  }
+
+  try {
+    const resend = getResend();
+    const result = await resend.emails.send({
+      from: FROM_ADDRESS,
+      to,
+      subject: "Welcome to CAS Incubator OS",
+      html: renderWelcomeHtml(data),
+      text: renderWelcomeText(data),
+    });
+
+    if (result.error) {
+      console.error("[email] sendWelcomeEmail error:", result.error);
+      return { success: false, error: result.error.message };
+    }
+
+    return { success: true, id: result.data?.id };
+  } catch (err) {
+    console.error("[email] sendWelcomeEmail exception:", err);
     return { success: false, error: String(err) };
   }
 }

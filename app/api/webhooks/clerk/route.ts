@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
+import { sendWelcomeEmail } from "@/lib/email/send";
 
 const SUPER_ADMIN_EMAILS = new Set([
   "barry.py.chuang01@gmail.com",
@@ -96,6 +97,13 @@ export async function POST(req: Request) {
     if (error) {
       console.error("[clerk-webhook] upsert error:", error);
       return NextResponse.json({ error: "DB error" }, { status: 500 });
+    }
+
+    // Send welcome email non-blocking
+    if (email) {
+      sendWelcomeEmail(email, { displayName, email }).catch((err) => {
+        console.error("[clerk-webhook] welcome email failed:", err);
+      });
     }
   } else {
     // user.updated — sync mutable fields
