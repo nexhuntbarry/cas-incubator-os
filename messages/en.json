@@ -249,5 +249,118 @@
       "empty": "No projects found for your students.",
       "filters": "Filters"
     }
+  },
+  "worksheets": {
+    "builder": {
+      "title": "Worksheet Builder",
+      "addField": "Add Field",
+      "fieldType": "Field Type",
+      "label": "Label",
+      "key": "Key",
+      "helpText": "Help Text",
+      "required": "Required",
+      "options": "Options (one per line)",
+      "save": "Save Template",
+      "preview": "Preview"
+    },
+    "fields": {
+      "text": "Short Text",
+      "textarea": "Long Text",
+      "number": "Number",
+      "select": "Dropdown",
+      "multi_select": "Checkboxes",
+      "radio": "Radio",
+      "date": "Date",
+      "url": "URL",
+      "file_upload": "File Upload",
+      "file_gallery": "File Gallery"
+    },
+    "submit": "Submit Worksheet",
+    "saveDraft": "Save Draft",
+    "draft": "Draft saved",
+    "submitted": "Submitted",
+    "review": "Review",
+    "feedback": "Mentor Feedback",
+    "revision": "Revision Requested",
+    "noWorksheets": "No worksheets assigned yet.",
+    "readOnly": "This submission is read-only.",
+    "backToList": "Back to Worksheets"
+  },
+  "rubrics": {
+    "builder": {
+      "title": "Rubric Builder",
+      "addCriterion": "Add Criterion",
+      "criterionLabel": "Criterion Label",
+      "criterionDesc": "Description",
+      "weight": "Weight",
+      "ratingScale": "Rating Scale Labels",
+      "guidanceNotes": "Guidance Notes",
+      "save": "Save Rubric"
+    },
+    "criteria": "Criteria",
+    "scale": "Rating Scale",
+    "evaluate": "Evaluate",
+    "approve": "Mark as Approved",
+    "weightedScore": "Weighted Score",
+    "comment": "Comment",
+    "saveEvaluation": "Save Evaluation",
+    "noRubrics": "No rubric templates yet."
+  },
+  "checkpoints": {
+    "list": "Checkpoints",
+    "status": {
+      "not_started": "Not Started",
+      "partial": "Partial",
+      "submitted": "Submitted",
+      "under_review": "Under Review",
+      "revision_requested": "Revision Needed",
+      "approved": "Approved",
+      "locked": "Locked"
+    },
+    "requirements": "Requirements",
+    "submit": "Submit Checkpoint",
+    "review": "Review",
+    "approve": "Approve",
+    "escalate": "Escalate",
+    "requestRevision": "Request Revision",
+    "noCheckpoints": "No checkpoints defined yet.",
+    "awaitingReview": "Awaiting mentor review."
+  },
+  "curriculum": {
+    "assets": "Curriculum Assets",
+    "lessons": "Lessons",
+    "upload": "Upload Asset",
+    "addAsset": "Add Asset",
+    "visibility": "Visible to",
+    "lessonNumber": "Lesson #",
+    "assetType": "Asset Type",
+    "noAssets": "No resources available yet."
+  },
+  "mentor": {
+    "notes": {
+      "leave": "Leave a Note",
+      "type": "Note Type",
+      "types": {
+        "check_in": "Check-in",
+        "checkpoint_review": "Checkpoint Review",
+        "risk_flag": "Risk Flag",
+        "intervention": "Intervention",
+        "summary": "Summary"
+      },
+      "body": "Note",
+      "nextStep": "Recommended Next Step",
+      "escalation": "Flag for escalation",
+      "save": "Save Note",
+      "noNotes": "No notes yet.",
+      "escalated": "Escalated"
+    }
+  },
+  "ai": {
+    "generateSummary": "AI Summary",
+    "draftFeedback": "Draft Feedback",
+    "processing": "Generating…",
+    "summaryLabel": "AI Summary",
+    "reviewerFocus": "Focus on:",
+    "fallback": "AI unavailable — please review manually."
   }
 }

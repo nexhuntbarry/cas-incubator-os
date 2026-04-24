@@ -249,5 +249,118 @@
       "empty": "您的學生尚無專案。",
       "filters": "篩選器"
     }
+  },
+  "worksheets": {
+    "builder": {
+      "title": "工作表建構器",
+      "addField": "新增欄位",
+      "fieldType": "欄位類型",
+      "label": "標籤",
+      "key": "欄位鍵值",
+      "helpText": "提示文字",
+      "required": "必填",
+      "options": "選項（每行一個）",
+      "save": "儲存範本",
+      "preview": "預覽"
+    },
+    "fields": {
+      "text": "短文字",
+      "textarea": "長文字",
+      "number": "數字",
+      "select": "下拉選單",
+      "multi_select": "多選框",
+      "radio": "單選",
+      "date": "日期",
+      "url": "網址",
+      "file_upload": "單檔上傳",
+      "file_gallery": "多檔上傳"
+    },
+    "submit": "提交工作表",
+    "saveDraft": "儲存草稿",
+    "draft": "草稿已儲存",
+    "submitted": "已提交",
+    "review": "審閱",
+    "feedback": "導師回饋",
+    "revision": "已要求修改",
+    "noWorksheets": "尚無指定工作表。",
+    "readOnly": "此提交為唯讀。",
+    "backToList": "返回工作表列表"
+  },
+  "rubrics": {
+    "builder": {
+      "title": "評分標準建構器",
+      "addCriterion": "新增評分項目",
+      "criterionLabel": "評分項目標籤",
+      "criterionDesc": "說明",
+      "weight": "權重",
+      "ratingScale": "評分等級標籤",
+      "guidanceNotes": "評分指引",
+      "save": "儲存評分標準"
+    },
+    "criteria": "評分項目",
+    "scale": "評分等級",
+    "evaluate": "進行評分",
+    "approve": "標記為通過",
+    "weightedScore": "加權得分",
+    "comment": "評語",
+    "saveEvaluation": "儲存評分",
+    "noRubrics": "尚無評分標準範本。"
+  },
+  "checkpoints": {
+    "list": "里程碑",
+    "status": {
+      "not_started": "尚未開始",
+      "partial": "部分完成",
+      "submitted": "已提交",
+      "under_review": "審閱中",
+      "revision_requested": "需要修改",
+      "approved": "已通過",
+      "locked": "已鎖定"
+    },
+    "requirements": "要求事項",
+    "submit": "提交里程碑",
+    "review": "審閱",
+    "approve": "通過",
+    "escalate": "升級處理",
+    "requestRevision": "要求修改",
+    "noCheckpoints": "尚未定義里程碑。",
+    "awaitingReview": "等待導師審閱。"
+  },
+  "curriculum": {
+    "assets": "課程素材",
+    "lessons": "課程",
+    "upload": "上傳素材",
+    "addAsset": "新增素材",
+    "visibility": "可見對象",
+    "lessonNumber": "課程編號",
+    "assetType": "素材類型",
+    "noAssets": "尚無可用資源。"
+  },
+  "mentor": {
+    "notes": {
+      "leave": "留下紀錄",
+      "type": "紀錄類型",
+      "types": {
+        "check_in": "定期檢核",
+        "checkpoint_review": "里程碑審閱",
+        "risk_flag": "風險標記",
+        "intervention": "介入輔導",
+        "summary": "總結"
+      },
+      "body": "紀錄內容",
+      "nextStep": "建議下一步",
+      "escalation": "標記為需升級處理",
+      "save": "儲存紀錄",
+      "noNotes": "尚無紀錄。",
+      "escalated": "已升級"
+    }
+  },
+  "ai": {
+    "generateSummary": "AI 摘要",
+    "draftFeedback": "AI 起草回饋",
+    "processing": "生成中…",
+    "summaryLabel": "AI 摘要",
+    "reviewerFocus": "重點關注：",
+    "fallback": "AI 暫不可用 — 請手動審閱。"
   }
 }
