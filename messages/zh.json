@@ -229,6 +229,24 @@
     }
   },
   "teacher": {
+    "worksheets": {
+      "cohortProgress": "班級工作表進度",
+      "awaitingReview": "待審閱",
+      "approved": "已通過",
+      "revisionRequested": "需要修改",
+      "viewDetails": "查看詳情",
+      "lesson": "課程",
+      "stage": "階段",
+      "progress": "進度",
+      "stats": "統計",
+      "noTemplates": "尚無工作表範本。"
+    },
+    "students": {
+      "allWorksheets": "所有工作表",
+      "methodProgress": "方法進度",
+      "activeProject": "目前專案",
+      "backToProjects": "返回專案列表"
+    },
     "projects": {
       "title": "學生專案",
       "student": "學生",
@@ -255,6 +273,13 @@
     }
   },
   "worksheets": {
+    "currentStage": "目前階段工作表",
+    "upNext": "下一步",
+    "pastSubmissions": "過往提交",
+    "noStageYet": "老師將您移至某個階段後即可解鎖工作表。",
+    "completeIntake": "完成入學資料填寫後即可看到工作表。",
+    "startIntake": "開始填寫資料",
+    "locked": "已鎖定",
     "builder": {
       "title": "工作表建構器",
       "addField": "新增欄位",

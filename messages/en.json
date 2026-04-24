@@ -229,6 +229,24 @@
     }
   },
   "teacher": {
+    "worksheets": {
+      "cohortProgress": "Cohort Worksheet Progress",
+      "awaitingReview": "Awaiting Review",
+      "approved": "Approved",
+      "revisionRequested": "Revision Requested",
+      "viewDetails": "View Details",
+      "lesson": "Lesson",
+      "stage": "Stage",
+      "progress": "Progress",
+      "stats": "Stats",
+      "noTemplates": "No worksheet templates yet."
+    },
+    "students": {
+      "allWorksheets": "All Worksheets",
+      "methodProgress": "Method Progress",
+      "activeProject": "Active Project",
+      "backToProjects": "Back to Projects"
+    },
     "projects": {
       "title": "Student Projects",
       "student": "Student",
@@ -255,6 +273,13 @@
     }
   },
   "worksheets": {
+    "currentStage": "Current Stage Worksheets",
+    "upNext": "Up Next",
+    "pastSubmissions": "Past Submissions",
+    "noStageYet": "Your teacher will move you to a stage to unlock worksheets.",
+    "completeIntake": "Complete your intake to start seeing worksheets.",
+    "startIntake": "Start Intake",
+    "locked": "Locked",
     "builder": {
       "title": "Worksheet Builder",
       "addField": "Add Field",
