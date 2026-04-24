@@ -80,30 +80,57 @@ export async function POST(req: Request) {
   const supabase = getServiceClient();
 
   if (event.type === "user.created") {
-    const upsertData: Record<string, unknown> = {
-      clerk_user_id: userData.id,
-      email,
-      display_name: displayName,
-      avatar_url: userData.image_url,
-    };
-    if (role) {
-      upsertData.role = role;
-    }
-
-    const { error } = await supabase
+    // Handle pre-created user rows (admin may have created the email before signup).
+    // Prefer UPDATE by email when row exists → preserve role/status set by admin.
+    const { data: existing } = await supabase
       .from("users")
-      .upsert(upsertData, { onConflict: "clerk_user_id" });
+      .select("id, role")
+      .eq("email", email)
+      .maybeSingle();
 
-    if (error) {
-      console.error("[clerk-webhook] upsert error:", error);
-      return NextResponse.json({ error: "DB error" }, { status: 500 });
-    }
+    if (existing) {
+      const updateData: Record<string, unknown> = {
+        clerk_user_id: userData.id,
+        display_name: displayName,
+        avatar_url: userData.image_url,
+        updated_at: new Date().toISOString(),
+      };
+      // Super-admin whitelist always takes precedence even over prior role
+      if (role === "super_admin") {
+        updateData.role = role;
+      }
+      const { error } = await supabase
+        .from("users")
+        .update(updateData)
+        .eq("id", existing.id);
 
-    // Send welcome email non-blocking
-    if (email) {
-      sendWelcomeEmail(email, { displayName, email }).catch((err) => {
-        console.error("[clerk-webhook] welcome email failed:", err);
-      });
+      if (error) {
+        console.error("[clerk-webhook] link existing user error:", error);
+        return NextResponse.json({ error: "DB error" }, { status: 500 });
+      }
+    } else {
+      const insertData: Record<string, unknown> = {
+        clerk_user_id: userData.id,
+        email,
+        display_name: displayName,
+        avatar_url: userData.image_url,
+      };
+      if (role) {
+        insertData.role = role;
+      }
+
+      const { error } = await supabase.from("users").insert(insertData);
+
+      if (error) {
+        console.error("[clerk-webhook] insert error:", error);
+        return NextResponse.json({ error: "DB error" }, { status: 500 });
+      }
+
+      if (email) {
+        sendWelcomeEmail(email, { displayName, email }).catch((err) => {
+          console.error("[clerk-webhook] welcome email failed:", err);
+        });
+      }
     }
   } else {
     // user.updated — sync mutable fields

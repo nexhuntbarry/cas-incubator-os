@@ -9,4 +9,7 @@ export function getResend(): Resend {
   return _resend;
 }
 
-export const FROM_ADDRESS = "CAS Incubator OS <noreply@incubator.nexhunt.xyz>";
+// Use Resend's free verified domain until incubator.nexhunt.xyz DNS (SPF/DKIM) is verified.
+// To use custom domain: verify in Resend dashboard then set RESEND_FROM env var.
+export const FROM_ADDRESS =
+  process.env.RESEND_FROM ?? "CAS Incubator OS <onboarding@resend.dev>";
