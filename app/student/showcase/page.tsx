@@ -12,7 +12,13 @@ export default async function StudentShowcasePage() {
 
   const { data: project } = await supabase
     .from("projects")
-    .select("id, title, description, problem_statement, target_user, value_proposition, current_stage, demo_url, metadata")
+    .select(`
+      id, title, description, problem_statement, target_user, value_proposition,
+      current_stage, demo_url, metadata,
+      live_product_url, demo_video_url, presentation_slide_url,
+      github_repo_url, figma_or_design_url,
+      github_url, figma_url, presentation_url
+    `)
     .eq("student_user_id", user.userId)
     .order("created_at", { ascending: false })
     .limit(1)
@@ -25,6 +31,30 @@ export default async function StudentShowcasePage() {
         .eq("project_id", project.id)
         .maybeSingle()
     : { data: null };
+
+  // Auto-pull: use project URL fields as fallbacks when showcase fields are empty
+  const resolvedDemoLink =
+    showcase?.demo_url ||
+    project?.live_product_url ||
+    (project?.demo_url as string | undefined) ||
+    "";
+
+  const resolvedVideoLink =
+    showcase?.video_url ||
+    project?.demo_video_url ||
+    "";
+
+  const resolvedPresentationLink =
+    showcase?.presentation_link ||
+    project?.presentation_slide_url ||
+    project?.presentation_url ||
+    "";
+
+  const resolvedRepoLink =
+    showcase?.repo_link ||
+    project?.github_repo_url ||
+    project?.github_url ||
+    "";
 
   return (
     <div className="min-h-screen bg-deep-navy text-soft-gray">
@@ -45,10 +75,10 @@ export default async function StudentShowcasePage() {
             initialData={{
               title: showcase?.title ?? project.title,
               description: showcase?.description ?? project.description ?? "",
-              presentationLink: showcase?.presentation_link ?? "",
-              demoLink: showcase?.demo_url ?? (project.demo_url as string | undefined) ?? "",
-              repoLink: showcase?.repo_link ?? "",
-              videoLink: showcase?.video_url ?? "",
+              presentationLink: resolvedPresentationLink,
+              demoLink: resolvedDemoLink,
+              repoLink: resolvedRepoLink,
+              videoLink: resolvedVideoLink,
               screenshotsJson: (showcase?.screenshots_json as string[]) ?? [],
               publicShareEnabled: showcase?.public_share_enabled ?? false,
               publicShareToken: showcase?.public_share_token ?? null,
