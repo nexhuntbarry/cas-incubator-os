@@ -6,36 +6,22 @@ import { UserButton } from "@clerk/nextjs";
 import Logo from "@/components/Logo";
 import {
   LayoutDashboard,
-  BookOpen,
-  Users2,
-  KeyRound,
-  UserCog,
-  Settings,
-  GitBranch,
-  Layers,
   FolderKanban,
   FileText,
   Star,
   Flag,
-  Library,
+  BookOpen,
   StickyNote,
 } from "lucide-react";
 
 const NAV = [
-  { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
-  { href: "/admin/programs", label: "Programs", icon: BookOpen },
-  { href: "/admin/cohorts", label: "Cohorts", icon: Users2 },
-  { href: "/admin/class-codes", label: "Class Codes", icon: KeyRound },
-  { href: "/admin/users", label: "Users", icon: UserCog },
-  { href: "/admin/projects", label: "Projects", icon: FolderKanban },
-  { href: "/admin/worksheets", label: "Worksheets", icon: FileText },
-  { href: "/admin/rubrics", label: "Rubrics", icon: Star },
-  { href: "/admin/checkpoints", label: "Checkpoints", icon: Flag },
-  { href: "/admin/curriculum", label: "Curriculum", icon: Library },
-  { href: "/admin/notes", label: "Notes Feed", icon: StickyNote },
-  { href: "/admin/method-stages", label: "Method Stages", icon: GitBranch },
-  { href: "/admin/project-types", label: "Project Types", icon: Layers },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/mentor", label: "Overview", icon: LayoutDashboard, exact: true },
+  { href: "/mentor/projects", label: "Projects", icon: FolderKanban },
+  { href: "/mentor/worksheets/review", label: "Worksheet Queue", icon: FileText },
+  { href: "/mentor/rubrics/evaluate", label: "Rubric Evaluate", icon: Star },
+  { href: "/mentor/checkpoints/queue", label: "Checkpoints", icon: Flag },
+  { href: "/mentor/resources", label: "Resources", icon: BookOpen },
+  { href: "/mentor/notes", label: "My Notes", icon: StickyNote },
 ];
 
 interface ShellProps {
@@ -53,18 +39,15 @@ export default function Shell({ children, title }: ShellProps) {
 
   return (
     <div className="flex min-h-screen bg-deep-navy text-soft-gray">
-      {/* Sidebar */}
       <aside className="w-56 flex-shrink-0 flex flex-col border-r border-white/8 bg-white/2">
-        {/* Brand */}
         <div className="flex items-center gap-3 px-5 py-5 border-b border-white/8">
           <Logo size={28} />
           <div>
             <p className="text-xs font-bold text-soft-gray leading-tight">CAS Incubator</p>
-            <p className="text-[10px] text-electric-blue font-semibold tracking-widest uppercase">Admin</p>
+            <p className="text-[10px] text-vivid-teal font-semibold tracking-widest uppercase">Mentor</p>
           </div>
         </div>
 
-        {/* Nav */}
         <nav className="flex-1 py-4 px-3 space-y-0.5">
           {NAV.map(({ href, label, icon: Icon, exact }) => {
             const active = isActive(href, exact);
@@ -74,7 +57,7 @@ export default function Shell({ children, title }: ShellProps) {
                 href={href}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150 ${
                   active
-                    ? "bg-electric-blue/15 text-electric-blue"
+                    ? "bg-vivid-teal/15 text-vivid-teal"
                     : "text-soft-gray/60 hover:text-soft-gray hover:bg-white/5"
                 }`}
               >
@@ -85,15 +68,12 @@ export default function Shell({ children, title }: ShellProps) {
           })}
         </nav>
 
-        {/* User */}
         <div className="px-5 py-4 border-t border-white/8">
           <UserButton />
         </div>
       </aside>
 
-      {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Topbar */}
         {title && (
           <header className="px-8 py-5 border-b border-white/8 flex items-center justify-between">
             <h1 className="text-lg font-semibold text-soft-gray">{title}</h1>
