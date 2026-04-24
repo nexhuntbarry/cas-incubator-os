@@ -21,9 +21,11 @@ interface ProjectData {
 interface ProjectEditorProps {
   project: ProjectData;
   labels: Record<string, string>;
+  /** When true, hides URL fields and screenshot section (they live in WorkLinksEditor) */
+  infoOnlyMode?: boolean;
 }
 
-export default function ProjectEditor({ project, labels }: ProjectEditorProps) {
+export default function ProjectEditor({ project, labels, infoOnlyMode = false }: ProjectEditorProps) {
   const [form, setForm] = useState({
     title: project.title ?? "",
     description: project.description ?? "",
@@ -137,50 +139,54 @@ export default function ProjectEditor({ project, labels }: ProjectEditorProps) {
       {field("valueProposition", labels.value ?? "Value Proposition", "Why is this better than existing solutions?", true)}
       {field("mvpDefinition", labels.mvp ?? "MVP Definition", "What is the simplest version of your product?", true)}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {field("githubUrl", "GitHub URL", "https://github.com/...")}
-        {field("figmaUrl", "Figma URL", "https://figma.com/...")}
-        {field("demoVideoUrl", "Demo Video URL", "https://youtube.com/...")}
-        {field("presentationUrl", "Presentation URL", "https://slides.com/...")}
-      </div>
+      {!infoOnlyMode && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {field("githubUrl", "GitHub URL", "https://github.com/...")}
+            {field("figmaUrl", "Figma URL", "https://figma.com/...")}
+            {field("demoVideoUrl", "Demo Video URL", "https://youtube.com/...")}
+            {field("presentationUrl", "Presentation URL", "https://slides.com/...")}
+          </div>
 
-      {/* Screenshot gallery */}
-      <div>
-        <label className="block text-xs text-soft-gray/60 mb-2">{labels.screenshots ?? "Screenshots / Files"}</label>
-        <div className="flex flex-wrap gap-3 mb-3">
-          {gallery.map((url) => (
-            <div key={url} className="relative group">
-              <a href={url} target="_blank" rel="noopener noreferrer">
-                {url.match(/\.(png|jpg|jpeg|webp)$/i) ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={url} alt="screenshot" className="w-20 h-20 object-cover rounded-lg border border-white/10" />
-                ) : (
-                  <div className="w-20 h-20 flex items-center justify-center rounded-lg border border-white/10 bg-white/5">
-                    <ExternalLink size={20} className="text-soft-gray/40" />
-                  </div>
-                )}
-              </a>
+          {/* Screenshot gallery */}
+          <div>
+            <label className="block text-xs text-soft-gray/60 mb-2">{labels.screenshots ?? "Screenshots / Files"}</label>
+            <div className="flex flex-wrap gap-3 mb-3">
+              {gallery.map((url) => (
+                <div key={url} className="relative group">
+                  <a href={url} target="_blank" rel="noopener noreferrer">
+                    {url.match(/\.(png|jpg|jpeg|webp)$/i) ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={url} alt="screenshot" className="w-20 h-20 object-cover rounded-lg border border-white/10" />
+                    ) : (
+                      <div className="w-20 h-20 flex items-center justify-center rounded-lg border border-white/10 bg-white/5">
+                        <ExternalLink size={20} className="text-soft-gray/40" />
+                      </div>
+                    )}
+                  </a>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                disabled={uploading}
+                className="w-20 h-20 rounded-lg border border-dashed border-white/20 flex flex-col items-center justify-center gap-1 hover:border-electric-blue/50 transition-colors text-soft-gray/40 hover:text-electric-blue"
+              >
+                {uploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+                <span className="text-[10px]">{uploading ? "..." : "Upload"}</span>
+              </button>
             </div>
-          ))}
-          <button
-            type="button"
-            onClick={() => fileRef.current?.click()}
-            disabled={uploading}
-            className="w-20 h-20 rounded-lg border border-dashed border-white/20 flex flex-col items-center justify-center gap-1 hover:border-electric-blue/50 transition-colors text-soft-gray/40 hover:text-electric-blue"
-          >
-            {uploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
-            <span className="text-[10px]">{uploading ? "..." : "Upload"}</span>
-          </button>
-        </div>
-        <input
-          ref={fileRef}
-          type="file"
-          accept="image/png,image/jpeg,image/webp,application/pdf"
-          className="hidden"
-          onChange={handleUpload}
-        />
-        <p className="text-xs text-soft-gray/30">PNG, JPG, WEBP, PDF — max 10MB</p>
-      </div>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,application/pdf"
+              className="hidden"
+              onChange={handleUpload}
+            />
+            <p className="text-xs text-soft-gray/30">PNG, JPG, WEBP, PDF — max 10MB</p>
+          </div>
+        </>
+      )}
 
       {error && (
         <div className="flex items-center gap-2 text-sm text-red-400 bg-red-400/10 rounded-lg px-4 py-2">

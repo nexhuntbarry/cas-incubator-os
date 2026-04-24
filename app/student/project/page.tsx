@@ -7,6 +7,7 @@ import Logo from "@/components/Logo";
 import { UserButton } from "@clerk/nextjs";
 import StageProgressBar from "@/components/shared/StageProgressBar";
 import ProjectEditor from "@/components/student/ProjectEditor";
+import WorkLinksEditor from "@/components/project/WorkLinksEditor";
 
 export default async function StudentProjectPage() {
   const user = await getCurrentUser();
@@ -31,7 +32,9 @@ export default async function StudentProjectPage() {
     .select(`
       id, title, description, problem_statement, target_user, value_proposition,
       mvp_definition, github_url, figma_url, demo_video_url, presentation_url,
+      live_product_url, github_repo_url, figma_or_design_url, presentation_slide_url,
       screenshot_gallery_urls, current_stage, stage_status, ai_classification_json,
+      last_url_update_at,
       project_type_definitions(name, slug)
     `)
     .eq("student_user_id", user.userId)
@@ -72,6 +75,16 @@ export default async function StudentProjectPage() {
     save: t("save"),
   };
 
+  // Determine if any URL is missing (for the CTA banner)
+  const urlFieldsEmpty = project && (
+    !project.live_product_url &&
+    !project.demo_video_url &&
+    !project.github_repo_url &&
+    !project.figma_or_design_url &&
+    !project.presentation_slide_url &&
+    !(Array.isArray(project.screenshot_gallery_urls) && project.screenshot_gallery_urls.length > 0)
+  );
+
   return (
     <div className="min-h-screen bg-deep-navy text-soft-gray">
       <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
@@ -83,6 +96,23 @@ export default async function StudentProjectPage() {
           <UserButton />
         </div>
       </nav>
+
+      {/* Submit Your Work CTA banner — shown when no URL submitted yet */}
+      {project && urlFieldsEmpty && (
+        <div className="bg-gold/10 border-b border-gold/20 px-6 py-3">
+          <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
+            <p className="text-sm text-gold font-medium">
+              Submit Your Work — add your live product, demo video, or GitHub link so your mentor can review it.
+            </p>
+            <a
+              href="#work-links-section"
+              className="flex-shrink-0 px-4 py-1.5 rounded-lg bg-gold text-deep-navy text-xs font-semibold hover:bg-gold/90 transition-colors"
+            >
+              Add Links
+            </a>
+          </div>
+        </div>
+      )}
 
       <main className="max-w-3xl mx-auto px-6 py-10 space-y-8">
         <div>
@@ -121,25 +151,57 @@ export default async function StudentProjectPage() {
           </div>
         )}
 
-        {/* Editor */}
         {project ? (
-          <ProjectEditor
-            project={{
-              id: project.id,
-              title: project.title,
-              description: project.description,
-              problemStatement: project.problem_statement,
-              targetUser: project.target_user,
-              valueProposition: project.value_proposition,
-              mvpDefinition: project.mvp_definition,
-              githubUrl: project.github_url,
-              figmaUrl: project.figma_url,
-              demoVideoUrl: project.demo_video_url,
-              presentationUrl: project.presentation_url,
-              screenshotGalleryUrls: Array.isArray(project.screenshot_gallery_urls) ? project.screenshot_gallery_urls : [],
-            }}
-            labels={labels}
-          />
+          <>
+            {/* Section 1: Project Info */}
+            <div className="rounded-xl border border-white/8 bg-white/3 p-5 space-y-4">
+              <h2 className="text-sm font-semibold text-soft-gray/80 uppercase tracking-wider">Project Info</h2>
+              <ProjectEditor
+                project={{
+                  id: project.id,
+                  title: project.title,
+                  description: project.description,
+                  problemStatement: project.problem_statement,
+                  targetUser: project.target_user,
+                  valueProposition: project.value_proposition,
+                  mvpDefinition: project.mvp_definition,
+                  githubUrl: project.github_url,
+                  figmaUrl: project.figma_url,
+                  demoVideoUrl: project.demo_video_url,
+                  presentationUrl: project.presentation_url,
+                  screenshotGalleryUrls: Array.isArray(project.screenshot_gallery_urls) ? project.screenshot_gallery_urls : [],
+                }}
+                labels={labels}
+                infoOnlyMode
+              />
+            </div>
+
+            {/* Section 2: Your Work / Live Links */}
+            <div className="rounded-xl border border-white/8 bg-white/3 p-5 space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-semibold text-soft-gray/80 uppercase tracking-wider">Your Work &amp; Live Links</h2>
+                {project.last_url_update_at && (
+                  <span className="text-xs text-soft-gray/40">
+                    Last updated {new Date(project.last_url_update_at).toLocaleDateString()}
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-soft-gray/40">
+                Add links to your work so your mentor and teacher can follow your progress.
+              </p>
+              <WorkLinksEditor
+                projectId={project.id}
+                initialValues={{
+                  liveProductUrl: project.live_product_url ?? "",
+                  demoVideoUrl: project.demo_video_url ?? "",
+                  presentationSlideUrl: project.presentation_slide_url ?? project.presentation_url ?? "",
+                  githubRepoUrl: project.github_repo_url ?? project.github_url ?? "",
+                  figmaOrDesignUrl: project.figma_or_design_url ?? project.figma_url ?? "",
+                }}
+                initialGallery={Array.isArray(project.screenshot_gallery_urls) ? project.screenshot_gallery_urls as string[] : []}
+              />
+            </div>
+          </>
         ) : (
           <div className="rounded-xl border border-white/8 bg-white/3 p-6 text-center">
             <p className="text-soft-gray/50 text-sm">No project found. Please complete intake first.</p>
