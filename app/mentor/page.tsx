@@ -5,6 +5,7 @@ import Logo from "@/components/Logo";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { UserButton } from "@clerk/nextjs";
 import { getTranslations } from "next-intl/server";
+import OnboardingTour from "@/components/shared/OnboardingTour";
 
 export default async function MentorDashboard() {
   const user = await getCurrentUser();
@@ -14,15 +15,21 @@ export default async function MentorDashboard() {
   const t = await getTranslations("dashboard.mentor");
   const supabase = getServiceClient();
 
-  const { data: notes } = await supabase
-    .from("mentor_notes")
-    .select("id, content, session_date, projects(title)")
-    .eq("mentor_user_id", user.userId)
-    .order("session_date", { ascending: false })
-    .limit(5);
+  const [{ data: notes }, { data: userRow }] = await Promise.all([
+    supabase
+      .from("mentor_notes")
+      .select("id, content, session_date, projects(title)")
+      .eq("mentor_user_id", user.userId)
+      .order("session_date", { ascending: false })
+      .limit(5),
+    supabase.from("users").select("onboarded_at").eq("id", user.userId).single(),
+  ]);
+
+  const showTour = !userRow?.onboarded_at;
 
   return (
     <div className="min-h-screen bg-deep-navy text-soft-gray">
+      {showTour && <OnboardingTour role="mentor" displayName={user.displayName} />}
       <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
         <Logo size={28} />
         <div className="flex items-center gap-4">

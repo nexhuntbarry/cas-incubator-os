@@ -6,6 +6,7 @@ import Logo from "@/components/Logo";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { UserButton } from "@clerk/nextjs";
 import { getTranslations } from "next-intl/server";
+import OnboardingTour from "@/components/shared/OnboardingTour";
 
 export default async function StudentDashboard() {
   const user = await getCurrentUser();
@@ -26,17 +27,29 @@ export default async function StudentDashboard() {
     redirect("/student/intake");
   }
 
-  const { data: enrollment } = await supabase
-    .from("enrollment_records")
-    .select("*, cohorts(name)")
-    .eq("student_user_id", user.userId)
-    .eq("status", "active")
-    .single();
+  const [{ data: enrollment }, { data: userRow }] = await Promise.all([
+    supabase
+      .from("enrollment_records")
+      .select("*, cohorts(name)")
+      .eq("student_user_id", user.userId)
+      .eq("status", "active")
+      .single(),
+    supabase
+      .from("users")
+      .select("onboarded_at")
+      .eq("id", user.userId)
+      .single(),
+  ]);
 
   const cohortName = (enrollment?.cohorts as { name: string } | null)?.name;
+  const showTour = !userRow?.onboarded_at;
 
   return (
     <div className="min-h-screen bg-deep-navy text-soft-gray">
+      {showTour && (
+        <OnboardingTour role="student" displayName={user.displayName} />
+      )}
+
       <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
         <Logo size={28} />
         <div className="flex items-center gap-4">

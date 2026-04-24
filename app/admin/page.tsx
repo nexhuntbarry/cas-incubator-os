@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/admin/Shell";
 import StatCard from "@/components/admin/StatCard";
+import OnboardingTour from "@/components/shared/OnboardingTour";
 import { getTranslations } from "next-intl/server";
 
 export default async function AdminOverviewPage() {
@@ -13,6 +14,7 @@ export default async function AdminOverviewPage() {
   const supabase = getServiceClient();
 
   const [
+    { data: userRow },
     { count: totalUsers },
     { count: students },
     { count: teachers },
@@ -21,6 +23,7 @@ export default async function AdminOverviewPage() {
     { count: activeCohorts },
     { count: activeCodes },
   ] = await Promise.all([
+    supabase.from("users").select("onboarded_at").eq("id", user.userId).single(),
     supabase.from("users").select("*", { count: "exact", head: true }),
     supabase.from("users").select("*", { count: "exact", head: true }).eq("role", "student"),
     supabase.from("users").select("*", { count: "exact", head: true }).eq("role", "teacher"),
@@ -30,8 +33,13 @@ export default async function AdminOverviewPage() {
     supabase.from("class_codes").select("*", { count: "exact", head: true }).eq("is_active", true),
   ]);
 
+  const showTour = !userRow?.onboarded_at;
+
   return (
     <Shell title={t("overview")}>
+      {showTour && (
+        <OnboardingTour role="super_admin" displayName={user.displayName} />
+      )}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <StatCard label={t("stats.totalUsers")} value={totalUsers ?? 0} color="blue" />
         <StatCard label={t("stats.students")} value={students ?? 0} color="teal" />
