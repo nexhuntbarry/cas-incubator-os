@@ -15,6 +15,17 @@ export default async function StudentDashboard() {
   const t = await getTranslations("dashboard.student");
   const supabase = getServiceClient();
 
+  // Redirect to intake if not completed
+  const { data: profile } = await supabase
+    .from("student_profiles")
+    .select("intake_completed_at")
+    .eq("user_id", user.userId)
+    .single();
+
+  if (!profile?.intake_completed_at) {
+    redirect("/student/intake");
+  }
+
   const { data: enrollment } = await supabase
     .from("enrollment_records")
     .select("*, cohorts(name)")
@@ -63,10 +74,16 @@ export default async function StudentDashboard() {
         <div className="rounded-xl border border-white/8 bg-white/3 p-5">
           <p className="text-sm font-semibold text-soft-gray/70 mb-3">{t("quickLinks")}</p>
           <Link
-            href="#"
+            href="/student/project"
             className="block text-sm text-electric-blue hover:underline"
           >
-            {t("projectsPlaceholder")} →
+            {t("myProject")} →
+          </Link>
+          <Link
+            href="/student/method"
+            className="block text-sm text-electric-blue hover:underline mt-2"
+          >
+            {t("methodPipeline")} →
           </Link>
         </div>
       </main>
