@@ -22,19 +22,33 @@ An AI-powered project-based learning platform that guides high school students t
 
 ---
 
-## Phase 1 Scope
+## Status: Phases 1–5 Complete ✓
 
-Phase 1 establishes the foundation:
+### Phase 1 — Foundation
+- Next.js 16 App Router scaffold, Clerk auth, Supabase schema (24 tables), i18n (zh/en), landing page, seed data.
 
-- Project scaffold with full TypeScript + Tailwind v4 setup
-- Clerk authentication (sign-in, sign-up, middleware protection)
-- Supabase schema: 24 tables covering all core entities
-- i18n: Chinese (default) + English
-- Landing page (dark theme, brand identity)
-- Legal docs: Disclaimer, Terms of Service, Privacy Policy
-- Seed data: 10 method stage definitions + 9 project type definitions
+### Phase 2 — Core Dashboards
+- Role-based dashboards for admin / teacher / mentor / student / parent. Student intake flow. Class code join. Method pipeline.
 
-**Not in Phase 1:** Business logic, dashboard UI, AI features, real-time, parent consent flow, RLS policies.
+### Phase 3 — Worksheet + Rubric Engine
+- AI-powered worksheet feedback (Claude Sonnet 4.6 / Haiku 4.5). Rubric evaluation. Checkpoint submission + review.
+
+### Phase 4 — Communications, Risks, Showcase
+- Parent update composer (AI-drafted). Risk flag detection (manual + AI suggest + auto-cron). Showcase publishing. Notification system. Resend email.
+
+### Phase 5 — Polish (current)
+- Notification bell (all role shells) with badge + dropdown + auto-refresh
+- Mobile-responsive admin/teacher/mentor shells with hamburger sidebar
+- Welcome email on `user.created` Clerk webhook
+- First-run onboarding tour per role (3-step modal, gated by `onboarded_at`)
+- AI Usage dashboard at `/admin/ai-usage` with daily trend chart, cost estimate, route + user breakdown
+- Risk Flag modal wired into teacher/mentor project detail pages
+- Global error boundary (`app/error.tsx`) + styled 404 (`app/not-found.tsx`)
+- Vercel Cron config (`vercel.json`) for daily risk detection at 09:00
+- Migration 0006: `onboarded_at` column + 8 performance indexes
+- Cached static lookups (method stages, project types) via `unstable_cache`
+- Loading skeletons for admin analytics + AI usage pages
+- Smoke test script (`scripts/smoke-test.ts`)
 
 ---
 
@@ -66,27 +80,23 @@ Fill in `.env.local` with your actual keys:
 |----------|-----------------|
 | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk Dashboard → API Keys |
 | `CLERK_SECRET_KEY` | Clerk Dashboard → API Keys |
+| `CLERK_WEBHOOK_SECRET` | Clerk Dashboard → Webhooks → your endpoint |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase Dashboard → Settings → API |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase Dashboard → Settings → API |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase Dashboard → Settings → API |
+| `ANTHROPIC_API_KEY` | console.anthropic.com → API Keys |
 | `RESEND_API_KEY` | Resend Dashboard → API Keys |
 | `BLOB_READ_WRITE_TOKEN` | Vercel Dashboard → Storage → Blob |
+| `CRON_SECRET` | Any random string — `openssl rand -hex 32` |
 
 ### 3. Run database migrations
 
-In your Supabase SQL editor, run:
-
-```
-supabase/migrations/0001_init_schema.sql
-supabase/seed/001_method_stages.sql
-supabase/seed/002_project_types.sql
-```
-
-Or via Supabase CLI:
-
 ```bash
+supabase link --project-ref <your-project-ref>
 supabase db push
 ```
+
+See [docs/RUN-MIGRATIONS.md](docs/RUN-MIGRATIONS.md) for the full migration guide.
 
 ### 4. Start development server
 
@@ -95,6 +105,14 @@ npm run dev
 ```
 
 Open http://localhost:3000
+
+### 5. Run smoke tests (optional)
+
+```bash
+BASE_URL=http://localhost:3000 npx tsx scripts/smoke-test.ts
+```
+
+See [docs/SMOKE-TEST.md](docs/SMOKE-TEST.md) for the manual checklist.
 
 ---
 
