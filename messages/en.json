@@ -103,6 +103,14 @@
     "settings": {
       "title": "Settings",
       "placeholder": "Settings will be available in a future update."
+    },
+    "methodStages": {
+      "title": "Method Stages",
+      "empty": "No stages defined."
+    },
+    "projectTypes": {
+      "title": "Project Types",
+      "empty": "No project types defined."
     }
   },
   "join": {
@@ -142,7 +150,9 @@
       "nextTaskPlaceholder": "Complete your Interest Discovery worksheet",
       "noCohort": "You're not enrolled in any cohort yet.",
       "quickLinks": "Quick Links",
-      "projectsPlaceholder": "View Projects (coming soon)"
+      "projectsPlaceholder": "View Projects (coming soon)",
+      "myProject": "My Project",
+      "methodPipeline": "Method Pipeline"
     },
     "parent": {
       "welcome": "Welcome, {name}!",
@@ -166,6 +176,78 @@
       "placeholder": "No projects awaiting review.",
       "recentNotes": "Recent Session Notes",
       "noNotes": "No session notes yet."
+    }
+  },
+  "student": {
+    "intake": {
+      "title": "Tell Us About Yourself",
+      "step1": "Personal Info",
+      "step2": "Your Goals",
+      "step3": "AI Experience",
+      "step4": "Project Direction",
+      "step5": "Program Agreement",
+      "next": "Next",
+      "back": "Back",
+      "submit": "Complete Intake",
+      "success": "Intake Complete!",
+      "processing": "Setting up your project workspace…"
+    },
+    "project": {
+      "title": "My Project",
+      "currentStage": "Current Stage",
+      "progress": "stages complete",
+      "save": "Save Changes",
+      "upload": "Upload File",
+      "fields": {
+        "title": "Project Title",
+        "summary": "Project Summary",
+        "problem": "Problem Statement",
+        "targetUser": "Target User",
+        "value": "Value Proposition",
+        "mvp": "MVP Definition",
+        "screenshots": "Screenshots & Files"
+      }
+    },
+    "method": {
+      "title": "Method Pipeline",
+      "subtitle": "Your learning journey through 10 research and project stages.",
+      "view": "Open",
+      "inProgress": "In Progress",
+      "submitted": "Submitted — Awaiting Review",
+      "completed": "Completed",
+      "backToMethod": "Back to Pipeline",
+      "expectedOutputs": "Expected Outputs",
+      "guidingQuestions": "Guiding Questions",
+      "notes": "Your Notes",
+      "evidenceLabel": "Evidence / Files",
+      "submit": "Submit for Review",
+      "submitting": "Submitting…"
+    }
+  },
+  "teacher": {
+    "projects": {
+      "title": "Student Projects",
+      "student": "Student",
+      "project": "Project",
+      "cohort": "Cohort",
+      "stage": "Stage",
+      "status": "Status",
+      "review": "Review",
+      "empty": "No projects found in your cohorts.",
+      "filters": "Filters"
+    }
+  },
+  "mentor": {
+    "projects": {
+      "title": "Student Projects",
+      "student": "Student",
+      "project": "Project",
+      "cohort": "Cohort",
+      "stage": "Stage",
+      "status": "Status",
+      "review": "Review",
+      "empty": "No projects found for your students.",
+      "filters": "Filters"
     }
   }
 }
