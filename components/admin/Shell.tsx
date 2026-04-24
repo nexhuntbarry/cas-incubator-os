@@ -11,6 +11,9 @@ import {
   KeyRound,
   UserCog,
   Settings,
+  GitBranch,
+  Layers,
+  FolderKanban,
 } from "lucide-react";
 
 const NAV = [
@@ -19,6 +22,9 @@ const NAV = [
   { href: "/admin/cohorts", label: "Cohorts", icon: Users2 },
   { href: "/admin/class-codes", label: "Class Codes", icon: KeyRound },
   { href: "/admin/users", label: "Users", icon: UserCog },
+  { href: "/admin/projects", label: "Projects", icon: FolderKanban },
+  { href: "/admin/method-stages", label: "Method Stages", icon: GitBranch },
+  { href: "/admin/project-types", label: "Project Types", icon: Layers },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
