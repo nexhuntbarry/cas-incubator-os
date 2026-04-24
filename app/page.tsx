@@ -3,6 +3,8 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Logo from "@/components/Logo";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { getCurrentUser } from "@/lib/auth";
+import Link from "next/link";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("brand");
@@ -12,10 +14,19 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function HeroSection() {
+const ROLE_DASHBOARD: Record<string, string> = {
+  super_admin: "/admin",
+  teacher: "/teacher",
+  mentor: "/mentor",
+  student: "/student",
+  parent: "/parent",
+};
+
+function HeroSection({ dashboardHref }: { dashboardHref: string | null }) {
   const t = useTranslations("landing.hero");
   const tBrand = useTranslations("brand");
   const tCommon = useTranslations("common");
+  const tDash = useTranslations("landing");
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-24 overflow-hidden">
@@ -35,44 +46,49 @@ function HeroSection() {
       <div className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full opacity-8 blur-3xl bg-violet" />
 
       <div className="relative z-10 max-w-4xl mx-auto text-center">
-        {/* Logo */}
         <div className="flex justify-center mb-10">
           <Logo size={72} />
         </div>
 
-        {/* Brand name */}
         <p className="text-electric-blue text-sm font-semibold tracking-widest uppercase mb-4">
           {tBrand("name")}
         </p>
 
-        {/* Hero title */}
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 gradient-text">
           {t("title")}
         </h1>
 
-        {/* Subtitle */}
         <p className="text-soft-gray/70 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
           {t("subtitle")}
         </p>
 
-        {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button
-            type="button"
-            className="px-8 py-4 rounded-xl font-semibold text-white bg-electric-blue hover:bg-electric-blue/90 transition-all duration-200 shadow-lg shadow-electric-blue/25 hover:shadow-electric-blue/40 hover:-translate-y-0.5"
-          >
-            {t("cta")}
-          </button>
-          <button
-            type="button"
-            className="px-8 py-4 rounded-xl font-semibold text-soft-gray border border-soft-gray/20 hover:border-soft-gray/40 hover:bg-white/5 transition-all duration-200"
-          >
-            {tCommon("signIn")}
-          </button>
+          {dashboardHref ? (
+            <Link
+              href={dashboardHref}
+              className="px-8 py-4 rounded-xl font-semibold text-white bg-electric-blue hover:bg-electric-blue/90 transition-all duration-200 shadow-lg shadow-electric-blue/25 hover:shadow-electric-blue/40 hover:-translate-y-0.5"
+            >
+              {tDash("goToDashboard")}
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/join"
+                className="px-8 py-4 rounded-xl font-semibold text-white bg-electric-blue hover:bg-electric-blue/90 transition-all duration-200 shadow-lg shadow-electric-blue/25 hover:shadow-electric-blue/40 hover:-translate-y-0.5"
+              >
+                {t("cta")}
+              </Link>
+              <Link
+                href="/sign-in"
+                className="px-8 py-4 rounded-xl font-semibold text-soft-gray border border-soft-gray/20 hover:border-soft-gray/40 hover:bg-white/5 transition-all duration-200"
+              >
+                {tCommon("signIn")}
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-soft-gray/30 text-xs">
         <div className="w-px h-12 bg-gradient-to-b from-transparent to-electric-blue/60" />
       </div>
@@ -224,16 +240,18 @@ function Footer() {
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const user = await getCurrentUser();
+  const dashboardHref = user?.role ? (ROLE_DASHBOARD[user.role] ?? null) : null;
+
   return (
     <main>
-      {/* Nav */}
       <nav className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-4 bg-deep-navy/80 backdrop-blur-md border-b border-white/5">
         <Logo size={32} />
         <LanguageSwitcher />
       </nav>
 
-      <HeroSection />
+      <HeroSection dashboardHref={dashboardHref} />
       <FeaturesSection />
       <StagesSection />
       <Footer />
