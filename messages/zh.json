@@ -366,5 +366,126 @@
     "summaryLabel": "AI 摘要",
     "reviewerFocus": "重點關注：",
     "fallback": "AI 暫不可用 — 請手動審閱。"
+  },
+  "parents": {
+    "compose": "撰寫更新",
+    "history": "更新紀錄",
+    "send": "發送郵件",
+    "draft": "儲存草稿",
+    "approve": "批准並發送",
+    "reject": "拒絕",
+    "pendingApproval": "待批准",
+    "sent": "已發送",
+    "updateTypes": {
+      "intake_summary": "入學摘要",
+      "mid_program": "課程中期進度",
+      "milestone": "里程碑成就",
+      "concern": "進度問題",
+      "showcase": "成果展示邀請",
+      "final_summary": "課程結業總結"
+    },
+    "inbox": "更新收件箱",
+    "noUpdates": "尚無收到更新。",
+    "aiDraft": "AI 起草",
+    "preview": "預覽",
+    "subject": "主旨",
+    "body": "郵件內容"
+  },
+  "risks": {
+    "flag": "標記風險",
+    "create": "建立風險標記",
+    "assign": "指派給",
+    "resolve": "標記為已解決",
+    "dismiss": "忽略",
+    "inProgress": "標記為處理中",
+    "resolutionNotes": "解決備注",
+    "description": "說明",
+    "noFlags": "找不到風險標記。",
+    "assignedToYou": "指派給您的風險標記",
+    "noneAssigned": "目前沒有指派給您的開放風險標記。",
+    "types": {
+      "no_progress": "無進展",
+      "scope_too_broad": "範圍過廣",
+      "quality_concern": "品質問題",
+      "attendance": "出勤問題",
+      "conflict": "衝突",
+      "other": "其他"
+    },
+    "severity": {
+      "low": "低",
+      "medium": "中",
+      "high": "高",
+      "critical": "嚴重"
+    },
+    "status": {
+      "open": "開放",
+      "in_progress": "處理中",
+      "resolved": "已解決",
+      "dismissed": "已忽略"
+    },
+    "aiSuggest": "AI 建議嚴重程度與負責人",
+    "aiReasoning": "AI 建議"
+  },
+  "showcase": {
+    "build": "建立展示頁",
+    "save": "儲存展示頁",
+    "publicShare": "公開分享",
+    "publicOn": "任何有連結的人都可以查看您的展示頁",
+    "publicOff": "僅您和工作人員可以查看",
+    "shareUrl": "可分享連結",
+    "aiSummary": "使用 AI 生成展示摘要",
+    "readiness": "準備度評估",
+    "strengths": "優勢",
+    "improvements": "待改進",
+    "suggestedDesc": "建議描述",
+    "mentorReview": "留下回饋",
+    "noShowcases": "尚無提交的展示頁。",
+    "publicBadge": "公開",
+    "feedbackCount": "{count} 則回饋"
+  },
+  "analytics": {
+    "overview": "數據分析總覽",
+    "students": "活躍學生",
+    "projects": "各階段專案數",
+    "risks": "開放風險",
+    "aiUsage": "AI 使用量",
+    "aiCalls": "AI 呼叫次數",
+    "aiTokens": "AI Token 用量",
+    "recentActivity": "最近活動",
+    "showcasesReady": "公開展示頁",
+    "ranges": {
+      "7d": "7 天",
+      "30d": "30 天",
+      "all": "全部"
+    }
+  },
+  "notifications": {
+    "bell": "通知",
+    "markRead": "全部標為已讀",
+    "noNotifications": "尚無通知。",
+    "unread": "{count} 則未讀",
+    "types": {
+      "parent_update_pending": "家長更新待批准",
+      "parent_update_sent": "家長更新已發送",
+      "parent_update_approved": "家長更新已批准",
+      "parent_update_rejected": "家長更新已拒絕",
+      "risk_flag_assigned": "風險標記已指派給您",
+      "risk_flag_created": "新風險標記",
+      "risk_flag_resolved": "風險標記已解決",
+      "checkpoint_submitted": "里程碑已提交",
+      "checkpoint_reviewed": "里程碑已審閱",
+      "showcase_published": "展示頁已發布"
+    }
+  },
+  "emails": {
+    "parentUpdate": {
+      "subject": "{studentName} 的進度更新",
+      "viewInPlatform": "在平台查看",
+      "footer": "此更新關於 {studentName} 在 CAS Incubator 課程中的進度。"
+    },
+    "riskAlert": {
+      "subject": "風險警告 — {severity} — {studentName}",
+      "reviewFlag": "查看風險標記"
+    }
   }
 }

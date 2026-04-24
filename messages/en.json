@@ -366,5 +366,126 @@
     "summaryLabel": "AI Summary",
     "reviewerFocus": "Focus on:",
     "fallback": "AI unavailable — please review manually."
+  },
+  "parents": {
+    "compose": "Compose Update",
+    "history": "Update History",
+    "send": "Send Email",
+    "draft": "Save Draft",
+    "approve": "Approve & Send",
+    "reject": "Reject",
+    "pendingApproval": "Pending Approval",
+    "sent": "Sent",
+    "updateTypes": {
+      "intake_summary": "Intake Summary",
+      "mid_program": "Mid-Program Progress",
+      "milestone": "Milestone Achievement",
+      "concern": "Progress Concern",
+      "showcase": "Showcase Invitation",
+      "final_summary": "Final Summary"
+    },
+    "inbox": "Updates Inbox",
+    "noUpdates": "No updates received yet.",
+    "aiDraft": "AI Draft",
+    "preview": "Preview",
+    "subject": "Subject",
+    "body": "Message Body"
+  },
+  "risks": {
+    "flag": "Flag Risk",
+    "create": "Create Risk Flag",
+    "assign": "Assign To",
+    "resolve": "Mark Resolved",
+    "dismiss": "Dismiss",
+    "inProgress": "Mark In Progress",
+    "resolutionNotes": "Resolution Notes",
+    "description": "Description",
+    "noFlags": "No risk flags found.",
+    "assignedToYou": "Risk Flags Assigned to You",
+    "noneAssigned": "No open risk flags assigned to you.",
+    "types": {
+      "no_progress": "No Progress",
+      "scope_too_broad": "Scope Too Broad",
+      "quality_concern": "Quality Concern",
+      "attendance": "Attendance",
+      "conflict": "Conflict",
+      "other": "Other"
+    },
+    "severity": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "critical": "Critical"
+    },
+    "status": {
+      "open": "Open",
+      "in_progress": "In Progress",
+      "resolved": "Resolved",
+      "dismissed": "Dismissed"
+    },
+    "aiSuggest": "AI Suggest Severity & Owner",
+    "aiReasoning": "AI Recommendation"
+  },
+  "showcase": {
+    "build": "Build Showcase",
+    "save": "Save Showcase",
+    "publicShare": "Public Sharing",
+    "publicOn": "Anyone with the link can view your showcase",
+    "publicOff": "Only you and program staff can see this",
+    "shareUrl": "Shareable URL",
+    "aiSummary": "Generate Showcase Summary with AI",
+    "readiness": "Readiness Assessment",
+    "strengths": "Strengths",
+    "improvements": "Improvements Needed",
+    "suggestedDesc": "Suggested Description",
+    "mentorReview": "Leave Feedback",
+    "noShowcases": "No showcases submitted yet.",
+    "publicBadge": "Public",
+    "feedbackCount": "{count} feedback"
+  },
+  "analytics": {
+    "overview": "Analytics Overview",
+    "students": "Active Students",
+    "projects": "Projects by Stage",
+    "risks": "Open Risks",
+    "aiUsage": "AI Usage",
+    "aiCalls": "AI Calls",
+    "aiTokens": "AI Tokens Used",
+    "recentActivity": "Recent Activity",
+    "showcasesReady": "Public Showcases",
+    "ranges": {
+      "7d": "7 Days",
+      "30d": "30 Days",
+      "all": "All Time"
+    }
+  },
+  "notifications": {
+    "bell": "Notifications",
+    "markRead": "Mark all read",
+    "noNotifications": "No notifications yet.",
+    "unread": "{count} unread",
+    "types": {
+      "parent_update_pending": "Parent update pending approval",
+      "parent_update_sent": "Parent update sent",
+      "parent_update_approved": "Parent update approved",
+      "parent_update_rejected": "Parent update rejected",
+      "risk_flag_assigned": "Risk flag assigned to you",
+      "risk_flag_created": "New risk flag created",
+      "risk_flag_resolved": "Risk flag resolved",
+      "checkpoint_submitted": "Checkpoint submitted",
+      "checkpoint_reviewed": "Checkpoint reviewed",
+      "showcase_published": "Showcase published"
+    }
+  },
+  "emails": {
+    "parentUpdate": {
+      "subject": "Update on {studentName}'s Progress",
+      "viewInPlatform": "View in Platform",
+      "footer": "This update is about {studentName}'s progress in the CAS Incubator program."
+    },
+    "riskAlert": {
+      "subject": "Risk Alert — {severity} — {studentName}",
+      "reviewFlag": "Review Risk Flag"
+    }
   }
 }

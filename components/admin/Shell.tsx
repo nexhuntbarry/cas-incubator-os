@@ -19,10 +19,17 @@ import {
   Flag,
   Library,
   StickyNote,
+  MessageSquare,
+  AlertTriangle,
+  Presentation,
+  BarChart2,
+  Bell,
+  Inbox,
 } from "lucide-react";
 
 const NAV = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
+  { href: "/admin/analytics", label: "Analytics", icon: BarChart2 },
   { href: "/admin/programs", label: "Programs", icon: BookOpen },
   { href: "/admin/cohorts", label: "Cohorts", icon: Users2 },
   { href: "/admin/class-codes", label: "Class Codes", icon: KeyRound },
@@ -33,6 +40,9 @@ const NAV = [
   { href: "/admin/checkpoints", label: "Checkpoints", icon: Flag },
   { href: "/admin/curriculum", label: "Curriculum", icon: Library },
   { href: "/admin/notes", label: "Notes Feed", icon: StickyNote },
+  { href: "/admin/communications/queue", label: "Comms Queue", icon: MessageSquare },
+  { href: "/admin/risks", label: "Risk Flags", icon: AlertTriangle },
+  { href: "/admin/showcases", label: "Showcases", icon: Presentation },
   { href: "/admin/method-stages", label: "Method Stages", icon: GitBranch },
   { href: "/admin/project-types", label: "Project Types", icon: Layers },
   { href: "/admin/settings", label: "Settings", icon: Settings },
