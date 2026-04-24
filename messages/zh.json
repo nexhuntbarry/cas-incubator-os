@@ -210,6 +210,29 @@
         "value": "價值主張",
         "mvp": "MVP 定義",
         "screenshots": "截圖與檔案"
+      },
+      "work": {
+        "title": "作品與連結",
+        "lastUpdated": "最後更新：{date}",
+        "notSubmitted": "尚未提交",
+        "openLink": "開啟連結",
+        "submitCta": "提交你的作品",
+        "fields": {
+          "liveProduct": "產品連結",
+          "demoVideo": "展示影片",
+          "slides": "簡報連結",
+          "github": "GitHub 儲存庫",
+          "figma": "設計稿連結",
+          "screenshots": "截圖與檔案"
+        },
+        "helperText": {
+          "liveProduct": "貼上你部署的產品連結，讓大家可以使用。",
+          "demoVideo": "YouTube、Loom 或其他展示影片連結。",
+          "slides": "Google 簡報、Canva 或其他簡報連結。",
+          "github": "貼上你的程式碼儲存庫連結。",
+          "figma": "分享你的設計稿或原型連結。",
+          "screenshots": "上傳專案的截圖或相關檔案。"
+        }
       }
     },
     "method": {
@@ -260,16 +283,22 @@
     }
   },
   "mentor": {
-    "projects": {
-      "title": "學生專案",
-      "student": "學生",
-      "project": "專案",
-      "cohort": "班級",
-      "stage": "階段",
-      "status": "狀態",
-      "review": "審閱",
-      "empty": "您的學生尚無專案。",
-      "filters": "篩選器"
+    "notes": {
+      "leave": "留下紀錄",
+      "type": "紀錄類型",
+      "types": {
+        "check_in": "定期檢核",
+        "checkpoint_review": "里程碑審閱",
+        "risk_flag": "風險標記",
+        "intervention": "介入輔導",
+        "summary": "總結"
+      },
+      "body": "紀錄內容",
+      "nextStep": "建議下一步",
+      "escalation": "標記為需升級處理",
+      "save": "儲存紀錄",
+      "noNotes": "尚無紀錄。",
+      "escalated": "已升級"
     }
   },
   "worksheets": {
@@ -364,25 +393,6 @@
     "lessonNumber": "課程編號",
     "assetType": "素材類型",
     "noAssets": "尚無可用資源。"
-  },
-  "mentor": {
-    "notes": {
-      "leave": "留下紀錄",
-      "type": "紀錄類型",
-      "types": {
-        "check_in": "定期檢核",
-        "checkpoint_review": "里程碑審閱",
-        "risk_flag": "風險標記",
-        "intervention": "介入輔導",
-        "summary": "總結"
-      },
-      "body": "紀錄內容",
-      "nextStep": "建議下一步",
-      "escalation": "標記為需升級處理",
-      "save": "儲存紀錄",
-      "noNotes": "尚無紀錄。",
-      "escalated": "已升級"
-    }
   },
   "ai": {
     "generateSummary": "AI 摘要",
@@ -499,7 +509,8 @@
       "risk_flag_resolved": "風險標記已解決",
       "checkpoint_submitted": "里程碑已提交",
       "checkpoint_reviewed": "里程碑已審閱",
-      "showcase_published": "展示頁已發布"
+      "showcase_published": "展示頁已發布",
+      "student_work_submitted": "學生已提交作品"
     }
   },
   "emails": {

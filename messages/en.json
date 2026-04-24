@@ -210,6 +210,29 @@
         "value": "Value Proposition",
         "mvp": "MVP Definition",
         "screenshots": "Screenshots & Files"
+      },
+      "work": {
+        "title": "Your Work & Live Links",
+        "lastUpdated": "Last updated {date}",
+        "notSubmitted": "Not submitted yet",
+        "openLink": "Open link",
+        "submitCta": "Submit Your Work",
+        "fields": {
+          "liveProduct": "Live Product URL",
+          "demoVideo": "Demo Video URL",
+          "slides": "Presentation Slides URL",
+          "github": "GitHub Repo URL",
+          "figma": "Figma / Design URL",
+          "screenshots": "Screenshots & Files"
+        },
+        "helperText": {
+          "liveProduct": "Where can people use it? Paste your deployed product link.",
+          "demoVideo": "YouTube, Loom, or any video link showing your product in action.",
+          "slides": "Google Slides, Canva, or any slide deck link.",
+          "github": "Paste your repository link — your code lives here.",
+          "figma": "Share your design mockups or wireframes.",
+          "screenshots": "Upload screenshots or files from your project."
+        }
       }
     },
     "method": {
@@ -260,16 +283,22 @@
     }
   },
   "mentor": {
-    "projects": {
-      "title": "Student Projects",
-      "student": "Student",
-      "project": "Project",
-      "cohort": "Cohort",
-      "stage": "Stage",
-      "status": "Status",
-      "review": "Review",
-      "empty": "No projects found for your students.",
-      "filters": "Filters"
+    "notes": {
+      "leave": "Leave a Note",
+      "type": "Note Type",
+      "types": {
+        "check_in": "Check-in",
+        "checkpoint_review": "Checkpoint Review",
+        "risk_flag": "Risk Flag",
+        "intervention": "Intervention",
+        "summary": "Summary"
+      },
+      "body": "Note",
+      "nextStep": "Recommended Next Step",
+      "escalation": "Flag for escalation",
+      "save": "Save Note",
+      "noNotes": "No notes yet.",
+      "escalated": "Escalated"
     }
   },
   "worksheets": {
@@ -364,25 +393,6 @@
     "lessonNumber": "Lesson #",
     "assetType": "Asset Type",
     "noAssets": "No resources available yet."
-  },
-  "mentor": {
-    "notes": {
-      "leave": "Leave a Note",
-      "type": "Note Type",
-      "types": {
-        "check_in": "Check-in",
-        "checkpoint_review": "Checkpoint Review",
-        "risk_flag": "Risk Flag",
-        "intervention": "Intervention",
-        "summary": "Summary"
-      },
-      "body": "Note",
-      "nextStep": "Recommended Next Step",
-      "escalation": "Flag for escalation",
-      "save": "Save Note",
-      "noNotes": "No notes yet.",
-      "escalated": "Escalated"
-    }
   },
   "ai": {
     "generateSummary": "AI Summary",
@@ -499,7 +509,8 @@
       "risk_flag_resolved": "Risk flag resolved",
       "checkpoint_submitted": "Checkpoint submitted",
       "checkpoint_reviewed": "Checkpoint reviewed",
-      "showcase_published": "Showcase published"
+      "showcase_published": "Showcase published",
+      "student_work_submitted": "Student submitted work"
     }
   },
   "emails": {
