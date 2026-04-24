@@ -11,7 +11,8 @@ export type NotificationType =
   | "risk_flag_resolved"
   | "checkpoint_submitted"
   | "checkpoint_reviewed"
-  | "showcase_published";
+  | "showcase_published"
+  | "student_work_submitted";
 
 export interface NotifyOptions {
   user_id: string;
