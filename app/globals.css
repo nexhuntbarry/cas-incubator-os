@@ -41,3 +41,86 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* Clerk dark-theme overrides — force readable text on dark bg */
+.cl-rootBox,
+.cl-rootBox * {
+  color-scheme: dark;
+}
+.cl-headerTitle {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+.cl-headerSubtitle,
+.cl-footerActionText {
+  color: #CBD5E1 !important;
+}
+.cl-formFieldLabel,
+.cl-formFieldLabelRow {
+  color: #E2E8F0 !important;
+  font-weight: 500 !important;
+}
+.cl-formFieldInput {
+  background-color: #0A1330 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #F8FAFC !important;
+}
+.cl-formFieldInput::placeholder {
+  color: #64748B !important;
+}
+.cl-formFieldInputShowPasswordButton {
+  color: #CBD5E1 !important;
+}
+.cl-socialButtonsBlockButton,
+.cl-socialButtonsIconButton {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #FFFFFF !important;
+}
+.cl-socialButtonsBlockButton:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.cl-socialButtonsBlockButtonText,
+.cl-socialButtonsBlockButtonArrow {
+  color: #FFFFFF !important;
+}
+.cl-dividerLine {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+.cl-dividerText {
+  color: #94A3B8 !important;
+}
+.cl-formButtonPrimary {
+  background-color: #2563EB !important;
+  color: #FFFFFF !important;
+}
+.cl-formButtonPrimary:hover {
+  background-color: #1D4ED8 !important;
+}
+.cl-footerActionLink {
+  color: #60A5FA !important;
+  font-weight: 600 !important;
+}
+.cl-footerActionLink:hover {
+  color: #00C2B8 !important;
+}
+.cl-footer,
+.cl-footerPagesLink {
+  color: #64748B !important;
+}
+.cl-identityPreviewText,
+.cl-identityPreviewEditButtonIcon {
+  color: #E2E8F0 !important;
+}
+.cl-alertText,
+.cl-formFieldErrorText {
+  color: #FCA5A5 !important;
+}
+.cl-card {
+  background-color: #0F1A3A !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.cl-internal-b3fm6y {
+  /* Clerk dev-mode bottom banner — keep but less jarring */
+  color: #FFB020 !important;
+}
