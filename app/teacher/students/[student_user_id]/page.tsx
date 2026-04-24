@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/teacher/Shell";
 import { ChevronLeft, ChevronRight, CheckCircle, Clock, AlertCircle, FileText, Lock } from "lucide-react";
+import WorkLinksGrid from "@/components/project/WorkLinksGrid";
 
 interface StageProgress {
   stage_number: number;
@@ -118,10 +119,16 @@ export default async function TeacherStudentDetailPage({
         : (enrollment.cohorts as { name: string } | null)?.name) ?? "—"
     : "—";
 
-  // Active project
+  // Active project (include URL fields for WorkLinksGrid)
   const { data: project } = await supabase
     .from("projects")
-    .select("id, title, current_stage")
+    .select(`
+      id, title, current_stage,
+      live_product_url, demo_video_url, presentation_slide_url,
+      github_repo_url, figma_or_design_url, screenshot_gallery_urls,
+      github_url, figma_url, presentation_url,
+      last_url_update_at, last_url_update_by
+    `)
     .eq("student_user_id", studentUserId)
     .in("status", ["active", "draft"])
     .order("created_at", { ascending: false })
@@ -233,6 +240,26 @@ export default async function TeacherStudentDetailPage({
             </div>
           )}
         </div>
+
+        {/* Student's Submitted Work */}
+        {project && (
+          <WorkLinksGrid
+            links={{
+              live_product_url: project.live_product_url,
+              demo_video_url: project.demo_video_url,
+              presentation_slide_url: project.presentation_slide_url,
+              github_repo_url: project.github_repo_url,
+              figma_or_design_url: project.figma_or_design_url,
+              screenshot_gallery_urls: Array.isArray(project.screenshot_gallery_urls)
+                ? project.screenshot_gallery_urls as string[]
+                : [],
+              github_url: project.github_url,
+              figma_url: project.figma_url,
+              presentation_url: project.presentation_url,
+            }}
+            lastUpdatedAt={project.last_url_update_at}
+          />
+        )}
 
         {/* Method Progress Pipeline */}
         {(stageDefs ?? []).length > 0 && (
