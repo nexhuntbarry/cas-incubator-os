@@ -1,42 +1,59 @@
 'use client';
 
 import { SignIn } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import Logo from "@/components/Logo";
 
 export default function SignInPage() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-deep-navy">
-      {/* Background glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full opacity-10 blur-3xl bg-electric-blue pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center gap-8 w-full max-w-md">
         <div className="flex flex-col items-center gap-3">
           <Logo size={48} />
-          <h1 className="text-xl font-semibold text-soft-gray">CAS Incubator OS</h1>
+          <h1 className="text-xl font-semibold text-white">CAS Incubator OS</h1>
         </div>
 
         <SignIn
           appearance={{
+            baseTheme: dark,
             variables: {
               colorPrimary: "#2563EB",
               colorBackground: "#0F1A3A",
-              colorText: "#E6E9EE",
-              colorTextSecondary: "#9CA3AF",
+              colorText: "#F1F5F9",
+              colorTextSecondary: "#CBD5E1",
               colorInputBackground: "#0A1330",
-              colorInputText: "#E6E9EE",
+              colorInputText: "#F8FAFC",
+              colorNeutral: "#F1F5F9",
               borderRadius: "0.75rem",
+              fontFamily: "var(--font-plus-jakarta-sans), system-ui, sans-serif",
             },
             elements: {
               rootBox: "w-full",
               card: "bg-[#0F1A3A] border border-white/10 shadow-xl shadow-black/40 rounded-2xl",
-              headerTitle: "text-soft-gray font-bold",
-              headerSubtitle: "text-soft-gray/60",
+              headerTitle: "text-white font-bold text-xl",
+              headerSubtitle: "text-slate-300",
+              socialButtonsBlockButton:
+                "bg-white/5 border border-white/15 text-white hover:bg-white/10",
+              socialButtonsBlockButtonText: "text-white font-medium",
+              dividerLine: "bg-white/15",
+              dividerText: "text-slate-300",
+              formFieldLabel: "text-slate-200 font-medium",
+              formFieldInput:
+                "bg-[#0A1330] border border-white/15 text-white placeholder:text-slate-500",
               formButtonPrimary:
                 "bg-electric-blue hover:bg-electric-blue/90 text-white font-semibold",
-              footerActionLink: "text-electric-blue hover:text-vivid-teal",
-              identityPreviewText: "text-soft-gray",
-              dividerLine: "bg-white/10",
-              dividerText: "text-soft-gray/40",
+              footer: "bg-transparent",
+              footerAction__signIn: "text-slate-300",
+              footerActionText: "text-slate-300",
+              footerActionLink: "text-electric-blue hover:text-vivid-teal font-semibold",
+              footerPages: "text-slate-400",
+              footerPagesLink: "text-slate-400 hover:text-slate-200",
+              identityPreviewText: "text-white",
+              identityPreviewEditButton: "text-electric-blue",
+              alertText: "text-slate-200",
+              formResendCodeLink: "text-electric-blue",
             },
           }}
         />
