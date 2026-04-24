@@ -28,12 +28,13 @@
     "hero": {
       "title": "建構想法。塑造專案。創造影響。",
       "subtitle": "AI 驅動的專案式學習平台，引導學生從問題發現走向真實解決方案。",
-      "cta": "加入候補名單"
+      "cta": "使用班級代碼加入"
     },
     "features": {
       "h2": "為下一代創業者打造"
     },
-    "disclaimer": "本平台目前處於開發階段。請參閱我們的服務條款與隱私政策。"
+    "disclaimer": "本平台目前處於開發階段。請參閱我們的服務條款與隱私政策。",
+    "goToDashboard": "前往控制台"
   },
   "auth": {
     "welcome": "歡迎回來",
@@ -43,5 +44,128 @@
     "label": "語言切換",
     "zh": "中文",
     "en": "EN"
+  },
+  "admin": {
+    "overview": "總覽",
+    "active": "啟用中",
+    "archived": "已封存",
+    "paused": "已暫停",
+    "create": "新增",
+    "cancel": "取消",
+    "view": "查看",
+    "stats": {
+      "totalUsers": "總用戶數",
+      "students": "學生",
+      "teachers": "教師",
+      "mentors": "導師",
+      "programs": "課程方案",
+      "activeCohorts": "啟用中班級",
+      "activeCodes": "啟用中代碼"
+    },
+    "programs": {
+      "title": "課程方案",
+      "name": "方案名稱",
+      "description": "說明",
+      "duration": "期間",
+      "durationWeeks": "期間（週）",
+      "status": "狀態",
+      "new": "新增方案",
+      "empty": "尚無課程方案。"
+    },
+    "cohorts": {
+      "title": "班級",
+      "name": "班級名稱",
+      "programId": "方案 ID",
+      "startDate": "開始日期",
+      "endDate": "結束日期",
+      "maxStudents": "最大學生人數",
+      "new": "新增班級",
+      "empty": "尚無班級。"
+    },
+    "classCodes": {
+      "title": "班級代碼",
+      "code": "代碼",
+      "uses": "使用次數",
+      "expires": "到期時間",
+      "maxUses": "最大使用次數",
+      "generate": "產生代碼",
+      "manage": "管理",
+      "empty": "尚無班級代碼。"
+    },
+    "users": {
+      "title": "用戶管理",
+      "name": "姓名",
+      "email": "電子郵件",
+      "role": "角色",
+      "joined": "加入日期",
+      "empty": "找不到用戶。"
+    },
+    "settings": {
+      "title": "設定",
+      "placeholder": "設定功能將於未來版本提供。"
+    }
+  },
+  "join": {
+    "title": "加入 CAS Incubator OS",
+    "subtitle": "輸入班級代碼以加入您的班級。",
+    "signInToJoin": "登入以加入",
+    "unauthMessage": "請登入或建立帳號，以使用班級代碼加入：",
+    "joiningCohort": "加入班級",
+    "selectRole": "您的身份是？",
+    "studentOption": "我是學生",
+    "studentDesc": "我將參加孵化器課程。",
+    "parentOption": "我是家長 / 監護人",
+    "parentDesc": "我想追蹤孩子的學習進度。",
+    "grade": "年級",
+    "school": "學校名稱",
+    "birthYear": "出生年份",
+    "childName": "孩子姓名",
+    "consentLabel": "本人確認已取得該學生的家長同意。勾選此項代表本人確認該學生已年滿 18 歲，或已取得家長/監護人同意。",
+    "parentConsentLabel": "本人確認為上述學生的家長或監護人。",
+    "changeRole": "更改選擇",
+    "submit": "立即加入",
+    "submitError": "發生錯誤，請再試一次。",
+    "consentRequired": "您必須確認家長同意才能繼續。",
+    "codeNotFound": "找不到班級代碼。",
+    "codePaused": "此班級代碼目前已暫停使用。",
+    "codeExpired": "此班級代碼已過期。",
+    "goHome": "回首頁",
+    "success": "您已成功加入！",
+    "codeInvalid": "無效或已過期的班級代碼。"
+  },
+  "dashboard": {
+    "student": {
+      "welcome": "歡迎，{name}！",
+      "yourCohort": "您的班級",
+      "currentStage": "目前階段",
+      "nextTask": "下一個任務",
+      "nextTaskPlaceholder": "完成興趣探索工作表",
+      "noCohort": "您尚未加入任何班級。",
+      "quickLinks": "快速連結",
+      "projectsPlaceholder": "查看專案（即將推出）"
+    },
+    "parent": {
+      "welcome": "歡迎，{name}！",
+      "yourStudents": "您的學生",
+      "progressPlaceholder": "進度：—",
+      "noStudents": "尚未連結任何學生。",
+      "recentUpdatesPlaceholder": "最新更新將顯示於此。"
+    },
+    "teacher": {
+      "welcome": "歡迎，{name}！",
+      "yourCohorts": "您的班級",
+      "noCohorts": "尚未分配班級。",
+      "active": "啟用中",
+      "studentsToCheck": "待關注學生",
+      "worksheetsAwaiting": "待批改工作表",
+      "placeholder": "即將推出"
+    },
+    "mentor": {
+      "welcome": "歡迎，{name}！",
+      "projectsAwaiting": "待審閱專案",
+      "placeholder": "目前無待審閱專案。",
+      "recentNotes": "最近輔導紀錄",
+      "noNotes": "尚無輔導紀錄。"
+    }
   }
 }

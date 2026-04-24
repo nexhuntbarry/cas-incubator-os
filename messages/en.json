@@ -28,12 +28,13 @@
     "hero": {
       "title": "Build Ideas. Shape Projects. Launch Impact.",
       "subtitle": "An AI-powered project-based learning platform that guides students from problem discovery to real-world solutions.",
-      "cta": "Join the Waitlist"
+      "cta": "Join with a Class Code"
     },
     "features": {
       "h2": "Built for the Next Generation of Builders"
     },
-    "disclaimer": "This platform is currently in development. See our Terms of Service and Privacy Policy."
+    "disclaimer": "This platform is currently in development. See our Terms of Service and Privacy Policy.",
+    "goToDashboard": "Go to Dashboard"
   },
   "auth": {
     "welcome": "Welcome back",
@@ -43,5 +44,128 @@
     "label": "Switch language",
     "zh": "中文",
     "en": "EN"
+  },
+  "admin": {
+    "overview": "Overview",
+    "active": "Active",
+    "archived": "Archived",
+    "paused": "Paused",
+    "create": "Create",
+    "cancel": "Cancel",
+    "view": "View",
+    "stats": {
+      "totalUsers": "Total Users",
+      "students": "Students",
+      "teachers": "Teachers",
+      "mentors": "Mentors",
+      "programs": "Programs",
+      "activeCohorts": "Active Cohorts",
+      "activeCodes": "Active Codes"
+    },
+    "programs": {
+      "title": "Programs",
+      "name": "Program Name",
+      "description": "Description",
+      "duration": "Duration",
+      "durationWeeks": "Duration (weeks)",
+      "status": "Status",
+      "new": "New Program",
+      "empty": "No programs yet."
+    },
+    "cohorts": {
+      "title": "Cohorts",
+      "name": "Cohort Name",
+      "programId": "Program ID",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "maxStudents": "Max Students",
+      "new": "New Cohort",
+      "empty": "No cohorts yet."
+    },
+    "classCodes": {
+      "title": "Class Codes",
+      "code": "Code",
+      "uses": "Uses",
+      "expires": "Expires",
+      "maxUses": "Max Uses",
+      "generate": "Generate Code",
+      "manage": "Manage",
+      "empty": "No class codes yet."
+    },
+    "users": {
+      "title": "Users",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "joined": "Joined",
+      "empty": "No users found."
+    },
+    "settings": {
+      "title": "Settings",
+      "placeholder": "Settings will be available in a future update."
+    }
+  },
+  "join": {
+    "title": "Join CAS Incubator OS",
+    "subtitle": "Enter a class code to join your cohort.",
+    "signInToJoin": "Sign In to Join",
+    "unauthMessage": "Sign in or create an account to join with class code:",
+    "joiningCohort": "Joining cohort",
+    "selectRole": "How are you joining?",
+    "studentOption": "I'm a Student",
+    "studentDesc": "I'm participating in the incubator program.",
+    "parentOption": "I'm a Parent / Guardian",
+    "parentDesc": "I want to follow my child's progress.",
+    "grade": "Grade / Year",
+    "school": "School Name",
+    "birthYear": "Birth Year",
+    "childName": "Child's Name",
+    "consentLabel": "I confirm that parental consent has been obtained for this student. By checking this box, I acknowledge the student is either 18 or older, or parental/guardian consent has been provided.",
+    "parentConsentLabel": "I confirm I am the parent or guardian of the student named above.",
+    "changeRole": "Change selection",
+    "submit": "Join Now",
+    "submitError": "Something went wrong. Please try again.",
+    "consentRequired": "You must confirm parental consent to continue.",
+    "codeNotFound": "Class code not found.",
+    "codePaused": "This class code is currently paused.",
+    "codeExpired": "This class code has expired.",
+    "goHome": "Go to Home",
+    "success": "You've successfully joined!",
+    "codeInvalid": "Invalid or expired class code."
+  },
+  "dashboard": {
+    "student": {
+      "welcome": "Welcome, {name}!",
+      "yourCohort": "Your Cohort",
+      "currentStage": "Current Stage",
+      "nextTask": "Next Task",
+      "nextTaskPlaceholder": "Complete your Interest Discovery worksheet",
+      "noCohort": "You're not enrolled in any cohort yet.",
+      "quickLinks": "Quick Links",
+      "projectsPlaceholder": "View Projects (coming soon)"
+    },
+    "parent": {
+      "welcome": "Welcome, {name}!",
+      "yourStudents": "Your Students",
+      "progressPlaceholder": "Progress: —",
+      "noStudents": "No students linked yet.",
+      "recentUpdatesPlaceholder": "Recent updates will appear here."
+    },
+    "teacher": {
+      "welcome": "Welcome, {name}!",
+      "yourCohorts": "Your Cohorts",
+      "noCohorts": "No cohorts assigned yet.",
+      "active": "Active",
+      "studentsToCheck": "Students to check",
+      "worksheetsAwaiting": "Worksheets awaiting review",
+      "placeholder": "Coming soon"
+    },
+    "mentor": {
+      "welcome": "Welcome, {name}!",
+      "projectsAwaiting": "Projects Awaiting Review",
+      "placeholder": "No projects awaiting review.",
+      "recentNotes": "Recent Session Notes",
+      "noNotes": "No session notes yet."
+    }
   }
 }
