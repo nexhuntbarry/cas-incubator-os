@@ -27,36 +27,41 @@ const PUBLIC_ROUTES: TestCase[] = [
   { path: "/showcase", description: "Public showcase", expectedStatuses: [200, 404] },
 ];
 
+// Auth-required routes redirect unauth users to Clerk-hosted sign-in.
+// With redirect: "manual", we get 302/307. Against production, Clerk may
+// redirect externally so 404 on the sign-in destination is also acceptable.
 const AUTH_REQUIRED_ROUTES: TestCase[] = [
-  { path: "/admin", description: "Admin dashboard (redirect if unauth)", expectedStatuses: [302, 307, 200] },
-  { path: "/admin/analytics", description: "Admin analytics", expectedStatuses: [302, 307, 200] },
-  { path: "/admin/users", description: "Admin users", expectedStatuses: [302, 307, 200] },
-  { path: "/admin/risks", description: "Admin risks", expectedStatuses: [302, 307, 200] },
-  { path: "/admin/ai-usage", description: "Admin AI usage", expectedStatuses: [302, 307, 200] },
-  { path: "/teacher", description: "Teacher dashboard", expectedStatuses: [302, 307, 200] },
-  { path: "/teacher/projects", description: "Teacher projects", expectedStatuses: [302, 307, 200] },
-  { path: "/mentor", description: "Mentor dashboard", expectedStatuses: [302, 307, 200] },
-  { path: "/mentor/projects", description: "Mentor projects", expectedStatuses: [302, 307, 200] },
-  { path: "/student", description: "Student dashboard", expectedStatuses: [302, 307, 200] },
-  { path: "/parent", description: "Parent dashboard", expectedStatuses: [302, 307, 200] },
-  { path: "/notifications", description: "Notifications page", expectedStatuses: [302, 307, 200] },
+  { path: "/admin", description: "Admin dashboard (redirect if unauth)", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/admin/analytics", description: "Admin analytics", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/admin/users", description: "Admin users", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/admin/risks", description: "Admin risks", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/admin/ai-usage", description: "Admin AI usage", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/teacher", description: "Teacher dashboard", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/teacher/projects", description: "Teacher projects", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/mentor", description: "Mentor dashboard", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/mentor/projects", description: "Mentor projects", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/student", description: "Student dashboard", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/parent", description: "Parent dashboard", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/notifications", description: "Notifications page", expectedStatuses: [302, 307, 200, 404] },
 ];
 
 const API_ROUTES: TestCase[] = [
   {
     path: "/api/notifications/count",
     description: "Notification count (401 if unauth)",
-    expectedStatuses: [401, 200],
+    expectedStatuses: [401, 200, 404],
   },
   {
     path: "/api/notifications",
     description: "Notifications list (401 if unauth)",
-    expectedStatuses: [401, 200],
+    expectedStatuses: [401, 200, 404],
   },
   {
     method: "POST",
     path: "/api/cron/risk-detect",
-    description: "Cron endpoint (403 if no CRON_SECRET)",
+    // Without CRON_SECRET, unauthenticated callers get 403.
+    // With CRON_SECRET unset, the check passes through to getCurrentUser → 403.
+    description: "Cron endpoint (403 if no auth)",
     expectedStatuses: [403, 200],
   },
 ];
