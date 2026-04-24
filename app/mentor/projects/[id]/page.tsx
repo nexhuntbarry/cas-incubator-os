@@ -6,6 +6,7 @@ import Logo from "@/components/Logo";
 import { UserButton } from "@clerk/nextjs";
 import { ChevronLeft, MessageSquarePlus } from "lucide-react";
 import StageProgressBar from "@/components/shared/StageProgressBar";
+import FlagRiskButton from "@/components/shared/FlagRiskButton";
 
 export default async function MentorProjectDetailPage({
   params,
@@ -23,7 +24,7 @@ export default async function MentorProjectDetailPage({
     .from("projects")
     .select(`
       id, title, description, problem_statement, target_user, value_proposition,
-      mvp_definition, current_stage, stage_status,
+      mvp_definition, current_stage, stage_status, student_user_id,
       project_type_definitions(name, slug),
       users!projects_student_user_id_fkey(display_name, email),
       enrollment_records!projects_enrollment_id_fkey(cohorts(name))
@@ -66,7 +67,16 @@ export default async function MentorProjectDetailPage({
           >
             <ChevronLeft size={14} /> Projects
           </Link>
-          <h1 className="text-2xl font-bold">{project.title}</h1>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <h1 className="text-2xl font-bold">{project.title}</h1>
+            {student && project.student_user_id && (
+              <FlagRiskButton
+                studentUserId={project.student_user_id}
+                studentName={student.display_name}
+                projectId={project.id}
+              />
+            )}
+          </div>
           <div className="flex items-center gap-3 mt-2 text-sm text-soft-gray/50">
             <span>{student?.display_name}</span>
             {cohort && <><span>·</span><span>{cohort.name}</span></>}
@@ -97,10 +107,15 @@ export default async function MentorProjectDetailPage({
         <div className="rounded-xl border border-white/8 bg-white/3 p-5">
           <div className="flex items-center gap-2 mb-2">
             <MessageSquarePlus size={16} className="text-soft-gray/40" />
-            <h2 className="text-sm font-semibold">Leave a Note</h2>
-            <span className="px-2 py-0.5 rounded-full bg-white/8 text-xs text-soft-gray/40">Phase 3</span>
+            <h2 className="text-sm font-semibold">Session Notes</h2>
           </div>
-          <p className="text-sm text-soft-gray/40">Full review and feedback flow coming in Phase 3.</p>
+          <p className="text-sm text-soft-gray/50">
+            Visit{" "}
+            <a href="/mentor/notes" className="text-vivid-teal hover:underline">
+              My Notes
+            </a>{" "}
+            to leave session notes for this student.
+          </p>
         </div>
       </main>
     </div>

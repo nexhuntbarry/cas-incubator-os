@@ -6,6 +6,7 @@ import Logo from "@/components/Logo";
 import { UserButton } from "@clerk/nextjs";
 import { ChevronLeft, MessageSquarePlus } from "lucide-react";
 import StageProgressBar from "@/components/shared/StageProgressBar";
+import FlagRiskButton from "@/components/shared/FlagRiskButton";
 
 export default async function TeacherProjectDetailPage({
   params,
@@ -24,8 +25,9 @@ export default async function TeacherProjectDetailPage({
     .select(`
       id, title, description, problem_statement, target_user, value_proposition,
       mvp_definition, current_stage, stage_status, ai_classification_json,
+      student_user_id,
       project_type_definitions(name, slug),
-      users!projects_student_user_id_fkey(display_name, email, avatar_url),
+      users!projects_student_user_id_fkey(id, display_name, email, avatar_url),
       enrollment_records!projects_enrollment_id_fkey(cohorts(name))
     `)
     .eq("id", id)
@@ -48,7 +50,7 @@ export default async function TeacherProjectDetailPage({
     return { stageNumber: s.stage_number, name: s.name, status: p?.status ?? "not_started" };
   });
 
-  const student = project.users as unknown as { display_name: string; email: string; avatar_url: string | null } | null;
+  const student = project.users as unknown as { id: string; display_name: string; email: string; avatar_url: string | null } | null;
   const cohort = (project.enrollment_records as unknown as { cohorts: { name: string } } | null)?.cohorts;
 
   return (
@@ -66,7 +68,16 @@ export default async function TeacherProjectDetailPage({
           >
             <ChevronLeft size={14} /> Projects
           </Link>
-          <h1 className="text-2xl font-bold">{project.title}</h1>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <h1 className="text-2xl font-bold">{project.title}</h1>
+            {student && (
+              <FlagRiskButton
+                studentUserId={project.student_user_id ?? student.id}
+                studentName={student.display_name}
+                projectId={project.id}
+              />
+            )}
+          </div>
           <div className="flex items-center gap-3 mt-2 text-sm text-soft-gray/50">
             <span>{student?.display_name}</span>
             {cohort && <><span>·</span><span>{cohort.name}</span></>}
@@ -112,14 +123,19 @@ export default async function TeacherProjectDetailPage({
           </div>
         )}
 
-        {/* Leave Note placeholder */}
+        {/* Note via MentorNoteModal — links to mentor notes page */}
         <div className="rounded-xl border border-white/8 bg-white/3 p-5">
           <div className="flex items-center gap-2 mb-2">
             <MessageSquarePlus size={16} className="text-soft-gray/40" />
-            <h2 className="text-sm font-semibold">Leave a Note</h2>
-            <span className="px-2 py-0.5 rounded-full bg-white/8 text-xs text-soft-gray/40">Phase 3</span>
+            <h2 className="text-sm font-semibold">Mentor Notes</h2>
           </div>
-          <p className="text-sm text-soft-gray/40">Full review and feedback flow coming in Phase 3.</p>
+          <p className="text-sm text-soft-gray/50">
+            Visit the{" "}
+            <a href="/mentor/notes" className="text-electric-blue hover:underline">
+              Notes Feed
+            </a>{" "}
+            to leave session notes for this student.
+          </p>
         </div>
       </main>
     </div>
