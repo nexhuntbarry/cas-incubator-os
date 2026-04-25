@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Shell from "@/components/admin/Shell";
 import Input from "@/components/forms/Input";
 import SchemaBuilder from "@/components/forms/SchemaBuilder";
+import SchemaForm from "@/components/forms/SchemaForm";
 import type { SchemaField } from "@/components/forms/SchemaBuilder";
 
 export default function EditWorksheetPage({ params }: { params: Promise<{ id: string }> }) {
@@ -20,6 +21,7 @@ export default function EditWorksheetPage({ params }: { params: Promise<{ id: st
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState("");
+  const [tab, setTab] = useState<"edit" | "preview">("edit");
 
   useEffect(() => {
     fetch(`/api/admin/worksheets/${id}`)
@@ -75,6 +77,42 @@ export default function EditWorksheetPage({ params }: { params: Promise<{ id: st
   return (
     <Shell title="Edit Worksheet Template">
       <div className="max-w-2xl">
+        {/* Tab switcher */}
+        <div className="flex gap-1 mb-6 border-b border-white/8 pb-0">
+          {(["edit", "preview"] as const).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setTab(t)}
+              className={`px-4 py-2 text-sm font-medium capitalize rounded-t-lg transition-colors ${
+                tab === t
+                  ? "text-electric-blue border-b-2 border-electric-blue -mb-px"
+                  : "text-soft-gray/50 hover:text-soft-gray"
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+
+        {/* Preview tab */}
+        {tab === "preview" && (
+          <div className="space-y-5">
+            {instructions && (
+              <p className="text-sm text-soft-gray/60 leading-relaxed border-l-2 border-electric-blue/30 pl-3">
+                {instructions}
+              </p>
+            )}
+            {fields.length > 0 ? (
+              <SchemaForm fields={fields} readOnly={true} />
+            ) : (
+              <p className="text-sm text-soft-gray/40 italic">No fields configured yet. Switch to Edit tab to add fields.</p>
+            )}
+          </div>
+        )}
+
+        {/* Edit tab */}
+        {tab === "edit" && (
         <form onSubmit={handleSubmit} className="space-y-5">
           <Input
             label="Title"
@@ -166,6 +204,7 @@ export default function EditWorksheetPage({ params }: { params: Promise<{ id: st
             </button>
           </div>
         </form>
+        )}
       </div>
     </Shell>
   );

@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from "react";
-import { BookOpen, Plus, Clock } from "lucide-react";
+import { BookOpen, Plus, Clock, Eye } from "lucide-react";
 import AssignWorksheetModal from "./AssignWorksheetModal";
+import WorksheetPreviewModal from "@/components/worksheets/WorksheetPreviewModal";
 
 interface WorksheetTemplate {
   id: string;
@@ -29,6 +30,7 @@ export default function LessonWorksheetPanel({
   recentByTemplate,
 }: LessonWorksheetPanelProps) {
   const [activeModal, setActiveModal] = useState<{ id: string; title: string } | null>(null);
+  const [previewId, setPreviewId] = useState<string | null>(null);
   const [successMap, setSuccessMap] = useState<Record<string, boolean>>({});
 
   if (templates.length === 0) {
@@ -64,13 +66,23 @@ export default function LessonWorksheetPanel({
                   <p className="text-sm font-medium text-soft-gray truncate">{template.title}</p>
                   <p className="text-[11px] text-soft-gray/40 capitalize">{template.template_type}</p>
                 </div>
-                <button
-                  onClick={() => setActiveModal({ id: template.id, title: template.title })}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-electric-blue/15 text-electric-blue text-xs font-medium hover:bg-electric-blue/25 transition-colors whitespace-nowrap flex-shrink-0"
-                >
-                  <Plus size={11} />
-                  {assigned ? "Assign again" : "Assign"}
-                </button>
+                <div className="flex items-center gap-1.5 flex-shrink-0">
+                  <button
+                    onClick={() => setPreviewId(template.id)}
+                    className="flex items-center gap-1 px-2 py-1 rounded-lg text-soft-gray/50 hover:text-soft-gray hover:bg-white/8 text-xs transition-colors"
+                    title="Preview worksheet"
+                  >
+                    <Eye size={11} />
+                    Preview
+                  </button>
+                  <button
+                    onClick={() => setActiveModal({ id: template.id, title: template.title })}
+                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-electric-blue/15 text-electric-blue text-xs font-medium hover:bg-electric-blue/25 transition-colors whitespace-nowrap"
+                  >
+                    <Plus size={11} />
+                    {assigned ? "Assign again" : "Assign"}
+                  </button>
+                </div>
               </div>
 
               {recent.length > 0 && (
@@ -120,6 +132,13 @@ export default function LessonWorksheetPanel({
             setSuccessMap((prev) => ({ ...prev, [activeModal.id]: true }));
             setActiveModal(null);
           }}
+        />
+      )}
+
+      {previewId && (
+        <WorksheetPreviewModal
+          templateId={previewId}
+          onClose={() => setPreviewId(null)}
         />
       )}
     </div>
