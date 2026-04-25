@@ -233,7 +233,7 @@ WHERE stage_number = 10;
 -- ON CONFLICT DO NOTHING — safe to re-run (no unique constraint exists on
 -- lesson_number + program_id, so we guard with NOT EXISTS per lesson).
 
-DO $$
+DO $outer$
 DECLARE
   v_program_id UUID;
 BEGIN
@@ -1033,7 +1033,7 @@ BEGIN
     WHERE program_id = v_program_id AND lesson_number = 20
   );
 
-END $$;
+END $outer$;
 
 
 -- ── 4. INSERT worksheet_templates (22 worksheets) ────────────
