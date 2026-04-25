@@ -227,12 +227,15 @@ function Footer() {
         </p>
 
         <div className="flex items-center gap-4 text-xs text-soft-gray/40">
-          <a href="/docs/LEGAL/terms.md" className="hover:text-soft-gray/70 transition-colors">
+          <Link href="/legal/terms" className="hover:text-soft-gray/70 transition-colors">
             Terms
-          </a>
-          <a href="/docs/LEGAL/privacy.md" className="hover:text-soft-gray/70 transition-colors">
+          </Link>
+          <Link href="/legal/privacy" className="hover:text-soft-gray/70 transition-colors">
             Privacy
-          </a>
+          </Link>
+          <Link href="/legal/disclaimer" className="hover:text-soft-gray/70 transition-colors">
+            Disclaimer
+          </Link>
           <span>© {new Date().getFullYear()} CAS Incubator OS</span>
         </div>
       </div>
