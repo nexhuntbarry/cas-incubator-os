@@ -12,6 +12,7 @@ import {
   FileText,
   Star,
   BookOpen,
+  ClipboardList,
   Menu,
   X,
 } from "lucide-react";
@@ -19,6 +20,7 @@ import {
 const NAV = [
   { href: "/teacher", label: "Overview", icon: LayoutDashboard, exact: true },
   { href: "/teacher/projects", label: "Projects", icon: FolderKanban },
+  { href: "/teacher/assignments", label: "Assignments", icon: ClipboardList },
   { href: "/teacher/worksheets", label: "Worksheets", icon: FileText },
   { href: "/teacher/rubrics", label: "Rubrics", icon: Star },
   { href: "/teacher/resources", label: "Resources", icon: BookOpen },
