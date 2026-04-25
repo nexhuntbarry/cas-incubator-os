@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import Shell from "@/components/admin/Shell";
-import { Upload, Trash2, Plus } from "lucide-react";
+import { Upload, Trash2, Plus, ExternalLink } from "lucide-react";
 
 type Asset = {
   id: string;
@@ -239,13 +240,25 @@ export default function AdminCurriculumPage() {
                     {asset.lesson_number ?? "—"}
                   </td>
                   <td className="px-4 py-3 text-soft-gray/80">
-                    {asset.url ? (
-                      <a href={asset.url} target="_blank" rel="noopener noreferrer" className="text-electric-blue hover:underline">
+                    <div className="flex items-center gap-3">
+                      <Link
+                        href={`/admin/curriculum/${asset.id}`}
+                        className="text-electric-blue hover:underline text-sm"
+                      >
                         {asset.title}
-                      </a>
-                    ) : (
-                      asset.title
-                    )}
+                      </Link>
+                      {asset.url && (
+                        <a
+                          href={asset.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-soft-gray/30 hover:text-soft-gray/60 transition-colors flex-shrink-0"
+                          title="Open original"
+                        >
+                          <ExternalLink size={12} />
+                        </a>
+                      )}
+                    </div>
                   </td>
                   <td className="px-4 py-3">
                     <span className="px-2 py-0.5 rounded-full text-xs bg-white/8 text-soft-gray/60">

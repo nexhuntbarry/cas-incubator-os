@@ -523,5 +523,14 @@
       "subject": "Risk Alert — {severity} — {studentName}",
       "reviewFlag": "Review Risk Flag"
     }
+  },
+  "curriculum": {
+    "lessonN": "Lesson {n}",
+    "previousLesson": "Previous Lesson",
+    "nextLesson": "Next Lesson",
+    "printExport": "Print / Export PDF",
+    "openOriginal": "Open original document",
+    "noContent": "No lesson content available yet.",
+    "viewLesson": "View"
   }
 }

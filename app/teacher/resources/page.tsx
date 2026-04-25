@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/teacher/Shell";
@@ -31,20 +32,34 @@ export default async function TeacherResourcesPage() {
                   <span className="text-xs font-mono text-soft-gray/40 w-8">L{asset.lesson_number}</span>
                 )}
                 <div>
-                  <p className="text-sm font-medium text-soft-gray">{asset.title}</p>
+                  <Link
+                    href={`/teacher/resources/${asset.id}`}
+                    className="text-sm font-medium text-soft-gray hover:text-electric-blue transition-colors"
+                  >
+                    {asset.title}
+                  </Link>
                   <p className="text-xs text-soft-gray/40 mt-0.5">{asset.asset_type}</p>
                 </div>
               </div>
-              {asset.url && (
-                <a
-                  href={asset.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-xs text-electric-blue hover:underline"
+              <div className="flex items-center gap-3 flex-shrink-0">
+                <Link
+                  href={`/teacher/resources/${asset.id}`}
+                  className="text-xs text-electric-blue hover:underline"
                 >
-                  Open <ExternalLink size={11} />
-                </a>
-              )}
+                  View
+                </Link>
+                {asset.url && (
+                  <a
+                    href={asset.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-xs text-soft-gray/40 hover:text-soft-gray/70 transition-colors"
+                    title="Open original document"
+                  >
+                    <ExternalLink size={11} />
+                  </a>
+                )}
+              </div>
             </div>
           ))
         )}

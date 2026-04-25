@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Logo from "@/components/Logo";
@@ -41,29 +42,43 @@ export default async function StudentResourcesPage() {
             {assets.map((asset) => (
               <div
                 key={asset.id}
-                className="flex items-center justify-between rounded-xl border border-white/8 bg-white/3 px-5 py-4"
+                className="flex items-center justify-between rounded-xl border border-white/8 bg-white/3 px-5 py-4 hover:bg-white/5 transition-colors"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 min-w-0">
                   {asset.lesson_number && (
                     <span className="text-xs font-mono text-soft-gray/40 w-8 flex-shrink-0">
                       L{asset.lesson_number}
                     </span>
                   )}
-                  <div>
-                    <p className="text-sm font-medium text-soft-gray">{asset.title}</p>
+                  <div className="min-w-0">
+                    <Link
+                      href={`/student/resources/${asset.id}`}
+                      className="text-sm font-medium text-soft-gray hover:text-electric-blue transition-colors block truncate"
+                    >
+                      {asset.title}
+                    </Link>
                     <p className="text-xs text-soft-gray/40 mt-0.5 capitalize">{asset.asset_type}</p>
                   </div>
                 </div>
-                {asset.url && (
-                  <a
-                    href={asset.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-xs text-electric-blue hover:underline flex-shrink-0"
+                <div className="flex items-center gap-3 flex-shrink-0 ml-3">
+                  <Link
+                    href={`/student/resources/${asset.id}`}
+                    className="text-xs text-electric-blue hover:underline"
                   >
-                    Open <ExternalLink size={11} />
-                  </a>
-                )}
+                    View
+                  </Link>
+                  {asset.url && (
+                    <a
+                      href={asset.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-soft-gray/30 hover:text-soft-gray/60 transition-colors"
+                      title="Open original document"
+                    >
+                      <ExternalLink size={11} />
+                    </a>
+                  )}
+                </div>
               </div>
             ))}
           </div>

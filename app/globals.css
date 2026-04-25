@@ -124,3 +124,36 @@ body {
   /* Clerk dev-mode bottom banner — keep but less jarring */
   color: #FFB020 !important;
 }
+
+/* ── Print styles ─────────────────────────────────────────── */
+@media print {
+  nav,
+  aside,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  h1,
+  h2,
+  h3 {
+    color: black !important;
+  }
+  a {
+    color: black !important;
+    text-decoration: none !important;
+  }
+  .print-area {
+    padding: 0 !important;
+    max-width: 100% !important;
+    border: none !important;
+    background: white !important;
+  }
+  .print-area * {
+    color: black !important;
+    background: transparent !important;
+    border-color: #ccc !important;
+  }
+}

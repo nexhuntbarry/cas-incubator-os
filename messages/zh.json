@@ -523,5 +523,14 @@
       "subject": "風險警告 — {severity} — {studentName}",
       "reviewFlag": "查看風險標記"
     }
+  },
+  "curriculum": {
+    "lessonN": "第 {n} 課",
+    "previousLesson": "上一課",
+    "nextLesson": "下一課",
+    "printExport": "列印 / 匯出 PDF",
+    "openOriginal": "開啟原始文件",
+    "noContent": "尚無課程內容。",
+    "viewLesson": "查看"
   }
 }
