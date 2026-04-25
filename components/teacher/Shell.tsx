@@ -22,6 +22,7 @@ import {
 
 const NAV = [
   { href: "/teacher", label: "Overview", icon: LayoutDashboard, exact: true },
+  { href: "/teacher/students", label: "Students", icon: Users },
   { href: "/teacher/projects", label: "Projects", icon: FolderKanban },
   { href: "/teacher/assignments", label: "Assignments", icon: ClipboardList },
   { href: "/teacher/worksheets", label: "Worksheets", icon: FileText },
