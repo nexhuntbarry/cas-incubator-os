@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/admin/Shell";
 import AiUsageDashboard from "./AiUsageDashboard";
+import { formatDateShort } from "@/lib/dates";
 
 export default async function AiUsagePage({
   searchParams,
@@ -108,7 +109,7 @@ export default async function AiUsagePage({
   // Daily trend — group by date
   const dailyCounts: Record<string, { calls: number; tokensIn: number; tokensOut: number }> = {};
   for (const row of periodRows ?? []) {
-    const day = (row.created_at ?? "").slice(0, 10);
+    const day = formatDateShort(row.created_at);
     if (!dailyCounts[day]) dailyCounts[day] = { calls: 0, tokensIn: 0, tokensOut: 0 };
     dailyCounts[day].calls++;
     dailyCounts[day].tokensIn += row.tokens_input ?? 0;

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/mentor/Shell";
+import { formatDate } from "@/lib/dates";
 
 export default async function MentorCheckpointQueuePage() {
   const user = await getCurrentUser();
@@ -41,7 +42,7 @@ export default async function MentorCheckpointQueuePage() {
                 <div>
                   <p className="text-sm font-semibold text-soft-gray">{checkpointTitle}</p>
                   <p className="text-xs text-soft-gray/50">
-                    {studentName} · {sub.submitted_at?.slice(0, 10) ?? "—"}
+                    {studentName} · {formatDate(sub.submitted_at)}
                   </p>
                 </div>
                 <Link

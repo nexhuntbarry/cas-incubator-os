@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Shell from "@/components/teacher/Shell";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, CheckCircle, AlertCircle, Clock, FileText, Users } from "lucide-react";
+import { formatDate } from "@/lib/dates";
 
 interface StudentRow {
   user_id: string;
@@ -300,7 +301,7 @@ export default function TeacherWorksheetCohortPage({ params }: { params: Promise
                         </div>
                       </td>
                       <td className="px-4 py-3 hidden md:table-cell text-soft-gray/40 text-xs tabular-nums">
-                        {submission?.submitted_at ? submission.submitted_at.slice(0, 10) : "—"}
+                        {formatDate(submission?.submitted_at ?? null)}
                       </td>
                       <td className="px-4 py-3 text-right">
                         {submission ? (

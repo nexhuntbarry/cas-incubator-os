@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/admin/Shell";
+import { formatDateShort } from "@/lib/dates";
 
 export default async function AdminNotesPage() {
   const user = await getCurrentUser();
@@ -52,7 +53,7 @@ export default async function AdminNotesPage() {
                     )}
                   </div>
                   <span className="text-xs text-soft-gray/30">
-                    {note.session_date ?? note.created_at?.slice(0, 10)}
+                    {note.session_date ?? formatDateShort(note.created_at)}
                   </span>
                 </div>
                 <p className="text-sm text-soft-gray font-medium">

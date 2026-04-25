@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Shell from "@/components/mentor/Shell";
 import MentorNoteModal from "@/components/MentorNoteModal";
 import { StickyNote } from "lucide-react";
+import { formatDate } from "@/lib/dates";
 
 interface CheckpointSubmission {
   id: string;
@@ -101,7 +102,7 @@ export default function MentorCheckpointReviewPage({ params }: { params: Promise
           <div>
             <p className="text-sm font-semibold text-soft-gray">{student?.display_name ?? "—"}</p>
             <p className="text-xs text-soft-gray/40 mt-0.5">
-              {checkpoint?.title} · Stage {checkpoint?.stage_number} · {submission.submitted_at?.slice(0, 10) ?? "—"}
+              {checkpoint?.title} · Stage {checkpoint?.stage_number} · {formatDate(submission.submitted_at)}
             </p>
           </div>
           <button

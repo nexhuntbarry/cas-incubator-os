@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/admin/Shell";
 import { Plus } from "lucide-react";
+import { formatDateShort } from "@/lib/dates";
 
 export default async function AdminCohortsPage() {
   const user = await getCurrentUser();
@@ -67,10 +68,10 @@ export default async function AdminCohortsPage() {
                         {program?.name ?? "—"}
                       </td>
                       <td className="px-5 py-3 text-soft-gray/60 text-xs">
-                        {c.start_date ? c.start_date.slice(0, 10) : "—"}
+                        {c.start_date ? formatDateShort(c.start_date) : "—"}
                       </td>
                       <td className="px-5 py-3 text-soft-gray/60 text-xs">
-                        {c.end_date ? c.end_date.slice(0, 10) : "—"}
+                        {c.end_date ? formatDateShort(c.end_date) : "—"}
                       </td>
                       <td className="px-5 py-3 text-soft-gray/60 text-xs">
                         {c.max_students ?? "—"}

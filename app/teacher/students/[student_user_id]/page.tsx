@@ -5,6 +5,7 @@ import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/teacher/Shell";
 import { ChevronLeft, ChevronRight, CheckCircle, Clock, AlertCircle, FileText, Lock } from "lucide-react";
 import WorkLinksGrid from "@/components/project/WorkLinksGrid";
+import { formatDate } from "@/lib/dates";
 
 interface StageProgress {
   stage_number: number;
@@ -328,7 +329,7 @@ export default async function TeacherStudentDetailPage({
                               )}
                             </td>
                             <td className="px-4 py-3 hidden sm:table-cell text-soft-gray/40 text-xs tabular-nums text-right">
-                              {submission?.submitted_at ? submission.submitted_at.slice(0, 10) : "—"}
+                              {formatDate(submission?.submitted_at ?? null)}
                             </td>
                             <td className="px-4 py-3 text-right w-24">
                               {submission ? (

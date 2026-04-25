@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/admin/Shell";
 import { getTranslations } from "next-intl/server";
+import { formatDateShort } from "@/lib/dates";
 
 export default async function ProgramDetailPage({
   params,
@@ -81,7 +82,7 @@ export default async function ProgramDetailPage({
                 >
                   <span className="text-sm text-soft-gray">{c.name}</span>
                   <span className="text-xs text-soft-gray/40">
-                    {c.start_date ? c.start_date.slice(0, 10) : "—"}
+                    {c.start_date ? formatDateShort(c.start_date) : "—"}
                   </span>
                 </Link>
               ))}
