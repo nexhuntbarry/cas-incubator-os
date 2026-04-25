@@ -6,6 +6,7 @@ import Logo from "@/components/Logo";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { UserButton } from "@clerk/nextjs";
 import { FileText, Clock, CheckCircle, AlertCircle, Lock } from "lucide-react";
+import StudentTodoSection from "@/components/assignments/StudentTodoSection";
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, { label: string; cls: string }> = {
@@ -277,6 +278,9 @@ export default async function StudentWorksheetsPage() {
           <h1 className="text-2xl font-bold">Worksheets</h1>
           <p className="text-sm text-soft-gray/50 mt-1">Track your progress through each stage.</p>
         </div>
+
+        {/* Assigned to you — explicit push from teacher */}
+        <StudentTodoSection />
 
         {noProject ? (
           <div className="rounded-xl border border-white/8 bg-white/3 p-8 text-center space-y-2">

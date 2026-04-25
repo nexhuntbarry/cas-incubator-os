@@ -7,6 +7,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { UserButton } from "@clerk/nextjs";
 import { getTranslations } from "next-intl/server";
 import OnboardingTour from "@/components/shared/OnboardingTour";
+import StudentTodoSection from "@/components/assignments/StudentTodoSection";
 
 export default async function StudentDashboard() {
   const user = await getCurrentUser();
@@ -62,6 +63,9 @@ export default async function StudentDashboard() {
         <h1 className="text-2xl font-bold">
           {t("welcome", { name: user.displayName })}
         </h1>
+
+        {/* To-Do section — always at top */}
+        <StudentTodoSection />
 
         {cohortName ? (
           <div className="rounded-xl border border-white/8 bg-white/3 p-5 space-y-3">
