@@ -44,7 +44,7 @@ export default async function RootLayout({
   const htmlLang = locale === "en" ? "en" : "zh-TW";
 
   return (
-    <ClerkProvider>
+    <ClerkProvider afterSignOutUrl="/">
       <html lang={htmlLang} className={plusJakartaSans.variable}>
         <body className="font-sans antialiased bg-deep-navy text-soft-gray">
           <NextIntlClientProvider locale={locale} messages={messages}>

@@ -3,9 +3,10 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 
 // Manual trigger for auto risk detection
-// Can be scheduled via Vercel Cron in vercel.json
-export async function POST(req: Request) {
-  // Allow super_admin trigger or internal cron secret
+// Scheduled via Vercel Cron in vercel.json (Vercel sends GET; we also accept POST for manual triggers)
+async function handle(req: Request) {
+  // Allow super_admin trigger or internal cron secret.
+  // Vercel Cron auto-injects Authorization: Bearer ${CRON_SECRET} when CRON_SECRET env is set.
   const authHeader = req.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
 
@@ -107,6 +108,9 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ ok: true, results });
 }
+
+export const GET = handle;
+export const POST = handle;
 
 async function createFlagIfNotExists(
   supabase: ReturnType<typeof getServiceClient>,

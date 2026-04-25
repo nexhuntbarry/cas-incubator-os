@@ -11,6 +11,8 @@ export default async function Page({
   searchParams: Promise<{ redirect_url?: string }>;
 }) {
   const params = await searchParams;
-  const returnTo = params.redirect_url ?? `${APP_ORIGIN}/`;
+  // After sign-up, hop through /post-login so the new user lands on the
+  // dashboard matching their Supabase role (set by the Clerk webhook).
+  const returnTo = params.redirect_url ?? `${APP_ORIGIN}/post-login`;
   redirect(`${PORTAL_BASE}/sign-up?redirect_url=${encodeURIComponent(returnTo)}`);
 }

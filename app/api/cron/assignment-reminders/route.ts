@@ -13,7 +13,9 @@ function formatDueIn(dueDate: Date): string {
   return `${diffDays} day${diffDays !== 1 ? "s" : ""}`;
 }
 
-export async function POST(req: Request) {
+// Vercel Cron sends GET with Authorization: Bearer ${CRON_SECRET}.
+// We export both GET (for cron) and POST (for manual triggers) pointing at the same handler.
+async function handle(req: Request) {
   const authHeader = req.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
 
@@ -117,3 +119,6 @@ export async function POST(req: Request) {
 
   return NextResponse.json(results);
 }
+
+export const GET = handle;
+export const POST = handle;

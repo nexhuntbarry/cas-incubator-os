@@ -14,6 +14,9 @@ export default async function Page({
   searchParams: Promise<{ redirect_url?: string }>;
 }) {
   const params = await searchParams;
-  const returnTo = params.redirect_url ?? `${APP_ORIGIN}/`;
+  // Default post-auth destination is /post-login, which resolves the user's
+  // Supabase role and redirects to the matching dashboard in a single hop.
+  // Honors caller-provided redirect_url when set (e.g. /join/ABC123).
+  const returnTo = params.redirect_url ?? `${APP_ORIGIN}/post-login`;
   redirect(`${PORTAL_BASE}/sign-in?redirect_url=${encodeURIComponent(returnTo)}`);
 }
