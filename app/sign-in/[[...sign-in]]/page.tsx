@@ -1,10 +1,38 @@
 'use client';
 
-import { SignIn } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+import { SignIn, useClerk } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import Logo from "@/components/Logo";
 
+// Clerk Account Portal — works regardless of dev/live instance config.
+// Used as fallback if the embedded <SignIn /> fails to mount within 3s.
+const CLERK_HOSTED_SIGN_IN =
+  "https://uncommon-griffon-50.accounts.dev/sign-in?redirect_url=" +
+  encodeURIComponent(
+    typeof window !== "undefined" ? window.location.origin : "https://incubator.nexhunt.xyz"
+  );
+
 export default function SignInPage() {
+  const clerk = useClerk();
+  const [showFallback, setShowFallback] = useState(false);
+
+  useEffect(() => {
+    // If Clerk hasn't loaded the SignIn UI within 3s, surface the hosted fallback.
+    const timer = setTimeout(() => {
+      const mounted = document.querySelector(".cl-signIn-root, [data-clerk-component]");
+      if (!mounted) {
+        // eslint-disable-next-line no-console
+        console.warn("[sign-in] Clerk SignIn did not mount within 3s; showing fallback link.", {
+          clerkLoaded: clerk?.loaded,
+          publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.slice(0, 12),
+        });
+        setShowFallback(true);
+      }
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [clerk]);
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-deep-navy">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full opacity-10 blur-3xl bg-electric-blue pointer-events-none" />
@@ -57,6 +85,24 @@ export default function SignInPage() {
             },
           }}
         />
+
+        {showFallback && (
+          <div className="w-full p-4 rounded-xl border border-white/10 bg-white/5 text-center space-y-3">
+            <p className="text-sm text-slate-300">
+              登入表單載入失敗，請使用備用登入頁面：
+              <br />
+              <span className="text-xs text-slate-400">
+                Sign-in form failed to load. Use the hosted page instead:
+              </span>
+            </p>
+            <a
+              href={CLERK_HOSTED_SIGN_IN}
+              className="inline-block px-6 py-3 rounded-xl bg-electric-blue text-white text-sm font-semibold hover:bg-electric-blue/90 transition-colors"
+            >
+              開啟登入頁面 / Open sign-in
+            </a>
+          </div>
+        )}
       </div>
     </main>
   );
