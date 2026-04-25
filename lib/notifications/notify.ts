@@ -12,7 +12,10 @@ export type NotificationType =
   | "checkpoint_submitted"
   | "checkpoint_reviewed"
   | "showcase_published"
-  | "student_work_submitted";
+  | "student_work_submitted"
+  | "worksheet_assigned"
+  | "worksheet_submitted"
+  | "worksheet_reminder";
 
 export interface NotifyOptions {
   user_id: string;
