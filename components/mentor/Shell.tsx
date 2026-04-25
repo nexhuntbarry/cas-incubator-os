@@ -100,9 +100,6 @@ export default function Shell({ children, title }: ShellProps) {
           })}
         </nav>
 
-        <div className="px-5 py-4 border-t border-white/8">
-          <UserButton />
-        </div>
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -117,7 +114,10 @@ export default function Shell({ children, title }: ShellProps) {
             </button>
             <h1 className="text-base md:text-lg font-semibold text-soft-gray truncate">{title ?? ""}</h1>
           </div>
-          <NotificationBell />
+          <div className="flex items-center gap-3">
+            <NotificationBell />
+            <UserButton />
+          </div>
         </header>
         <main className="flex-1 px-4 md:px-8 py-4 md:py-6">{children}</main>
       </div>
