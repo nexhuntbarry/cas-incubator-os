@@ -532,5 +532,57 @@
     "openOriginal": "Open original document",
     "noContent": "No lesson content available yet.",
     "viewLesson": "View"
+  },
+  "assignments": {
+    "assignTo": "Assign to",
+    "dueDate": "Due Date",
+    "quickDate": {
+      "today": "End of today",
+      "oneHour": "+1 hour",
+      "threeDays": "+3 days",
+      "oneWeek": "+1 week",
+      "custom": "Custom"
+    },
+    "instructions": "Instructions (optional)",
+    "submit": "Assign Worksheet",
+    "reminder": "Remind",
+    "remindAll": "Remind all pending",
+    "overdue": "Overdue",
+    "dueSoon": "Due soon",
+    "dueIn": "Due in {count}{unit}",
+    "active": "Active",
+    "closed": "Closed",
+    "archived": "Archived",
+    "noActive": "No active assignments.",
+    "noClosed": "No closed assignments.",
+    "noArchived": "No archived assignments.",
+    "assignWorksheet": "Assign Worksheet",
+    "recentAssignments": "Recent assignments",
+    "noWorksheetsLinked": "No worksheets linked to this lesson.",
+    "closeAssignment": "Close assignment",
+    "extendDeadline": "Extend deadline"
+  },
+  "student": {
+    "todo": {
+      "title": "Your To-Do",
+      "openWorksheet": "Open Worksheet",
+      "noPending": "No pending assignments. You're all caught up!",
+      "assignedCount": "{count} pending"
+    }
+  },
+  "emails": {
+    "worksheetAssigned": {
+      "subject": "New worksheet assigned: {title} — Due {date}",
+      "greeting": "Hi {name},",
+      "body": "Your teacher {teacher} has assigned you a new worksheet to complete.",
+      "button": "Open Worksheet",
+      "teachersNote": "Teacher's Note"
+    },
+    "worksheetReminder": {
+      "subject": "Reminder: {title} due in {dueIn}",
+      "greeting": "Reminder, {name}!",
+      "body": "You have a worksheet due soon. Don't forget to complete and submit it.",
+      "button": "Complete Worksheet Now"
+    }
   }
 }

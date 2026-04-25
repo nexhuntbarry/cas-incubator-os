@@ -532,5 +532,57 @@
     "openOriginal": "開啟原始文件",
     "noContent": "尚無課程內容。",
     "viewLesson": "查看"
+  },
+  "assignments": {
+    "assignTo": "指派給",
+    "dueDate": "截止日期",
+    "quickDate": {
+      "today": "今天結束前",
+      "oneHour": "+1 小時",
+      "threeDays": "+3 天",
+      "oneWeek": "+1 週",
+      "custom": "自訂"
+    },
+    "instructions": "補充說明（選填）",
+    "submit": "指派作業單",
+    "reminder": "提醒",
+    "remindAll": "提醒所有未完成學生",
+    "overdue": "已逾期",
+    "dueSoon": "即將到期",
+    "dueIn": "還有 {count}{unit}",
+    "active": "進行中",
+    "closed": "已關閉",
+    "archived": "已封存",
+    "noActive": "沒有進行中的作業。",
+    "noClosed": "沒有已關閉的作業。",
+    "noArchived": "沒有已封存的作業。",
+    "assignWorksheet": "指派作業單",
+    "recentAssignments": "近期指派",
+    "noWorksheetsLinked": "此課程沒有連結的作業單。",
+    "closeAssignment": "關閉作業",
+    "extendDeadline": "延長截止日期"
+  },
+  "student": {
+    "todo": {
+      "title": "待辦事項",
+      "openWorksheet": "開啟作業單",
+      "noPending": "沒有待辦作業，您已完成所有任務！",
+      "assignedCount": "{count} 項待辦"
+    }
+  },
+  "emails": {
+    "worksheetAssigned": {
+      "subject": "新作業單：{title} — 截止日期 {date}",
+      "greeting": "{name} 您好，",
+      "body": "您的老師 {teacher} 指派了一份新的作業單給您。",
+      "button": "開啟作業單",
+      "teachersNote": "老師的說明"
+    },
+    "worksheetReminder": {
+      "subject": "提醒：{title} 將在 {dueIn} 後到期",
+      "greeting": "{name}，請注意！",
+      "body": "您有一份作業單即將到期，請記得完成並提交。",
+      "button": "立即完成作業單"
+    }
   }
 }
