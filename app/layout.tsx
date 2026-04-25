@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
@@ -44,7 +45,7 @@ export default async function RootLayout({
   const htmlLang = locale === "en" ? "en" : "zh-TW";
 
   return (
-    <ClerkProvider afterSignOutUrl="/">
+    <ClerkProvider afterSignOutUrl="/" appearance={{ baseTheme: dark }}>
       <html lang={htmlLang} className={plusJakartaSans.variable}>
         <body className="font-sans antialiased bg-deep-navy text-soft-gray">
           <NextIntlClientProvider locale={locale} messages={messages}>
