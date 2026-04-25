@@ -1,12 +1,8 @@
 import { redirect, notFound } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
-import Logo from "@/components/Logo";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { UserButton } from "@clerk/nextjs";
 import LessonViewer from "@/components/curriculum/LessonViewer";
-import Link from "next/link";
-import { BookOpen } from "lucide-react";
+import Shell from "@/components/student/Shell";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -44,27 +40,10 @@ export default async function StudentLessonPage({ params }: Props) {
   );
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8 no-print">
-        <div className="flex items-center gap-4">
-          <Logo size={28} />
-          <Link
-            href="/student/resources"
-            className="text-xs text-soft-gray/50 hover:text-soft-gray flex items-center gap-1 transition-colors"
-          >
-            <BookOpen size={12} />
-            Resources
-          </Link>
-        </div>
-        <div className="flex items-center gap-4">
-          <LanguageSwitcher />
-          <UserButton />
-        </div>
-      </nav>
-
-      <main className="max-w-6xl mx-auto px-6 py-8">
+    <Shell title={asset.title}>
+      <div className="max-w-6xl">
         <LessonViewer asset={asset} allLessons={lessons} baseHref="/student/resources" />
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }

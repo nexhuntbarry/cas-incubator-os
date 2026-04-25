@@ -3,9 +3,8 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import Logo from "@/components/Logo";
-import { UserButton } from "@clerk/nextjs";
 import { CheckCircle2, Circle, Clock, ChevronRight, Lock } from "lucide-react";
+import Shell from "@/components/student/Shell";
 
 const STATUS_ICON: Record<string, React.FC<{ className?: string }>> = {
   not_started: ({ className }) => <Circle className={className} size={18} />,
@@ -61,19 +60,8 @@ export default async function StudentMethodPage() {
   });
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
-        <Logo size={28} />
-        <div className="flex items-center gap-4">
-          <Link href="/student/project" className="text-sm text-soft-gray/60 hover:text-soft-gray transition-colors">
-            My Project
-          </Link>
-          <UserButton />
-        </div>
-      </nav>
-
-      <main className="max-w-2xl mx-auto px-6 py-10 space-y-6">
-        <h1 className="text-2xl font-bold">{t("title")}</h1>
+    <Shell title={t("title")}>
+      <div className="max-w-2xl space-y-6">
         <p className="text-soft-gray/50 text-sm">{t("subtitle")}</p>
 
         <div className="space-y-3">
@@ -148,7 +136,7 @@ export default async function StudentMethodPage() {
             );
           })}
         </div>
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }

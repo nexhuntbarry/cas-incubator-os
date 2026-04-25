@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import ShowcaseBuilder from "@/components/student/ShowcaseBuilder";
+import Shell from "@/components/student/Shell";
 
 export default async function StudentShowcasePage() {
   const user = await getCurrentUser();
@@ -57,9 +58,8 @@ export default async function StudentShowcasePage() {
     "";
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <div className="max-w-3xl mx-auto px-6 py-10">
-        <h1 className="text-2xl font-bold mb-2">My Showcase</h1>
+    <Shell title="My Showcase">
+      <div className="max-w-3xl">
         <p className="text-soft-gray/50 text-sm mb-8">
           Build your public project page to share your work with the world.
         </p>
@@ -94,6 +94,6 @@ export default async function StudentShowcasePage() {
           />
         )}
       </div>
-    </div>
+    </Shell>
   );
 }

@@ -2,10 +2,8 @@
 
 import { useState, useEffect, use, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Logo from "@/components/Logo";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { UserButton } from "@clerk/nextjs";
 import SchemaForm from "@/components/forms/SchemaForm";
+import Shell from "@/components/student/Shell";
 import type { SchemaField } from "@/components/forms/SchemaBuilder";
 import { CalendarClock, User } from "lucide-react";
 
@@ -170,16 +168,8 @@ export default function StudentWorksheetPage({ params }: { params: Promise<{ id:
   const isRevision = submission?.status === "revision_requested";
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
-        <Logo size={28} />
-        <div className="flex items-center gap-4">
-          <LanguageSwitcher />
-          <UserButton />
-        </div>
-      </nav>
-
-      <main className="max-w-2xl mx-auto px-6 py-10 space-y-6">
+    <Shell title={template.title}>
+      <div className="max-w-2xl space-y-6">
         <div>
           <button
             onClick={() => router.push("/student/worksheets")}
@@ -267,7 +257,7 @@ export default function StudentWorksheetPage({ params }: { params: Promise<{ id:
             This submission has been {submission?.status} and is read-only.
           </p>
         )}
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }

@@ -3,11 +3,10 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import Logo from "@/components/Logo";
-import { UserButton } from "@clerk/nextjs";
 import StageProgressBar from "@/components/shared/StageProgressBar";
 import ProjectEditor from "@/components/student/ProjectEditor";
 import WorkLinksEditor from "@/components/project/WorkLinksEditor";
+import Shell from "@/components/student/Shell";
 
 export default async function StudentProjectPage() {
   const user = await getCurrentUser();
@@ -86,35 +85,23 @@ export default async function StudentProjectPage() {
   );
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
-        <Logo size={28} />
-        <div className="flex items-center gap-4">
-          <Link href="/student/method" className="text-sm text-soft-gray/60 hover:text-soft-gray transition-colors">
-            Method Pipeline
-          </Link>
-          <UserButton />
-        </div>
-      </nav>
-
+    <Shell title={t("title")}>
       {/* Submit Your Work CTA banner — shown when no URL submitted yet */}
       {project && urlFieldsEmpty && (
-        <div className="bg-gold/10 border-b border-gold/20 px-6 py-3">
-          <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
-            <p className="text-sm text-gold font-medium">
-              Submit Your Work — add your live product, demo video, or GitHub link so your mentor can review it.
-            </p>
-            <a
-              href="#work-links-section"
-              className="flex-shrink-0 px-4 py-1.5 rounded-lg bg-gold text-deep-navy text-xs font-semibold hover:bg-gold/90 transition-colors"
-            >
-              Add Links
-            </a>
-          </div>
+        <div className="bg-gold/10 border border-gold/20 rounded-xl px-5 py-3 mb-6 flex items-center justify-between gap-4">
+          <p className="text-sm text-gold font-medium">
+            Submit Your Work — add your live product, demo video, or GitHub link so your mentor can review it.
+          </p>
+          <a
+            href="#work-links-section"
+            className="flex-shrink-0 px-4 py-1.5 rounded-lg bg-gold text-deep-navy text-xs font-semibold hover:bg-gold/90 transition-colors"
+          >
+            Add Links
+          </a>
         </div>
       )}
 
-      <main className="max-w-3xl mx-auto px-6 py-10 space-y-8">
+      <div className="max-w-3xl space-y-8">
         <div>
           <h1 className="text-2xl font-bold">{t("title")}</h1>
 
@@ -210,7 +197,7 @@ export default async function StudentProjectPage() {
             </Link>
           </div>
         )}
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }

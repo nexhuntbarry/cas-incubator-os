@@ -2,10 +2,9 @@
 
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
-import Logo from "@/components/Logo";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { UserButton } from "@clerk/nextjs";
 import CheckpointStatusBadge from "@/components/checkpoint/CheckpointStatusBadge";
+import Shell from "@/components/student/Shell";
+import { formatDate } from "@/lib/dates";
 
 interface Checkpoint {
   id: string;
@@ -82,16 +81,8 @@ export default function StudentCheckpointDetailPage({ params }: { params: Promis
   const isSubmitted = status === "submitted" || status === "reviewed";
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
-        <Logo size={28} />
-        <div className="flex items-center gap-4">
-          <LanguageSwitcher />
-          <UserButton />
-        </div>
-      </nav>
-
-      <main className="max-w-2xl mx-auto px-6 py-10 space-y-6">
+    <Shell title={checkpoint?.title ?? "Checkpoint"}>
+      <div className="max-w-2xl space-y-6">
         <button
           onClick={() => router.push("/student/checkpoints")}
           className="text-xs text-soft-gray/40 hover:text-soft-gray flex items-center gap-1"
@@ -141,12 +132,12 @@ export default function StudentCheckpointDetailPage({ params }: { params: Promis
             </p>
             {submission?.submitted_at && (
               <p className="text-xs text-soft-gray/40 mt-1">
-                Submitted {submission.submitted_at.slice(0, 10)}
+                Submitted {formatDate(submission.submitted_at)}
               </p>
             )}
           </div>
         )}
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }

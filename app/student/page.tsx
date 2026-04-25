@@ -2,12 +2,10 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
-import Logo from "@/components/Logo";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { UserButton } from "@clerk/nextjs";
 import { getTranslations } from "next-intl/server";
 import OnboardingTour from "@/components/shared/OnboardingTour";
 import StudentTodoSection from "@/components/assignments/StudentTodoSection";
+import Shell from "@/components/student/Shell";
 
 export default async function StudentDashboard() {
   const user = await getCurrentUser();
@@ -28,7 +26,7 @@ export default async function StudentDashboard() {
     redirect("/student/intake");
   }
 
-  const [{ data: enrollment }, { data: userRow }] = await Promise.all([
+  const [{ data: enrollment }, { data: userRow }, { data: progress }] = await Promise.all([
     supabase
       .from("enrollment_records")
       .select("*, cohorts(name)")
@@ -40,30 +38,65 @@ export default async function StudentDashboard() {
       .select("onboarded_at")
       .eq("id", user.userId)
       .single(),
+    supabase
+      .from("student_method_progress")
+      .select("stage_number, status")
+      .eq("student_user_id", user.userId),
   ]);
 
   const cohortName = (enrollment?.cohorts as { name: string } | null)?.name;
   const showTour = !userRow?.onboarded_at;
 
+  // Determine current in-progress stage
+  const inProgressRow = (progress ?? []).find((p) => p.status === "in_progress");
+  const currentStageNumber = inProgressRow?.stage_number ?? 1;
+
+  // Fetch stage name for current stage
+  const { data: stageDef } = await supabase
+    .from("method_stage_definitions")
+    .select("name")
+    .eq("stage_number", currentStageNumber)
+    .single();
+
+  const currentStageName = stageDef?.name ?? "Interest Discovery";
+
+  // Next worksheet: first not_started or in_progress worksheet for this stage
+  const { data: stageDefWithId } = await supabase
+    .from("method_stage_definitions")
+    .select("id")
+    .eq("stage_number", currentStageNumber)
+    .single();
+
+  let nextTaskLabel = "—";
+  if (stageDefWithId?.id) {
+    const { data: templates } = await supabase
+      .from("worksheet_templates")
+      .select("id, title, linked_method_stage_id")
+      .eq("linked_method_stage_id", stageDefWithId.id)
+      .eq("is_active", true)
+      .order("linked_lesson_number", { ascending: true })
+      .limit(5);
+
+    if (templates && templates.length > 0) {
+      const { data: submissions } = await supabase
+        .from("worksheet_submissions")
+        .select("template_id, status")
+        .eq("student_user_id", user.userId)
+        .in("template_id", templates.map((t) => t.id));
+
+      const submittedIds = new Set((submissions ?? []).map((s) => s.template_id));
+      const firstPending = templates.find((t) => !submittedIds.has(t.id));
+      if (firstPending) nextTaskLabel = firstPending.title;
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
+    <Shell title={t("welcome", { name: user.displayName })}>
       {showTour && (
         <OnboardingTour role="student" displayName={user.displayName} />
       )}
 
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
-        <Logo size={28} />
-        <div className="flex items-center gap-4">
-          <LanguageSwitcher />
-          <UserButton />
-        </div>
-      </nav>
-
-      <main className="max-w-3xl mx-auto px-6 py-12 space-y-6">
-        <h1 className="text-2xl font-bold">
-          {t("welcome", { name: user.displayName })}
-        </h1>
-
+      <div className="max-w-3xl space-y-6">
         {/* To-Do section — always at top */}
         <StudentTodoSection />
 
@@ -76,10 +109,13 @@ export default async function StudentDashboard() {
             </div>
             <p className="text-vivid-teal font-semibold">{cohortName}</p>
             <p className="text-sm text-soft-gray/50">
-              {t("currentStage")}: <span className="text-soft-gray">Stage 1 — Interest Discovery</span>
+              {t("currentStage")}:{" "}
+              <span className="text-soft-gray">
+                Stage {currentStageNumber} — {currentStageName}
+              </span>
             </p>
             <p className="text-sm text-soft-gray/50">
-              {t("nextTask")}: <span className="text-soft-gray">{t("nextTaskPlaceholder")}</span>
+              {t("nextTask")}: <span className="text-soft-gray">{nextTaskLabel}</span>
             </p>
           </div>
         ) : (
@@ -103,7 +139,7 @@ export default async function StudentDashboard() {
             {t("methodPipeline")} →
           </Link>
         </div>
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }

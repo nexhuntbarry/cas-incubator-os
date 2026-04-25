@@ -3,10 +3,9 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import Logo from "@/components/Logo";
-import { UserButton } from "@clerk/nextjs";
 import { ChevronLeft } from "lucide-react";
 import StageSubmitForm from "@/components/student/StageSubmitForm";
+import Shell from "@/components/student/Shell";
 
 export default async function StudentStagePage({
   params,
@@ -68,13 +67,8 @@ export default async function StudentStagePage({
   const isSubmitted = currentStatus === "submitted" || currentStatus === "reviewed";
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
-        <Logo size={28} />
-        <UserButton />
-      </nav>
-
-      <main className="max-w-2xl mx-auto px-6 py-10 space-y-8">
+    <Shell title={stageDef.name}>
+      <div className="max-w-2xl space-y-8">
         <div>
           <Link
             href="/student/method"
@@ -144,7 +138,7 @@ export default async function StudentStagePage({
             }}
           />
         )}
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }

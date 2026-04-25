@@ -2,10 +2,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
-import Logo from "@/components/Logo";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { UserButton } from "@clerk/nextjs";
 import { ExternalLink } from "lucide-react";
+import Shell from "@/components/student/Shell";
 
 export default async function StudentResourcesPage() {
   const user = await getCurrentUser();
@@ -21,17 +19,8 @@ export default async function StudentResourcesPage() {
     .order("sort_order", { ascending: true });
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
-        <Logo size={28} />
-        <div className="flex items-center gap-4">
-          <LanguageSwitcher />
-          <UserButton />
-        </div>
-      </nav>
-
-      <main className="max-w-3xl mx-auto px-6 py-10 space-y-6">
-        <h1 className="text-2xl font-bold">Resources</h1>
+    <Shell title="Resources">
+      <div className="max-w-3xl space-y-6">
 
         {!assets || assets.length === 0 ? (
           <div className="rounded-xl border border-white/8 bg-white/3 p-6 text-center text-soft-gray/40 text-sm">
@@ -83,7 +72,7 @@ export default async function StudentResourcesPage() {
             ))}
           </div>
         )}
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }

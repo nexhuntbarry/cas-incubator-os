@@ -2,11 +2,9 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
-import Logo from "@/components/Logo";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { UserButton } from "@clerk/nextjs";
 import { FileText, Clock, CheckCircle, AlertCircle, Lock } from "lucide-react";
 import StudentTodoSection from "@/components/assignments/StudentTodoSection";
+import Shell from "@/components/student/Shell";
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, { label: string; cls: string }> = {
@@ -264,20 +262,9 @@ export default async function StudentWorksheetsPage() {
   const noProject = !project;
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
-        <Logo size={28} />
-        <div className="flex items-center gap-4">
-          <LanguageSwitcher />
-          <UserButton />
-        </div>
-      </nav>
-
-      <main className="max-w-3xl mx-auto px-6 py-10 space-y-8">
-        <div>
-          <h1 className="text-2xl font-bold">Worksheets</h1>
-          <p className="text-sm text-soft-gray/50 mt-1">Track your progress through each stage.</p>
-        </div>
+    <Shell title="Worksheets">
+      <div className="max-w-3xl space-y-8">
+        <p className="text-sm text-soft-gray/50">Track your progress through each stage.</p>
 
         {/* Assigned to you — explicit push from teacher */}
         <StudentTodoSection />
@@ -348,7 +335,7 @@ export default async function StudentWorksheetsPage() {
             )}
           </>
         )}
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }
