@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Search } from "lucide-react";
+import { Search, UserPlus } from "lucide-react";
+import InviteUserModal from "@/components/admin/InviteUserModal";
 
 interface User {
   id: string;
@@ -20,6 +21,7 @@ export default function UsersTable({ users }: { users: User[] }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [updating, setUpdating] = useState<string | null>(null);
+  const [showInvite, setShowInvite] = useState(false);
 
   const filtered = query
     ? users.filter(
@@ -42,19 +44,30 @@ export default function UsersTable({ users }: { users: User[] }) {
   }
 
   return (
-    <div className="space-y-3">
-      <div className="relative">
-        <Search
-          size={14}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-soft-gray/40"
-        />
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search by email, name, or role…"
-          className="w-full pl-9 pr-4 py-2 text-sm bg-white/5 border border-white/10 rounded-lg text-soft-gray placeholder-soft-gray/30 focus:outline-none focus:border-electric-blue/50"
-        />
+    <>
+      {showInvite && <InviteUserModal onClose={() => setShowInvite(false)} />}
+      <div className="space-y-3">
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1">
+          <Search
+            size={14}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-soft-gray/40"
+          />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search by email, name, or role…"
+            className="w-full pl-9 pr-4 py-2 text-sm bg-white/5 border border-white/10 rounded-lg text-soft-gray placeholder-soft-gray/30 focus:outline-none focus:border-electric-blue/50"
+          />
+        </div>
+        <button
+          onClick={() => setShowInvite(true)}
+          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-electric-blue rounded-lg hover:bg-electric-blue/90 transition-colors whitespace-nowrap"
+        >
+          <UserPlus size={14} />
+          Invite User
+        </button>
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-white/8">
@@ -119,5 +132,6 @@ export default function UsersTable({ users }: { users: User[] }) {
         </table>
       </div>
     </div>
+    </>
   );
 }
