@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
-import { Mail, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
+import Shell from "@/components/parent/Shell";
 
 export default async function ParentUpdatesPage() {
   const user = await getCurrentUser();
@@ -31,13 +32,8 @@ export default async function ParentUpdatesPage() {
     : { data: [] };
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <div className="max-w-3xl mx-auto px-6 py-10">
-        <div className="flex items-center gap-3 mb-8">
-          <Mail size={22} className="text-electric-blue" />
-          <h1 className="text-xl font-bold">Your Updates Inbox</h1>
-        </div>
-
+    <Shell title="Your Updates Inbox">
+      <div className="max-w-3xl">
         {!updates || updates.length === 0 ? (
           <div className="rounded-xl border border-white/8 bg-white/3 p-10 text-center">
             <p className="text-soft-gray/50">No updates received yet.</p>
@@ -78,6 +74,6 @@ export default async function ParentUpdatesPage() {
           </div>
         )}
       </div>
-    </div>
+    </Shell>
   );
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import { ArrowLeft, Clock } from "lucide-react";
+import Shell from "@/components/parent/Shell";
 
 export default async function ParentUpdateDetailPage({
   params,
@@ -30,8 +31,8 @@ export default async function ParentUpdateDetailPage({
   const student = update.student as { display_name: string } | null;
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <div className="max-w-2xl mx-auto px-6 py-10">
+    <Shell title={update.subject}>
+      <div className="max-w-2xl">
         <Link
           href="/parent/updates"
           className="flex items-center gap-2 text-sm text-soft-gray/50 hover:text-soft-gray mb-8 transition-colors"
@@ -67,6 +68,6 @@ export default async function ParentUpdateDetailPage({
           </div>
         </div>
       </div>
-    </div>
+    </Shell>
   );
 }

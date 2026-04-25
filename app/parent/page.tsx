@@ -1,10 +1,9 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
-import Logo from "@/components/Logo";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { UserButton } from "@clerk/nextjs";
 import { getTranslations } from "next-intl/server";
+import Shell from "@/components/parent/Shell";
+import Link from "next/link";
 
 export default async function ParentDashboard() {
   const user = await getCurrentUser();
@@ -20,20 +19,8 @@ export default async function ParentDashboard() {
     .eq("parent_user_id", user.userId);
 
   return (
-    <div className="min-h-screen bg-deep-navy text-soft-gray">
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
-        <Logo size={28} />
-        <div className="flex items-center gap-4">
-          <LanguageSwitcher />
-          <UserButton />
-        </div>
-      </nav>
-
-      <main className="max-w-3xl mx-auto px-6 py-12 space-y-6">
-        <h1 className="text-2xl font-bold">
-          {t("welcome", { name: user.displayName })}
-        </h1>
-
+    <Shell title={t("welcome", { name: user.displayName })}>
+      <div className="max-w-3xl space-y-6">
         <div className="rounded-xl border border-white/8 bg-white/3 p-5 space-y-3">
           <p className="text-xs text-soft-gray/40 uppercase tracking-wider">{t("yourStudents")}</p>
           {links && links.length > 0 ? (
@@ -51,9 +38,15 @@ export default async function ParentDashboard() {
         </div>
 
         <div className="rounded-xl border border-white/8 bg-white/3 p-5">
-          <p className="text-sm text-soft-gray/40">{t("recentUpdatesPlaceholder")}</p>
+          <p className="text-sm text-soft-gray/40 mb-3">{t("recentUpdatesPlaceholder")}</p>
+          <Link
+            href="/parent/updates"
+            className="text-sm text-electric-blue hover:underline"
+          >
+            View all updates →
+          </Link>
         </div>
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }
