@@ -55,13 +55,25 @@ function NewCohortForm() {
             onChange={(e) => setName(e.target.value)}
             required
           />
-          <Input
-            label={t("cohorts.programId")}
-            value={programId}
-            onChange={(e) => setProgramId(e.target.value)}
-            placeholder="UUID of program"
-            required
-          />
+          <div className="space-y-1">
+            <label className="text-xs text-soft-gray/60 font-medium uppercase tracking-wider">
+              {t("cohorts.programId")}
+            </label>
+            <p className="text-xs text-soft-gray/40 mb-1">
+              Find the program ID from the{" "}
+              <a href="/admin/programs" className="text-electric-blue hover:underline">
+                Programs page
+              </a>{" "}
+              (open the program and copy the UUID from the URL).
+            </p>
+            <Input
+              label=""
+              value={programId}
+              onChange={(e) => setProgramId(e.target.value)}
+              placeholder="e.g. 123e4567-e89b-12d3-a456-426614174000"
+              required
+            />
+          </div>
           <Input
             label={t("cohorts.startDate")}
             type="date"
@@ -92,7 +104,7 @@ function NewCohortForm() {
             </button>
             <button
               type="button"
-              onClick={() => router.back()}
+              onClick={() => router.push("/admin/cohorts")}
               className="px-5 py-2 border border-white/10 text-soft-gray/70 rounded-lg text-sm font-medium hover:bg-white/5 transition-colors"
             >
               {t("cancel")}

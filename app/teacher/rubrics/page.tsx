@@ -1,9 +1,7 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/teacher/Shell";
-import { Plus } from "lucide-react";
 
 export default async function TeacherRubricsPage() {
   const user = await getCurrentUser();
@@ -19,18 +17,14 @@ export default async function TeacherRubricsPage() {
   return (
     <Shell title="Rubrics">
       <div className="space-y-4">
-        <div className="flex justify-end">
-          <Link
-            href="/admin/rubrics/new"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-electric-blue/10 text-electric-blue text-xs font-medium hover:bg-electric-blue/20 transition-colors"
-          >
-            <Plus size={12} />
-            New Rubric
-          </Link>
-        </div>
+        <p className="text-xs text-soft-gray/40">
+          Rubric templates are managed by admins. Contact your admin to create or edit rubrics.
+        </p>
 
         {!rubrics || rubrics.length === 0 ? (
-          <p className="text-soft-gray/40 text-sm">No rubric templates yet.</p>
+          <div className="rounded-xl border border-white/8 bg-white/3 p-8 text-center">
+            <p className="text-soft-gray/40 text-sm">No rubric templates yet.</p>
+          </div>
         ) : (
           rubrics.map((r) => (
             <div key={r.id} className="flex items-center justify-between rounded-xl border border-white/8 bg-white/3 px-5 py-4">
@@ -40,12 +34,6 @@ export default async function TeacherRubricsPage() {
                   <p className="text-xs text-soft-gray/40 mt-0.5">Stage {r.stage_number}</p>
                 )}
               </div>
-              <Link
-                href={`/admin/rubrics/${r.id}`}
-                className="text-xs text-electric-blue hover:underline"
-              >
-                Edit
-              </Link>
             </div>
           ))
         )}

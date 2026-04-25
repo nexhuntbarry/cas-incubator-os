@@ -14,6 +14,9 @@ import {
   Flag,
   BookOpen,
   StickyNote,
+  Users,
+  Presentation,
+  AlertTriangle,
   Menu,
   X,
 } from "lucide-react";
@@ -26,6 +29,9 @@ const NAV = [
   { href: "/mentor/checkpoints/queue", label: "Checkpoints", icon: Flag },
   { href: "/mentor/resources", label: "Resources", icon: BookOpen },
   { href: "/mentor/notes", label: "My Notes", icon: StickyNote },
+  { href: "/mentor/parents", label: "Parent Comms", icon: Users },
+  { href: "/mentor/showcases", label: "Showcases", icon: Presentation },
+  { href: "/mentor/risks", label: "Risk Flags", icon: AlertTriangle },
 ];
 
 interface ShellProps {

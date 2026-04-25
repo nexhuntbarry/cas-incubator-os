@@ -13,6 +13,9 @@ import {
   Star,
   BookOpen,
   ClipboardList,
+  Users,
+  Presentation,
+  AlertTriangle,
   Menu,
   X,
 } from "lucide-react";
@@ -24,6 +27,9 @@ const NAV = [
   { href: "/teacher/worksheets", label: "Worksheets", icon: FileText },
   { href: "/teacher/rubrics", label: "Rubrics", icon: Star },
   { href: "/teacher/resources", label: "Resources", icon: BookOpen },
+  { href: "/teacher/parents", label: "Parent Comms", icon: Users },
+  { href: "/teacher/showcases", label: "Showcases", icon: Presentation },
+  { href: "/teacher/risks", label: "Risk Flags", icon: AlertTriangle },
 ];
 
 interface ShellProps {
