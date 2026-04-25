@@ -30,7 +30,7 @@ export async function POST(req: Request) {
   const user = result;
 
   const body = await req.json();
-  const { template_id, answers, status } = body;
+  const { template_id, answers, status, assignment_id } = body;
 
   if (!template_id) {
     return NextResponse.json({ error: "template_id required" }, { status: 400 });
@@ -54,17 +54,23 @@ export async function POST(req: Request) {
         ? (existing.version_number ?? 1) + 1
         : existing.version_number ?? 1;
 
+    const updatePayload: Record<string, unknown> = {
+      answers: answers ?? {},
+      status: status ?? existing.status,
+      version_number: newVersion,
+      updated_at: new Date().toISOString(),
+    };
+    if (isSubmitting) {
+      updatePayload.submitted_at = new Date().toISOString();
+      updatePayload.ai_summary_json = null;
+    }
+    if (assignment_id) {
+      updatePayload.assignment_id = assignment_id;
+    }
+
     const { data, error } = await supabase
       .from("worksheet_submissions")
-      .update({
-        answers: answers ?? {},
-        status: status ?? existing.status,
-        submitted_at: isSubmitting ? new Date().toISOString() : undefined,
-        version_number: newVersion,
-        updated_at: new Date().toISOString(),
-        // clear cached AI summary on new submission
-        ai_summary_json: isSubmitting ? null : undefined,
-      })
+      .update(updatePayload)
       .eq("id", existing.id)
       .select("id")
       .single();
@@ -93,6 +99,7 @@ export async function POST(req: Request) {
       status: status ?? "in_progress",
       submitted_at: isSubmitting ? new Date().toISOString() : null,
       version_number: 1,
+      assignment_id: assignment_id ?? null,
     })
     .select("id")
     .single();

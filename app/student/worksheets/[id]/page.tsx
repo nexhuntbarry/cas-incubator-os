@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect, use, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Logo from "@/components/Logo";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { UserButton } from "@clerk/nextjs";
 import SchemaForm from "@/components/forms/SchemaForm";
 import type { SchemaField } from "@/components/forms/SchemaBuilder";
+import { CalendarClock, User } from "lucide-react";
 
 interface Template {
   id: string;
@@ -23,32 +24,84 @@ interface Submission {
   version_number: number;
 }
 
+interface AssignmentContext {
+  id: string;
+  due_date: string;
+  instructions_override: string | null;
+  assigned_by_name: string | null;
+}
+
+function formatDueDate(due: string): string {
+  return new Date(due).toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function isOverdue(due: string): boolean {
+  return new Date(due) < new Date();
+}
+
 export default function StudentWorksheetPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const assignmentId = searchParams.get("assignment");
+
   const [template, setTemplate] = useState<Template | null>(null);
   const [submission, setSubmission] = useState<Submission | null>(null);
+  const [assignmentCtx, setAssignmentCtx] = useState<AssignmentContext | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [submitDone, setSubmitDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch template
-    fetch(`/api/admin/worksheets/${id}`)
-      .then((r) => r.json())
-      .then(setTemplate);
+    const fetches: Promise<void>[] = [
+      fetch(`/api/admin/worksheets/${id}`)
+        .then((r) => r.json())
+        .then(setTemplate),
+      fetch(`/api/student/worksheet-submissions?template_id=${id}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (Array.isArray(data) && data.length > 0) {
+            setSubmission(data[0]);
+          }
+        }),
+    ];
 
-    // Fetch existing submission
-    fetch(`/api/student/worksheet-submissions?template_id=${id}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setSubmission(data[0]);
-        }
-      })
-      .finally(() => setLoading(false));
-  }, [id]);
+    if (assignmentId) {
+      fetches.push(
+        fetch(`/api/student/assignments`)
+          .then((r) => r.json())
+          .then((data: unknown[]) => {
+            const match = Array.isArray(data)
+              ? data.find((a: unknown) => (a as { id: string }).id === assignmentId)
+              : null;
+            if (match) {
+              const a = match as {
+                id: string;
+                due_date: string;
+                instructions_override?: string | null;
+                users?: { display_name: string } | null;
+              };
+              setAssignmentCtx({
+                id: a.id,
+                due_date: a.due_date,
+                instructions_override: a.instructions_override ?? null,
+                assigned_by_name: a.users?.display_name ?? null,
+              });
+            }
+          })
+          .catch(() => undefined)
+      );
+    }
+
+    Promise.all(fetches).finally(() => setLoading(false));
+  }, [id, assignmentId]);
 
   const handleAutoSave = useCallback(
     async (data: Record<string, unknown>) => {
@@ -60,10 +113,11 @@ export default function StudentWorksheetPage({ params }: { params: Promise<{ id:
           template_id: id,
           answers: data,
           status: "in_progress",
+          assignment_id: assignmentId ?? null,
         }),
       });
     },
-    [id, submission?.status]
+    [id, submission?.status, assignmentId]
   );
 
   async function handleSubmit(data: Record<string, unknown>) {
@@ -77,6 +131,7 @@ export default function StudentWorksheetPage({ params }: { params: Promise<{ id:
           template_id: id,
           answers: data,
           status: "submitted",
+          assignment_id: assignmentId ?? null,
         }),
       });
 
@@ -87,7 +142,8 @@ export default function StudentWorksheetPage({ params }: { params: Promise<{ id:
       }
 
       setSubmitDone(true);
-      setTimeout(() => router.push("/student/worksheets"), 1500);
+      // Redirect to student dashboard with a brief delay
+      setTimeout(() => router.push("/student"), 1500);
     } finally {
       setSaving(false);
     }
@@ -137,6 +193,40 @@ export default function StudentWorksheetPage({ params }: { params: Promise<{ id:
           )}
         </div>
 
+        {/* Assignment context banner */}
+        {assignmentCtx && (
+          <div
+            className={`rounded-xl border p-4 space-y-2 ${
+              isOverdue(assignmentCtx.due_date)
+                ? "border-status-error/30 bg-status-error/5"
+                : "border-electric-blue/20 bg-electric-blue/5"
+            }`}
+          >
+            <div className="flex flex-wrap items-center gap-3 text-xs">
+              {assignmentCtx.assigned_by_name && (
+                <span className="flex items-center gap-1 text-soft-gray/60">
+                  <User size={11} />
+                  Assigned by <span className="font-medium text-soft-gray">{assignmentCtx.assigned_by_name}</span>
+                </span>
+              )}
+              <span
+                className={`flex items-center gap-1 font-medium ${
+                  isOverdue(assignmentCtx.due_date) ? "text-status-error" : "text-electric-blue"
+                }`}
+              >
+                <CalendarClock size={11} />
+                {isOverdue(assignmentCtx.due_date) ? "Overdue · " : "Due "}
+                {formatDueDate(assignmentCtx.due_date)}
+              </span>
+            </div>
+            {assignmentCtx.instructions_override && (
+              <p className="text-sm text-soft-gray/70 leading-relaxed border-t border-white/5 pt-2">
+                {assignmentCtx.instructions_override}
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Feedback */}
         {submission?.feedback && (
           <div className="rounded-xl border border-vivid-teal/30 bg-vivid-teal/10 p-4 space-y-1">
@@ -155,8 +245,9 @@ export default function StudentWorksheetPage({ params }: { params: Promise<{ id:
         )}
 
         {submitDone ? (
-          <div className="rounded-xl border border-status-success/30 bg-status-success/10 p-6 text-center">
+          <div className="rounded-xl border border-status-success/30 bg-status-success/10 p-6 text-center space-y-1">
             <p className="text-status-success font-semibold">Submitted successfully!</p>
+            <p className="text-xs text-soft-gray/40">Redirecting to dashboard…</p>
           </div>
         ) : (
           <SchemaForm
