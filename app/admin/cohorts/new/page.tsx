@@ -1,10 +1,17 @@
 'use client';
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Shell from "@/components/admin/Shell";
 import Input from "@/components/forms/Input";
 import { useTranslations } from "next-intl";
+
+interface Program {
+  id: string;
+  name: string;
+  start_date: string | null;
+  end_date: string | null;
+}
 
 function NewCohortForm() {
   const t = useTranslations("admin");
@@ -19,6 +26,18 @@ function NewCohortForm() {
   const [maxStudents, setMaxStudents] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [programs, setPrograms] = useState<Program[]>([]);
+  const [programsLoading, setProgramsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/admin/programs")
+      .then((r) => r.json())
+      .then((data: Program[]) => {
+        setPrograms(Array.isArray(data) ? data : []);
+      })
+      .catch(() => setPrograms([]))
+      .finally(() => setProgramsLoading(false));
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -59,20 +78,42 @@ function NewCohortForm() {
             <label className="text-xs text-soft-gray/60 font-medium uppercase tracking-wider">
               {t("cohorts.programId")}
             </label>
-            <p className="text-xs text-soft-gray/40 mb-1">
-              Find the program ID from the{" "}
-              <a href="/admin/programs" className="text-electric-blue hover:underline">
-                Programs page
-              </a>{" "}
-              (open the program and copy the UUID from the URL).
-            </p>
-            <Input
-              label=""
-              value={programId}
-              onChange={(e) => setProgramId(e.target.value)}
-              placeholder="e.g. 123e4567-e89b-12d3-a456-426614174000"
-              required
-            />
+            {programsLoading ? (
+              <div className="h-10 rounded-lg bg-white/5 animate-pulse" />
+            ) : programs.length > 0 ? (
+              <select
+                value={programId}
+                onChange={(e) => setProgramId(e.target.value)}
+                required
+                className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-soft-gray text-sm focus:outline-none focus:border-electric-blue/50 focus:bg-white/8 transition-colors"
+              >
+                <option value="">Select a program…</option>
+                {programs.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                    {p.start_date ? ` (${p.start_date.slice(0, 10)}` : ""}
+                    {p.start_date && p.end_date ? ` – ${p.end_date.slice(0, 10)})` : p.start_date ? ")" : ""}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <div className="space-y-2">
+                <p className="text-xs text-soft-gray/40">
+                  No programs found.{" "}
+                  <a href="/admin/programs/new" className="text-electric-blue hover:underline">
+                    Create a program first
+                  </a>
+                  , or enter the UUID manually:
+                </p>
+                <Input
+                  label=""
+                  value={programId}
+                  onChange={(e) => setProgramId(e.target.value)}
+                  placeholder="e.g. 123e4567-e89b-12d3-a456-426614174000"
+                  required
+                />
+              </div>
+            )}
           </div>
           <Input
             label={t("cohorts.startDate")}
