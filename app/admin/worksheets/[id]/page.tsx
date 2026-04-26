@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, use } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Shell from "@/components/admin/Shell";
 import Input from "@/components/forms/Input";
 import SchemaBuilder from "@/components/forms/SchemaBuilder";
@@ -11,6 +11,8 @@ import type { SchemaField } from "@/components/forms/SchemaBuilder";
 export default function EditWorksheetPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get("tab") === "preview" ? "preview" : "edit";
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [instructions, setInstructions] = useState("");
@@ -21,7 +23,7 @@ export default function EditWorksheetPage({ params }: { params: Promise<{ id: st
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState("");
-  const [tab, setTab] = useState<"edit" | "preview">("edit");
+  const [tab, setTab] = useState<"edit" | "preview">(initialTab);
 
   useEffect(() => {
     fetch(`/api/admin/worksheets/${id}`)

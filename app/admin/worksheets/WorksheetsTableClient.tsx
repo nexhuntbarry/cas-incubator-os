@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, Eye } from "lucide-react";
 import DataTable from "@/components/admin/DataTable";
 
 type WorksheetRow = {
@@ -39,12 +39,22 @@ export default function WorksheetsTableClient({ rows }: { rows: WorksheetRow[] }
       key: "id",
       header: "",
       render: (row: WorksheetRow) => (
-        <Link
-          href={`/admin/worksheets/${row.id}`}
-          className="text-electric-blue hover:underline text-xs"
-        >
-          Edit
-        </Link>
+        <div className="flex items-center justify-end gap-3">
+          <Link
+            href={`/admin/worksheets/${row.id}?tab=preview`}
+            className="flex items-center gap-1 text-soft-gray/70 hover:text-electric-blue text-xs"
+            title="Preview as student"
+          >
+            <Eye size={12} />
+            Preview
+          </Link>
+          <Link
+            href={`/admin/worksheets/${row.id}`}
+            className="text-electric-blue hover:underline text-xs"
+          >
+            Edit
+          </Link>
+        </div>
       ),
     },
   ];
