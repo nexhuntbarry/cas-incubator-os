@@ -2,6 +2,10 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import ParentUpdateComposer from "@/components/shared/ParentUpdateComposer";
+import Logo from "@/components/Logo";
+import { UserButton } from "@clerk/nextjs";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import PageIntro from "@/components/shared/PageIntro";
 
 export default async function TeacherComposeUpdatePage({
   params,
@@ -39,7 +43,15 @@ export default async function TeacherComposeUpdatePage({
 
   return (
     <div className="min-h-screen bg-deep-navy text-soft-gray">
+      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
+        <Logo size={28} />
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher />
+          <UserButton />
+        </div>
+      </nav>
       <div className="max-w-3xl mx-auto px-6 py-10">
+        <PageIntro tKey="teacher.parentsCompose" />
         <h1 className="text-xl font-bold mb-6">
           Compose Update for{" "}
           <span className="text-electric-blue">{student.display_name}</span>

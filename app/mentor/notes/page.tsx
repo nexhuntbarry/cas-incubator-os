@@ -17,7 +17,7 @@ export default async function MentorNotesPage() {
     .limit(100);
 
   return (
-    <Shell title="My Notes">
+    <Shell title="My Notes" introKey="mentor.notes">
       <div className="space-y-3">
         {!notes || notes.length === 0 ? (
           <div className="rounded-xl border border-white/8 bg-white/3 p-8 text-center text-soft-gray/40 text-sm">

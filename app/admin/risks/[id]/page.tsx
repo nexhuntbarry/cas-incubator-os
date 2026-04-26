@@ -37,7 +37,7 @@ export default async function AdminRiskDetailPage({
   const assignedTo = flag.assigned_to as { display_name: string } | null;
 
   return (
-    <Shell title="Risk Flag Detail">
+    <Shell title="Risk Flag Detail" introKey="admin.riskDetail">
       <div className="max-w-2xl">
         <Link
           href="/admin/risks"

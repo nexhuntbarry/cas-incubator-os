@@ -39,7 +39,7 @@ export default async function MentorShowcasesPage() {
     : { data: [] };
 
   return (
-    <Shell title="Student Showcases">
+    <Shell title="Student Showcases" introKey="mentor.showcases">
       {!showcases || showcases.length === 0 ? (
         <div className="rounded-xl border border-white/8 bg-white/3 p-10 text-center">
           <p className="text-soft-gray/50">No showcases submitted yet.</p>

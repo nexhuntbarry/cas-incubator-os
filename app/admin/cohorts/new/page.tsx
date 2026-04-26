@@ -65,7 +65,7 @@ function NewCohortForm() {
   }
 
   return (
-    <Shell title={t("cohorts.new")}>
+    <Shell title={t("cohorts.new")} introKey="admin.newCohort">
       <div className="max-w-lg">
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input

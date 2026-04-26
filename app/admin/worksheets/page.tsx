@@ -26,7 +26,7 @@ export default async function AdminWorksheetsPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <Shell title="Worksheet Templates">
+    <Shell title="Worksheet Templates" introKey="admin.worksheets">
       <WorksheetsTableClient rows={(worksheets ?? []) as WorksheetRow[]} />
     </Shell>
   );

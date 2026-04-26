@@ -102,7 +102,7 @@ export default function AdminCurriculumPage() {
   }
 
   return (
-    <Shell title="Curriculum Assets">
+    <Shell title="Curriculum Assets" introKey="admin.curriculum">
       <div className="mb-4 flex justify-end">
         <button
           onClick={() => setShowForm(!showForm)}

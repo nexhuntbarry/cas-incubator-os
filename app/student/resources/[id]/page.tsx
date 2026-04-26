@@ -40,7 +40,7 @@ export default async function StudentLessonPage({ params }: Props) {
   );
 
   return (
-    <Shell title={asset.title}>
+    <Shell title={asset.title} introKey="student.resourceDetail">
       <div className="max-w-6xl">
         <LessonViewer asset={asset} allLessons={lessons} baseHref="/student/resources" />
       </div>

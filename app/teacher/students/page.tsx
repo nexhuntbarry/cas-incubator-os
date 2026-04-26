@@ -55,7 +55,7 @@ export default async function TeacherStudentsPage() {
   }
 
   return (
-    <Shell title="Students">
+    <Shell title="Students" introKey="teacher.students">
       <div className="max-w-4xl space-y-8">
         {enrollments.length === 0 ? (
           <div className="rounded-xl border border-white/8 bg-white/3 p-10 text-center">

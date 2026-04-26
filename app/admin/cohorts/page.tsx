@@ -18,7 +18,7 @@ export default async function AdminCohortsPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <Shell title="Cohorts">
+    <Shell title="Cohorts" introKey="admin.cohorts">
       <div className="space-y-4">
         <div className="flex justify-end">
           <Link

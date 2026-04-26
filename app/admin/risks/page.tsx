@@ -47,7 +47,7 @@ export default async function AdminRisksPage({
   const statuses = ["open", "in_progress", "resolved", "dismissed"];
 
   return (
-    <Shell title="Risk Flags">
+    <Shell title="Risk Flags" introKey="admin.risks">
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-6">
         <Link

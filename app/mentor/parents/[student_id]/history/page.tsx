@@ -3,6 +3,10 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import { ArrowLeft, Clock } from "lucide-react";
+import Logo from "@/components/Logo";
+import { UserButton } from "@clerk/nextjs";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import PageIntro from "@/components/shared/PageIntro";
 
 const STATUS_STYLES: Record<string, string> = {
   draft: "bg-white/10 text-soft-gray/60",
@@ -37,7 +41,15 @@ export default async function MentorUpdateHistoryPage({
 
   return (
     <div className="min-h-screen bg-deep-navy text-soft-gray">
+      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
+        <Logo size={28} />
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher />
+          <UserButton />
+        </div>
+      </nav>
       <div className="max-w-3xl mx-auto px-6 py-10">
+        <PageIntro tKey="mentor.parentsHistory" />
         <Link
           href="/mentor/parents"
           className="flex items-center gap-2 text-sm text-soft-gray/50 hover:text-soft-gray mb-6 transition-colors"

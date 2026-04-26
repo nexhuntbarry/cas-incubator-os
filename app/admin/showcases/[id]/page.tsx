@@ -29,7 +29,7 @@ export default async function AdminShowcaseDetailPage({
   const feedback = Array.isArray(showcase.feedback_received_json) ? showcase.feedback_received_json : [];
 
   return (
-    <Shell title="Showcase Detail">
+    <Shell title="Showcase Detail" introKey="admin.showcaseDetail">
       <div className="max-w-2xl">
         <Link
           href="/admin/showcases"

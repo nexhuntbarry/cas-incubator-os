@@ -40,7 +40,7 @@ export default async function MentorParentsPage() {
     : { data: [] };
 
   return (
-    <Shell title="Parent Communications">
+    <Shell title="Parent Communications" introKey="mentor.parents">
       {!links || links.length === 0 ? (
         <div className="rounded-xl border border-white/8 bg-white/3 p-8 text-center">
           <p className="text-soft-gray/50">No parent links found for your students.</p>

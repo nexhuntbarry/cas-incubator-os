@@ -19,7 +19,7 @@ export default async function ParentDashboard() {
     .eq("parent_user_id", user.userId);
 
   return (
-    <Shell title={t("welcome", { name: user.displayName })}>
+    <Shell title={t("welcome", { name: user.displayName })} introKey="parent.overview">
       <div className="max-w-3xl space-y-6">
         <div className="rounded-xl border border-white/8 bg-white/3 p-5 space-y-3">
           <p className="text-xs text-soft-gray/40 uppercase tracking-wider">{t("yourStudents")}</p>

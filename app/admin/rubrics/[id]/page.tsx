@@ -76,7 +76,7 @@ export default function EditRubricPage({ params }: { params: Promise<{ id: strin
   }
 
   return (
-    <Shell title="Edit Rubric Template">
+    <Shell title="Edit Rubric Template" introKey="admin.editRubric">
       <div className="max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input

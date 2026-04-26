@@ -4,6 +4,10 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import ShowcaseFeedbackForm from "@/components/shared/ShowcaseFeedbackForm";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import Logo from "@/components/Logo";
+import { UserButton } from "@clerk/nextjs";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import PageIntro from "@/components/shared/PageIntro";
 
 export default async function MentorShowcaseDetailPage({
   params,
@@ -32,7 +36,15 @@ export default async function MentorShowcaseDetailPage({
 
   return (
     <div className="min-h-screen bg-deep-navy text-soft-gray">
+      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
+        <Logo size={28} />
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher />
+          <UserButton />
+        </div>
+      </nav>
       <div className="max-w-3xl mx-auto px-6 py-10">
+        <PageIntro tKey="mentor.showcaseDetail" />
         <Link
           href="/mentor/showcases"
           className="flex items-center gap-2 text-sm text-soft-gray/50 hover:text-soft-gray mb-6 transition-colors"

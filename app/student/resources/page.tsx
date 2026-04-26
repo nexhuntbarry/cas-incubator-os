@@ -19,7 +19,7 @@ export default async function StudentResourcesPage() {
     .order("sort_order", { ascending: true });
 
   return (
-    <Shell title="Resources">
+    <Shell title="Resources" introKey="student.resources">
       <div className="max-w-3xl space-y-6">
 
         {!assets || assets.length === 0 ? (

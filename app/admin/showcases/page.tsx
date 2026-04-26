@@ -21,7 +21,7 @@ export default async function AdminShowcasesPage() {
   const publicCount = (showcases ?? []).filter((s) => s.public_share_enabled).length;
 
   return (
-    <Shell title="Showcases">
+    <Shell title="Showcases" introKey="admin.showcases">
       <div className="flex items-center justify-between mb-6">
         <p className="text-xs text-soft-gray/50">
           {showcases?.length ?? 0} total &middot; {publicCount} public

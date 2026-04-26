@@ -38,7 +38,7 @@ export default function NewProgramPage() {
   }
 
   return (
-    <Shell title={t("programs.new")}>
+    <Shell title={t("programs.new")} introKey="admin.newProgram">
       <div className="max-w-lg">
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input

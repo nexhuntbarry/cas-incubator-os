@@ -120,7 +120,7 @@ export default async function AiUsagePage({
     .sort((a, b) => a.date.localeCompare(b.date));
 
   return (
-    <Shell title="AI Usage">
+    <Shell title="AI Usage" introKey="admin.aiUsage">
       <AiUsageDashboard
         range={range}
         periodTotals={periodTotals}

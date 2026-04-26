@@ -43,7 +43,7 @@ export default async function StudentCheckpointsPage() {
   );
 
   return (
-    <Shell title="Checkpoints">
+    <Shell title="Checkpoints" introKey="student.checkpoints">
       <div className="max-w-3xl space-y-6">
         {project && (
           <p className="text-sm text-soft-gray/50">{project.title}</p>

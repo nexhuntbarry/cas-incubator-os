@@ -18,7 +18,7 @@ export default async function AdminUsersPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <Shell title={t("users.title")}>
+    <Shell title={t("users.title")} introKey="admin.users">
       <UsersTable users={users ?? []} />
     </Shell>
   );

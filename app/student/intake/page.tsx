@@ -5,6 +5,8 @@ import { getTranslations } from "next-intl/server";
 import IntakeForm from "@/components/student/IntakeForm";
 import Logo from "@/components/Logo";
 import { UserButton } from "@clerk/nextjs";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import PageIntro from "@/components/shared/PageIntro";
 
 export default async function StudentIntakePage() {
   const user = await getCurrentUser();
@@ -44,14 +46,15 @@ export default async function StudentIntakePage() {
     <div className="min-h-screen bg-deep-navy text-soft-gray">
       <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
         <Logo size={28} />
-        <UserButton />
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher />
+          <UserButton />
+        </div>
       </nav>
 
       <main className="max-w-xl mx-auto px-6 py-12">
+        <PageIntro tKey="student.intake" />
         <h1 className="text-2xl font-bold mb-2">{labels.title}</h1>
-        <p className="text-soft-gray/50 text-sm mb-8">
-          This helps us personalize your experience and match you with the right mentor.
-        </p>
         <IntakeForm labels={labels} />
       </main>
     </div>

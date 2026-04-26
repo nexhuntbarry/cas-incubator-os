@@ -91,7 +91,7 @@ export default async function StudentDashboard() {
   }
 
   return (
-    <Shell title={t("welcome", { name: user.displayName })}>
+    <Shell title={t("welcome", { name: user.displayName })} introKey="student.overview">
       {showTour && (
         <OnboardingTour role="student" displayName={user.displayName} />
       )}

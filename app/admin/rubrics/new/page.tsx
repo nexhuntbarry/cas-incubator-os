@@ -64,7 +64,7 @@ export default function NewRubricPage() {
   }
 
   return (
-    <Shell title="New Rubric Template">
+    <Shell title="New Rubric Template" introKey="admin.newRubric">
       <div className="max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input

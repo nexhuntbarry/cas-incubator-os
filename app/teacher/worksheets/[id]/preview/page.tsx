@@ -29,7 +29,7 @@ export default function TeacherWorksheetPreviewPage({ params }: { params: Promis
 
   if (loading) {
     return (
-      <Shell title="Worksheet Preview">
+      <Shell title="Worksheet Preview" introKey="teacher.worksheetPreview">
         <p className="text-soft-gray/40 text-sm">Loading…</p>
       </Shell>
     );
@@ -37,7 +37,7 @@ export default function TeacherWorksheetPreviewPage({ params }: { params: Promis
 
   if (!template) {
     return (
-      <Shell title="Worksheet Preview">
+      <Shell title="Worksheet Preview" introKey="teacher.worksheetPreview">
         <p className="text-sm text-status-error">Worksheet not found.</p>
       </Shell>
     );

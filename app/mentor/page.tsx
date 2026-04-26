@@ -26,7 +26,7 @@ export default async function MentorDashboard() {
   const showTour = !userRow?.onboarded_at;
 
   return (
-    <Shell title={t("welcome", { name: user.displayName })}>
+    <Shell title={t("welcome", { name: user.displayName })} introKey="mentor.overview">
       {showTour && <OnboardingTour role="mentor" displayName={user.displayName} />}
 
       <div className="max-w-3xl space-y-6">

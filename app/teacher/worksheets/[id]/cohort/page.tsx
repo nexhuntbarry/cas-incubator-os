@@ -143,7 +143,7 @@ export default function TeacherWorksheetCohortPage({ params }: { params: Promise
 
   if (loading) {
     return (
-      <Shell title="Worksheet Detail">
+      <Shell title="Worksheet Detail" introKey="teacher.worksheetCohort">
         <p className="text-soft-gray/40 text-sm">Loading…</p>
       </Shell>
     );
@@ -151,14 +151,14 @@ export default function TeacherWorksheetCohortPage({ params }: { params: Promise
 
   if (!data || !template) {
     return (
-      <Shell title="Worksheet Detail">
+      <Shell title="Worksheet Detail" introKey="teacher.worksheetCohort">
         <p className="text-soft-gray/40 text-sm">Template not found.</p>
       </Shell>
     );
   }
 
   return (
-    <Shell title={template.title}>
+    <Shell title={template.title} introKey="teacher.worksheetCohort">
       <div className="space-y-6">
         {/* Back + header */}
         <div className="space-y-1">

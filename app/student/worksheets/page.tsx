@@ -262,7 +262,7 @@ export default async function StudentWorksheetsPage() {
   const noProject = !project;
 
   return (
-    <Shell title="Worksheets">
+    <Shell title="Worksheets" introKey="student.worksheets">
       <div className="max-w-3xl space-y-8">
         <p className="text-sm text-soft-gray/50">Track your progress through each stage.</p>
 

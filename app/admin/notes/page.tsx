@@ -16,7 +16,7 @@ export default async function AdminNotesPage() {
     .limit(100);
 
   return (
-    <Shell title="Mentor Notes — All Cohorts">
+    <Shell title="Mentor Notes — All Cohorts" introKey="admin.notes">
       <div className="space-y-3">
         {!notes || notes.length === 0 ? (
           <p className="text-soft-gray/40 text-sm">No notes yet.</p>

@@ -25,7 +25,7 @@ export default async function AdminCheckpointsPage() {
     .order("checkpoint_number", { ascending: true });
 
   return (
-    <Shell title="Checkpoint Templates">
+    <Shell title="Checkpoint Templates" introKey="admin.checkpoints">
       <CheckpointsTableClient rows={(checkpoints ?? []) as CheckpointRow[]} />
     </Shell>
   );

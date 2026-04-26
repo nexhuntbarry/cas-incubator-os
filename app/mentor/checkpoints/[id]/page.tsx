@@ -73,7 +73,7 @@ export default function MentorCheckpointReviewPage({ params }: { params: Promise
 
   if (loading) {
     return (
-      <Shell title="Checkpoint Review">
+      <Shell title="Checkpoint Review" introKey="mentor.checkpointDetail">
         <p className="text-soft-gray/40 text-sm">Loading…</p>
       </Shell>
     );
@@ -81,7 +81,7 @@ export default function MentorCheckpointReviewPage({ params }: { params: Promise
 
   if (!submission) {
     return (
-      <Shell title="Checkpoint Review">
+      <Shell title="Checkpoint Review" introKey="mentor.checkpointDetail">
         <p className="text-soft-gray/40 text-sm">Not found.</p>
       </Shell>
     );
@@ -95,7 +95,7 @@ export default function MentorCheckpointReviewPage({ params }: { params: Promise
     : (submission.users as { display_name: string } | null);
 
   return (
-    <Shell title={`Checkpoint: ${checkpoint?.title ?? "Review"}`}>
+    <Shell title={`Checkpoint: ${checkpoint?.title ?? "Review"}`} introKey="mentor.checkpointDetail">
       <div className="max-w-2xl space-y-6">
         {/* Student / checkpoint info */}
         <div className="rounded-xl border border-white/8 bg-white/3 px-5 py-4 flex items-center justify-between">

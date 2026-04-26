@@ -77,7 +77,7 @@ export default function EditWorksheetPage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <Shell title="Edit Worksheet Template">
+    <Shell title="Edit Worksheet Template" introKey="admin.editWorksheet">
       <div className="max-w-2xl">
         {/* Tab switcher */}
         <div className="flex gap-1 mb-6 border-b border-white/8 pb-0">

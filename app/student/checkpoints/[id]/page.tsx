@@ -81,7 +81,7 @@ export default function StudentCheckpointDetailPage({ params }: { params: Promis
   const isSubmitted = status === "submitted" || status === "reviewed";
 
   return (
-    <Shell title={checkpoint?.title ?? "Checkpoint"}>
+    <Shell title={checkpoint?.title ?? "Checkpoint"} introKey="student.checkpointDetail">
       <div className="max-w-2xl space-y-6">
         <button
           onClick={() => router.push("/student/checkpoints")}

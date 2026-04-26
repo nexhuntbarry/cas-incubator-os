@@ -28,7 +28,7 @@ export default async function AdminProgramsPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <Shell title={t("programs.title")}>
+    <Shell title={t("programs.title")} introKey="admin.programs">
       <ProgramsTableClient rows={(programs ?? []) as ProgramRow[]} />
     </Shell>
   );

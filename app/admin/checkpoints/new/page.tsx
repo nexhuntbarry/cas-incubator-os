@@ -67,7 +67,7 @@ export default function NewCheckpointPage() {
   }
 
   return (
-    <Shell title="New Checkpoint Template">
+    <Shell title="New Checkpoint Template" introKey="admin.newCheckpoint">
       <div className="max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-cols-2 gap-3">

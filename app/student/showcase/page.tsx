@@ -58,7 +58,7 @@ export default async function StudentShowcasePage() {
     "";
 
   return (
-    <Shell title="My Showcase">
+    <Shell title="My Showcase" introKey="student.showcase">
       <div className="max-w-3xl">
         <p className="text-soft-gray/50 text-sm mb-8">
           Build your public project page to share your work with the world.

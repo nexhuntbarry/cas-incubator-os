@@ -111,7 +111,7 @@ export default function TeacherReviewSubmissionPage({ params }: { params: Promis
 
   if (loading) {
     return (
-      <Shell title="Review Submission">
+      <Shell title="Review Submission" introKey="teacher.worksheetReviewDetail">
         <p className="text-soft-gray/40 text-sm">Loading…</p>
       </Shell>
     );
@@ -119,7 +119,7 @@ export default function TeacherReviewSubmissionPage({ params }: { params: Promis
 
   if (!submission) {
     return (
-      <Shell title="Review Submission">
+      <Shell title="Review Submission" introKey="teacher.worksheetReviewDetail">
         <p className="text-soft-gray/40 text-sm">Submission not found.</p>
       </Shell>
     );
@@ -131,7 +131,7 @@ export default function TeacherReviewSubmissionPage({ params }: { params: Promis
     : (submission.users as { display_name: string } | null);
 
   return (
-    <Shell title={`Review: ${template?.title ?? "Worksheet"}`}>
+    <Shell title={`Review: ${template?.title ?? "Worksheet"}`} introKey="teacher.worksheetReviewDetail">
       <div className="max-w-2xl space-y-6">
         {/* Student info */}
         <div className="rounded-xl border border-white/8 bg-white/3 px-5 py-3 flex items-center justify-between">

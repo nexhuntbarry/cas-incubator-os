@@ -82,7 +82,7 @@ export default async function TeacherLessonPage({ params }: Props) {
   }
 
   return (
-    <Shell title={asset.title}>
+    <Shell title={asset.title} introKey="teacher.resourceDetail">
       <div className="flex gap-6 min-h-0">
         {/* Main lesson content */}
         <div className="flex-1 min-w-0">

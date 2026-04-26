@@ -10,7 +10,7 @@ export default async function AdminSettingsPage() {
   const t = await getTranslations("admin");
 
   return (
-    <Shell title={t("settings.title")}>
+    <Shell title={t("settings.title")} introKey="admin.settings">
       <div className="rounded-xl border border-white/8 bg-white/3 p-6 text-soft-gray/50 text-sm">
         {t("settings.placeholder")}
       </div>

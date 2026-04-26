@@ -6,6 +6,8 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import { UserButton } from "@clerk/nextjs";
 import { ChevronRight } from "lucide-react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import PageIntro from "@/components/shared/PageIntro";
 
 const STAGE_COLORS: Record<string, string> = {
   not_started: "bg-white/10 text-soft-gray/50",
@@ -59,12 +61,14 @@ export default async function MentorProjectsPage() {
         <Logo size={28} />
         <div className="flex items-center gap-4">
           <Link href="/mentor" className="text-sm text-soft-gray/60 hover:text-soft-gray">Dashboard</Link>
+          <LanguageSwitcher />
           <UserButton />
         </div>
       </nav>
 
       <main className="max-w-5xl mx-auto px-6 py-10 space-y-6">
         <h1 className="text-2xl font-bold">{t("title")}</h1>
+        <PageIntro tKey="mentor.projects" />
 
         {(!projects || projects.length === 0) ? (
           <div className="rounded-xl border border-white/8 bg-white/3 p-8 text-center">

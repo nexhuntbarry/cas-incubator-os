@@ -117,7 +117,7 @@ export default async function TeacherAssignmentsPage({ searchParams }: PageProps
   ];
 
   return (
-    <Shell title="Assignments">
+    <Shell title="Assignments" introKey="teacher.assignments">
       <div className="space-y-6">
         {/* Tabs */}
         <div className="flex items-center gap-1 border-b border-white/8">

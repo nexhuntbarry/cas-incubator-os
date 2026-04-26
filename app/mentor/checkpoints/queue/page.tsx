@@ -17,7 +17,7 @@ export default async function MentorCheckpointQueuePage() {
     .order("submitted_at", { ascending: true });
 
   return (
-    <Shell title="Checkpoint Review Queue">
+    <Shell title="Checkpoint Review Queue" introKey="mentor.checkpoints">
       <div className="space-y-3">
         {!submissions || submissions.length === 0 ? (
           <div className="rounded-xl border border-white/8 bg-white/3 p-8 text-center text-soft-gray/40 text-sm">

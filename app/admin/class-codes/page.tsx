@@ -21,7 +21,7 @@ export default async function ClassCodesPage() {
   ]);
 
   return (
-    <Shell title={t("classCodes.title")}>
+    <Shell title={t("classCodes.title")} introKey="admin.classCodes">
       <div className="space-y-6">
         <CreateClassCodeForm cohorts={cohorts ?? []} />
 

@@ -67,7 +67,7 @@ export default async function StudentStagePage({
   const isSubmitted = currentStatus === "submitted" || currentStatus === "reviewed";
 
   return (
-    <Shell title={stageDef.name}>
+    <Shell title={stageDef.name} introKey="student.methodStage">
       <div className="max-w-2xl space-y-8">
         <div>
           <Link

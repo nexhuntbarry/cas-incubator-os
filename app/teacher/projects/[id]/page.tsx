@@ -5,6 +5,8 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import { UserButton } from "@clerk/nextjs";
 import { ChevronLeft, MessageSquarePlus } from "lucide-react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import PageIntro from "@/components/shared/PageIntro";
 import StageProgressBar from "@/components/shared/StageProgressBar";
 import FlagRiskButton from "@/components/shared/FlagRiskButton";
 import WorkLinksGrid from "@/components/project/WorkLinksGrid";
@@ -73,10 +75,14 @@ export default async function TeacherProjectDetailPage({
     <div className="min-h-screen bg-deep-navy text-soft-gray">
       <nav className="flex items-center justify-between px-6 py-4 border-b border-white/8">
         <Logo size={28} />
-        <UserButton />
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher />
+          <UserButton />
+        </div>
       </nav>
 
       <main className="max-w-3xl mx-auto px-6 py-10 space-y-8">
+        <PageIntro tKey="teacher.projectDetail" />
         <div>
           <Link
             href="/teacher/projects"

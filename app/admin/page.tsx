@@ -36,7 +36,7 @@ export default async function AdminOverviewPage() {
   const showTour = !userRow?.onboarded_at;
 
   return (
-    <Shell title={t("overview")}>
+    <Shell title={t("overview")} introKey="admin.overview">
       {showTour && (
         <OnboardingTour role="super_admin" displayName={user.displayName} />
       )}

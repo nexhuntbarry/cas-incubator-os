@@ -45,6 +45,354 @@
     "zh": "中文",
     "en": "EN"
   },
+  "intros": {
+    "admin": {
+      "overview": {
+        "title": "Admin Overview",
+        "body": "Top-level snapshot of every program, cohort, user, and class code in CAS Incubator OS. Super admins land here to spot growth and capacity issues before drilling into individual records."
+      },
+      "analytics": {
+        "title": "Program Analytics",
+        "body": "Cross-program KPIs covering enrollment, project stage distribution, risk flags, and AI usage. Use this to brief leadership or decide where coaching support is needed."
+      },
+      "aiUsage": {
+        "title": "AI Usage & Cost",
+        "body": "Per-route token spend, daily volume trend, and top consumers across all Anthropic calls. Check this when reviewing bills or investigating a sudden cost spike."
+      },
+      "programs": {
+        "title": "Programs",
+        "body": "The catalog of incubator programs you offer. Create or archive programs here, then attach cohorts, checkpoints, and curriculum to each one."
+      },
+      "programDetail": {
+        "title": "Program Detail",
+        "body": "Everything attached to one program — description, length, and the cohorts running it. Add a new cohort here to start a fresh class under this program."
+      },
+      "newProgram": {
+        "title": "New Program",
+        "body": "Create a brand-new incubator program. Give it a clear name and duration so teachers can attach cohorts to it later."
+      },
+      "cohorts": {
+        "title": "Cohorts",
+        "body": "Every class group ever run. Each cohort holds the students, teachers, mentors, and class codes for one cycle of a program."
+      },
+      "cohortDetail": {
+        "title": "Cohort Detail",
+        "body": "Roster, class codes, and assigned staff for a single cohort. Drop in here to add a teacher, regenerate a code, or check enrollment health."
+      },
+      "newCohort": {
+        "title": "New Cohort",
+        "body": "Start a new class group under an existing program. Set start/end dates and a roster cap so class codes can enforce it."
+      },
+      "classCodes": {
+        "title": "Class Codes",
+        "body": "Generate, pause, or revoke the join codes students use to enter a cohort. Each code is scoped to one cohort and can be capped or expired."
+      },
+      "users": {
+        "title": "Users",
+        "body": "Every account in the system across roles. Search to debug a missing student, promote a teacher to admin, or audit who joined when."
+      },
+      "projects": {
+        "title": "All Projects",
+        "body": "Every student project across every cohort, with filters for live products and demos. Use this when judging the showcase or auditing program-wide output."
+      },
+      "worksheets": {
+        "title": "Worksheet Templates",
+        "body": "The library of worksheet templates teachers can assign to students. Create reusable forms here so the same prompt works across cohorts."
+      },
+      "newWorksheet": {
+        "title": "New Worksheet Template",
+        "body": "Build a new worksheet by adding fields and instructions. Once active it appears in every teacher's assignment picker."
+      },
+      "editWorksheet": {
+        "title": "Edit Worksheet Template",
+        "body": "Change fields, instructions, or scoring. Updates apply to new assignments — already-submitted entries keep their original schema."
+      },
+      "rubrics": {
+        "title": "Rubric Templates",
+        "body": "Reusable scoring rubrics that mentors and teachers apply when reviewing work. Edit centrally so every cohort grades on the same criteria."
+      },
+      "newRubric": {
+        "title": "New Rubric",
+        "body": "Define criteria, weights, and rating scale labels for a new rubric. It will be available to every reviewer once saved."
+      },
+      "editRubric": {
+        "title": "Edit Rubric",
+        "body": "Tweak criteria, weights, or scale labels. Past evaluations keep their original snapshot."
+      },
+      "checkpoints": {
+        "title": "Checkpoint Templates",
+        "body": "Define program milestones — which worksheets and rubrics must be complete before a student progresses. The student journey is built from these."
+      },
+      "newCheckpoint": {
+        "title": "New Checkpoint",
+        "body": "Create a new milestone. Pick which worksheets and rubrics must be in place for a student to clear it."
+      },
+      "editCheckpoint": {
+        "title": "Edit Checkpoint",
+        "body": "Adjust the required worksheets, rubrics, or activation status for this milestone."
+      },
+      "curriculum": {
+        "title": "Curriculum Library",
+        "body": "Every lesson asset — slides, PDFs, videos, links — that students, teachers, and mentors can pull up. Set visibility per role to control who sees what."
+      },
+      "curriculumLesson": {
+        "title": "Lesson",
+        "body": "View, print, or open the source for a single curriculum asset. Use the side navigation to jump between lessons."
+      },
+      "notes": {
+        "title": "Mentor Notes — All Cohorts",
+        "body": "The latest mentor session notes across every student. Escalations bubble to the top so admins can intervene quickly."
+      },
+      "commsQueue": {
+        "title": "Communications Queue",
+        "body": "Parent updates drafted by teachers and mentors awaiting your approval before being emailed. Approve, reject, or edit before they go out."
+      },
+      "risks": {
+        "title": "Risk Flags",
+        "body": "Every student risk flag raised by staff or AI, filterable by severity and status. Use this to triage which students need urgent attention."
+      },
+      "riskDetail": {
+        "title": "Risk Flag Detail",
+        "body": "The full story of one risk — who raised it, why, and what's been resolved. Reassign or close the flag from here."
+      },
+      "showcases": {
+        "title": "Showcases",
+        "body": "Every student showcase, with a quick view of which are publicly shared. Drop in to leave program-level feedback."
+      },
+      "showcaseDetail": {
+        "title": "Showcase Detail",
+        "body": "The student's showcase plus all received feedback. Add your own review notes from here."
+      },
+      "methodStages": {
+        "title": "Method Stages",
+        "body": "Configure the named research and project stages students move through. Reorder, rename, or add new stages to evolve the methodology."
+      },
+      "projectTypes": {
+        "title": "Project Types",
+        "body": "The categories projects can be classified into (e.g. social, hardware, software). Used by AI classification and reporting."
+      },
+      "settings": {
+        "title": "Platform Settings",
+        "body": "Global configuration for CAS Incubator OS. Most program-specific settings live under each program; this page handles platform-wide defaults."
+      }
+    },
+    "teacher": {
+      "overview": {
+        "title": "Teacher Dashboard",
+        "body": "Your at-a-glance view of the cohorts you teach — what needs review, who needs a nudge, and where your students are in the method pipeline."
+      },
+      "students": {
+        "title": "Your Students",
+        "body": "Every student in the cohorts you teach. Click in to see their project, worksheet history, and method progress in one place."
+      },
+      "studentDetail": {
+        "title": "Student Profile",
+        "body": "Everything you need to coach this student — their project, all worksheets, method progress, and quick links to flag risks or message parents."
+      },
+      "projects": {
+        "title": "Student Projects",
+        "body": "All active projects in your cohorts. Use this to spot stalled stages and decide who to call into office hours."
+      },
+      "projectDetail": {
+        "title": "Project Detail",
+        "body": "Deep view of one student's project — problem statement, MVP, work links, and method-stage status. Leave a mentor note or raise a risk flag from here."
+      },
+      "assignments": {
+        "title": "Worksheet Assignments",
+        "body": "Assign worksheets to a single student or a whole cohort, set due dates, and track who's still pending. Send reminders to nudge late submissions."
+      },
+      "assignmentDetail": {
+        "title": "Assignment Detail",
+        "body": "Submission status for one assignment, with per-student rows. Remind, extend the deadline, or close the assignment from here."
+      },
+      "worksheets": {
+        "title": "Worksheets",
+        "body": "Every worksheet template available to assign, plus your cohort's progress on each. Click a template to preview it or open the cohort breakdown."
+      },
+      "worksheetPreview": {
+        "title": "Worksheet Preview",
+        "body": "See exactly what a student sees when they open this worksheet. Useful before assigning to verify wording and field types."
+      },
+      "worksheetCohort": {
+        "title": "Cohort Worksheet Progress",
+        "body": "Per-student progress on a single worksheet across the cohort — who's submitted, who needs revision, and who hasn't started."
+      },
+      "worksheetReview": {
+        "title": "Worksheet Review Queue",
+        "body": "Submissions waiting for your review. Work through the queue to approve, request revision, or leave feedback for each entry."
+      },
+      "worksheetReviewDetail": {
+        "title": "Review Submission",
+        "body": "Read the student's submission, check it against the rubric, and approve or request revisions. AI can draft initial feedback to save you time."
+      },
+      "rubrics": {
+        "title": "Rubrics",
+        "body": "Scoring rubrics available when you review work. Use them to keep grading consistent across students and cohorts."
+      },
+      "resources": {
+        "title": "Resources",
+        "body": "Curriculum assets — lessons, slides, templates — that you and your students can reference. Filtered to what admins have made visible to teachers."
+      },
+      "resourceDetail": {
+        "title": "Resource",
+        "body": "View a single curriculum asset. Use the navigation to jump between lessons or open the source file."
+      },
+      "parents": {
+        "title": "Parent Communications",
+        "body": "Send progress updates to parents and review past communications. AI drafts the message and an admin approves it before sending."
+      },
+      "parentsCompose": {
+        "title": "Compose Parent Update",
+        "body": "Draft a progress update for this student's parent or guardian. The platform pulls in their project context so you don't start from scratch."
+      },
+      "parentsHistory": {
+        "title": "Parent Update History",
+        "body": "Every update sent to this student's parent, with status (draft, pending, sent). Reuse a previous draft as a starting point."
+      },
+      "showcases": {
+        "title": "Student Showcases",
+        "body": "Showcases your students have published. Click in to leave feedback that helps them iterate before final demo day."
+      },
+      "showcaseDetail": {
+        "title": "Showcase",
+        "body": "Review one student's showcase end to end and leave structured feedback. Your comments appear on the student's review tab."
+      },
+      "risks": {
+        "title": "Risk Flags",
+        "body": "Risk flags raised on your students. Use this to triage who needs intervention — escalate, reassign, or mark resolved as you act."
+      }
+    },
+    "mentor": {
+      "overview": {
+        "title": "Mentor Dashboard",
+        "body": "What's on your plate today — projects awaiting review and your latest session notes. Start your mentoring session from here."
+      },
+      "projects": {
+        "title": "Projects to Mentor",
+        "body": "Every project you're mentoring across cohorts. Click in to leave session notes, evaluate work, or flag a concern."
+      },
+      "projectDetail": {
+        "title": "Project Detail",
+        "body": "Full view of a mentee's project — problem statement, MVP, links, and stage progress. Leave a session note or raise a risk flag from here."
+      },
+      "worksheetReview": {
+        "title": "Worksheet Review Queue",
+        "body": "Worksheet submissions assigned to you for review. Work through them to give feedback and unblock the student's next stage."
+      },
+      "worksheetReviewDetail": {
+        "title": "Review Submission",
+        "body": "Read the submission, score it, and approve or request revisions. AI can draft initial feedback to speed you up."
+      },
+      "rubricEvaluate": {
+        "title": "Rubric Evaluation",
+        "body": "Pick a project, choose a rubric, and score against it criterion-by-criterion. Your weighted score plus comments save back to the project."
+      },
+      "checkpoints": {
+        "title": "Checkpoint Review Queue",
+        "body": "Student checkpoint submissions awaiting your sign-off. Approving here unlocks the next stage of their journey."
+      },
+      "checkpointDetail": {
+        "title": "Checkpoint Review",
+        "body": "All worksheets and artifacts attached to one checkpoint submission. Approve, request revision, or escalate from here."
+      },
+      "resources": {
+        "title": "Resources",
+        "body": "Curriculum assets you can reference during mentoring sessions — slide decks, frameworks, and reference docs."
+      },
+      "notes": {
+        "title": "My Mentor Notes",
+        "body": "Every session note you've left, across all your mentees. Use it to recap before a session or look back on a student's growth arc."
+      },
+      "parents": {
+        "title": "Parent Communications",
+        "body": "Send updates to your mentees' parents. Drafts go to admin for approval before being emailed."
+      },
+      "parentsCompose": {
+        "title": "Compose Parent Update",
+        "body": "Write a parent update for this mentee. The platform pre-loads their project context so you can focus on the message."
+      },
+      "parentsHistory": {
+        "title": "Parent Update History",
+        "body": "All updates ever sent to this mentee's parent, with status. Reuse a past draft to keep tone consistent."
+      },
+      "showcases": {
+        "title": "Mentee Showcases",
+        "body": "Showcases from students you've mentored. Drop feedback to help them sharpen the story before demo day."
+      },
+      "showcaseDetail": {
+        "title": "Showcase",
+        "body": "Review your mentee's showcase end to end and leave structured feedback for them to iterate on."
+      },
+      "risks": {
+        "title": "Risk Flags",
+        "body": "Risk flags assigned to you for follow-up. Take action — reach out to the student, leave a note, then mark the flag resolved."
+      }
+    },
+    "student": {
+      "overview": {
+        "title": "Your Dashboard",
+        "body": "Welcome back. Here's what to do next — pending worksheets, your current method stage, and the cohort you're part of."
+      },
+      "intake": {
+        "title": "Intake Form",
+        "body": "A quick set of questions so we can set up your project workspace. Your answers help your teacher tailor support to your goals."
+      },
+      "project": {
+        "title": "My Project",
+        "body": "Your project home — problem statement, MVP definition, and links to your live work. Update it as your idea evolves."
+      },
+      "method": {
+        "title": "Method Pipeline",
+        "body": "Your 10-stage learning journey from problem discovery to launch. Each stage unlocks once your mentor approves the previous one."
+      },
+      "methodStage": {
+        "title": "Method Stage",
+        "body": "What this stage is about, the questions to think through, and the evidence to submit. Save your notes and submit when you're ready for review."
+      },
+      "worksheets": {
+        "title": "Worksheets",
+        "body": "Worksheets your teacher has assigned to you. Pick one up where you left off, review past submissions, or see what's next."
+      },
+      "worksheetDetail": {
+        "title": "Worksheet",
+        "body": "Fill in this worksheet and submit when you're done. Your answers save as a draft until you hit submit."
+      },
+      "checkpoints": {
+        "title": "Checkpoints",
+        "body": "Major milestones in your project. Each checkpoint requires a few worksheets and a mentor sign-off — clearing one unlocks the next."
+      },
+      "checkpointDetail": {
+        "title": "Checkpoint",
+        "body": "Everything you need to submit for this checkpoint. Once you've completed all required pieces, submit for mentor review."
+      },
+      "showcase": {
+        "title": "My Showcase",
+        "body": "Your public-facing project page — share it with parents, friends, or judges. Toggle public sharing once you're happy with how it reads."
+      },
+      "resources": {
+        "title": "Resources",
+        "body": "Lessons, templates, and reference materials shared by your teacher. Use them when you're stuck or want to go deeper."
+      },
+      "resourceDetail": {
+        "title": "Resource",
+        "body": "A single lesson or asset. Use the navigation to move between lessons or open the original file."
+      }
+    },
+    "parent": {
+      "overview": {
+        "title": "Parent Dashboard",
+        "body": "Welcome. Here's a summary of your child's progress and the latest updates we've sent you about their work in the program."
+      },
+      "updates": {
+        "title": "Updates Inbox",
+        "body": "Every progress update we've sent about your child, in one place. Tap any update to read the full message."
+      },
+      "updateDetail": {
+        "title": "Update",
+        "body": "The full text of one update from your child's teacher or mentor. Reach out via email if you have questions."
+      }
+    }
+  },
   "admin": {
     "overview": "Overview",
     "active": "Active",

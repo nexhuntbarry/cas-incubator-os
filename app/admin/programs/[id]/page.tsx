@@ -33,7 +33,7 @@ export default async function ProgramDetailPage({
     .order("created_at", { ascending: false });
 
   return (
-    <Shell title={program.name}>
+    <Shell title={program.name} introKey="admin.programDetail">
       <div className="space-y-6">
         {/* Program info */}
         <div className="rounded-xl border border-white/8 bg-white/3 p-5 space-y-3">

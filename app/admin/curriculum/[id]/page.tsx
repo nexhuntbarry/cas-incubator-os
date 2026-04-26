@@ -39,7 +39,7 @@ export default async function AdminLessonPage({ params }: Props) {
   );
 
   return (
-    <Shell title={asset.title}>
+    <Shell title={asset.title} introKey="admin.curriculumLesson">
       <LessonViewer asset={asset} allLessons={lessons} baseHref="/admin/curriculum" />
     </Shell>
   );

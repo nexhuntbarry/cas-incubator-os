@@ -24,7 +24,7 @@ export default async function TeacherDashboard() {
   const showTour = !userRow?.onboarded_at;
 
   return (
-    <Shell title={t("welcome", { name: user.displayName })}>
+    <Shell title={t("welcome", { name: user.displayName })} introKey="teacher.overview">
       {showTour && <OnboardingTour role="teacher" displayName={user.displayName} />}
 
       <div className="max-w-3xl space-y-6">

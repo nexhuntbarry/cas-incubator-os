@@ -52,7 +52,7 @@ export default function NewWorksheetPage() {
   }
 
   return (
-    <Shell title="New Worksheet Template">
+    <Shell title="New Worksheet Template" introKey="admin.newWorksheet">
       <div className="max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-5">
           <Input

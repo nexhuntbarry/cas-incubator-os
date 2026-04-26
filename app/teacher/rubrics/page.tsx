@@ -15,7 +15,7 @@ export default async function TeacherRubricsPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <Shell title="Rubrics">
+    <Shell title="Rubrics" introKey="teacher.rubrics">
       <div className="space-y-4">
         <p className="text-xs text-soft-gray/40">
           Rubric templates are managed by admins. Contact your admin to create or edit rubrics.

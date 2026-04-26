@@ -28,7 +28,7 @@ export default async function TeacherRisksPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <Shell title="Risk Flags">
+    <Shell title="Risk Flags" introKey="teacher.risks">
       {!flags || flags.length === 0 ? (
         <div className="rounded-xl border border-white/8 bg-white/3 p-10 text-center">
           <p className="text-soft-gray/50">No open risk flags assigned to you.</p>

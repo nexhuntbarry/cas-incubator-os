@@ -95,7 +95,7 @@ export default async function AdminAnalyticsPage({
   ];
 
   return (
-    <Shell title="Analytics">
+    <Shell title="Analytics" introKey="admin.analytics">
       {/* Date range filter */}
       <div className="flex gap-2 mb-6">
         {ranges.map((r) => (

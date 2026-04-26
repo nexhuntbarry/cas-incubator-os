@@ -168,7 +168,7 @@ export default function StudentWorksheetPage({ params }: { params: Promise<{ id:
   const isRevision = submission?.status === "revision_requested";
 
   return (
-    <Shell title={template.title}>
+    <Shell title={template.title} introKey="student.worksheetDetail">
       <div className="max-w-2xl space-y-6">
         <div>
           <button

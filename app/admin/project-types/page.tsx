@@ -15,7 +15,7 @@ export default async function AdminProjectTypesPage() {
     .order("name", { ascending: true });
 
   return (
-    <Shell title="Project Types">
+    <Shell title="Project Types" introKey="admin.projectTypes">
       <ProjectTypesAdmin initialTypes={types ?? []} />
     </Shell>
   );

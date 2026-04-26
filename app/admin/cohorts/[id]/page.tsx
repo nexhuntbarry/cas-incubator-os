@@ -43,7 +43,7 @@ export default async function CohortDetailPage({
   ]);
 
   return (
-    <Shell title={cohort.name}>
+    <Shell title={cohort.name} introKey="admin.cohortDetail">
       <div className="space-y-6">
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4">

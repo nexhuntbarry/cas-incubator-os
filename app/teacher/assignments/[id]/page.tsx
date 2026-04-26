@@ -119,7 +119,7 @@ export default async function TeacherAssignmentDetailPage({ params }: Props) {
   });
 
   return (
-    <Shell title={template?.title ?? "Assignment"}>
+    <Shell title={template?.title ?? "Assignment"} introKey="teacher.assignmentDetail">
       <div className="space-y-6">
         {/* Back link */}
         <Link

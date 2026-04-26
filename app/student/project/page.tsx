@@ -85,7 +85,7 @@ export default async function StudentProjectPage() {
   );
 
   return (
-    <Shell title={t("title")}>
+    <Shell title={t("title")} introKey="student.project">
       {/* Submit Your Work CTA banner — shown when no URL submitted yet */}
       {project && urlFieldsEmpty && (
         <div className="bg-gold/10 border border-gold/20 rounded-xl px-5 py-3 mb-6 flex items-center justify-between gap-4">

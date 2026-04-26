@@ -60,7 +60,7 @@ export default async function StudentMethodPage() {
   });
 
   return (
-    <Shell title={t("title")}>
+    <Shell title={t("title")} introKey="student.method">
       <div className="max-w-2xl space-y-6">
         <p className="text-soft-gray/50 text-sm">{t("subtitle")}</p>
 

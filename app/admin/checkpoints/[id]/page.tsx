@@ -77,7 +77,7 @@ export default function EditCheckpointPage({ params }: { params: Promise<{ id: s
   }
 
   return (
-    <Shell title="Edit Checkpoint Template">
+    <Shell title="Edit Checkpoint Template" introKey="admin.editCheckpoint">
       <div className="max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-cols-2 gap-3">

@@ -89,7 +89,7 @@ export default async function AdminProjectsPage({
   ];
 
   return (
-    <Shell title="All Projects">
+    <Shell title="All Projects" introKey="admin.projects">
       <div className="space-y-4">
         {/* Filter toggles */}
         <div className="flex flex-wrap gap-2">

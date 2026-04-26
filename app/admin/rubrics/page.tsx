@@ -24,7 +24,7 @@ export default async function AdminRubricsPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <Shell title="Rubric Templates">
+    <Shell title="Rubric Templates" introKey="admin.rubrics">
       <RubricsTableClient rows={(rubrics ?? []) as RubricRow[]} />
     </Shell>
   );

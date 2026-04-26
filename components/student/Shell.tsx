@@ -6,6 +6,8 @@ import { useState } from "react";
 import { UserButton } from "@clerk/nextjs";
 import Logo from "@/components/Logo";
 import NotificationBell from "@/components/NotificationBell";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import PageIntro from "@/components/shared/PageIntro";
 import {
   LayoutDashboard,
   FolderKanban,
@@ -32,9 +34,10 @@ const NAV = [
 interface ShellProps {
   children: React.ReactNode;
   title?: string;
+  introKey?: string;
 }
 
-export default function Shell({ children, title }: ShellProps) {
+export default function Shell({ children, title, introKey }: ShellProps) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -110,11 +113,15 @@ export default function Shell({ children, title }: ShellProps) {
             <h1 className="text-base md:text-lg font-semibold text-soft-gray truncate">{title ?? ""}</h1>
           </div>
           <div className="flex items-center gap-3">
+            <LanguageSwitcher />
             <NotificationBell />
             <UserButton />
           </div>
         </header>
-        <main className="flex-1 px-4 md:px-8 py-4 md:py-6">{children}</main>
+        <main className="flex-1 px-4 md:px-8 py-4 md:py-6">
+          {introKey && <PageIntro tKey={introKey} />}
+          {children}
+        </main>
       </div>
     </div>
   );

@@ -110,7 +110,7 @@ export default function MentorReviewSubmissionPage({ params }: { params: Promise
 
   if (loading) {
     return (
-      <Shell title="Review Submission">
+      <Shell title="Review Submission" introKey="mentor.worksheetReviewDetail">
         <p className="text-soft-gray/40 text-sm">Loading…</p>
       </Shell>
     );
@@ -118,7 +118,7 @@ export default function MentorReviewSubmissionPage({ params }: { params: Promise
 
   if (!submission) {
     return (
-      <Shell title="Review Submission">
+      <Shell title="Review Submission" introKey="mentor.worksheetReviewDetail">
         <p className="text-soft-gray/40 text-sm">Not found.</p>
       </Shell>
     );
@@ -130,7 +130,7 @@ export default function MentorReviewSubmissionPage({ params }: { params: Promise
     : (submission.users as { display_name: string } | null);
 
   return (
-    <Shell title={`Review: ${template?.title ?? "Worksheet"}`}>
+    <Shell title={`Review: ${template?.title ?? "Worksheet"}`} introKey="mentor.worksheetReviewDetail">
       <div className="max-w-2xl space-y-6">
         <div className="rounded-xl border border-white/8 bg-white/3 px-5 py-3 flex items-center justify-between flex-wrap gap-2">
           <div>

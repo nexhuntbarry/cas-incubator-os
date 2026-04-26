@@ -31,7 +31,7 @@ export default async function ParentUpdateDetailPage({
   const student = update.student as { display_name: string } | null;
 
   return (
-    <Shell title={update.subject}>
+    <Shell title={update.subject} introKey="parent.updateDetail">
       <div className="max-w-2xl">
         <Link
           href="/parent/updates"

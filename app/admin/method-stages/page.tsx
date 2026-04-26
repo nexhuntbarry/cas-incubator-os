@@ -15,7 +15,7 @@ export default async function AdminMethodStagesPage() {
     .order("stage_number", { ascending: true });
 
   return (
-    <Shell title="Method Stages">
+    <Shell title="Method Stages" introKey="admin.methodStages">
       <MethodStagesAdmin initialStages={stages ?? []} />
     </Shell>
   );

@@ -19,7 +19,7 @@ export default async function CommunicationsQueuePage() {
     .order("created_at", { ascending: false });
 
   return (
-    <Shell title="Communications Queue">
+    <Shell title="Communications Queue" introKey="admin.commsQueue">
       <ApprovalQueueClient initialUpdates={updates ?? []} />
     </Shell>
   );

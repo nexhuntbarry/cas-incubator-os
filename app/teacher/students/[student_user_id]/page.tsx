@@ -210,7 +210,7 @@ export default async function TeacherStudentDetailPage({
     : (project?.current_stage ?? null);
 
   return (
-    <Shell title={studentUser.display_name}>
+    <Shell title={studentUser.display_name} introKey="teacher.studentDetail">
       <div className="space-y-8 max-w-4xl">
         {/* Back */}
         <Link

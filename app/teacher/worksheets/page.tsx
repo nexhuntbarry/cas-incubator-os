@@ -190,7 +190,7 @@ export default async function TeacherWorksheetsPage() {
   const sortedPhases = Array.from(phases.entries()).sort((a, b) => a[1].order - b[1].order);
 
   return (
-    <Shell title="Worksheets">
+    <Shell title="Worksheets" introKey="teacher.worksheets">
       <div className="space-y-6">
         {/* Review queue callout */}
         {(pendingCount ?? 0) > 0 && (

@@ -86,7 +86,7 @@ function EvaluateContent() {
 
   if (done) {
     return (
-      <Shell title="Rubric Evaluation">
+      <Shell title="Rubric Evaluation" introKey="mentor.rubricEvaluate">
         <div className="rounded-xl border border-status-success/30 bg-status-success/10 p-8 text-center">
           <p className="text-status-success font-semibold">Evaluation saved!</p>
         </div>
@@ -95,7 +95,7 @@ function EvaluateContent() {
   }
 
   return (
-    <Shell title="Rubric Evaluation">
+    <Shell title="Rubric Evaluation" introKey="mentor.rubricEvaluate">
       <div className="max-w-2xl space-y-6">
         {!studentId && (
           <div className="rounded-xl border border-status-warning/30 bg-status-warning/10 p-4 text-sm text-status-warning">
@@ -137,7 +137,7 @@ function EvaluateContent() {
 export default function MentorRubricEvaluatePage() {
   return (
     <Suspense fallback={
-      <Shell title="Rubric Evaluation">
+      <Shell title="Rubric Evaluation" introKey="mentor.rubricEvaluate">
         <p className="text-soft-gray/40 text-sm">Loading…</p>
       </Shell>
     }>

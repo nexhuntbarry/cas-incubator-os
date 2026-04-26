@@ -18,7 +18,7 @@ export default async function TeacherResourcesPage() {
     .order("sort_order", { ascending: true });
 
   return (
-    <Shell title="Resources">
+    <Shell title="Resources" introKey="teacher.resources">
       <div className="space-y-3">
         {!assets || assets.length === 0 ? (
           <div className="rounded-xl border border-white/8 bg-white/3 p-8 text-center text-soft-gray/40 text-sm">
