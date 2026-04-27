@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { UserButton } from "@clerk/nextjs";
 import Logo from "@/components/Logo";
 import NotificationBell from "@/components/NotificationBell";
@@ -25,18 +26,18 @@ import {
 } from "lucide-react";
 
 const NAV = [
-  { href: "/teacher", label: "Overview", icon: LayoutDashboard, exact: true },
-  { href: "/teacher/teaching-mode", label: "Teaching Mode", icon: Play },
-  { href: "/teacher/students", label: "Students", icon: Users },
-  { href: "/teacher/projects", label: "Projects", icon: FolderKanban },
-  { href: "/teacher/assignments", label: "Assignments", icon: ClipboardList },
-  { href: "/teacher/worksheets", label: "Worksheets", icon: FileText },
-  { href: "/teacher/rubrics", label: "Rubrics", icon: Star },
-  { href: "/teacher/checkpoints", label: "Checkpoints", icon: Flag },
-  { href: "/teacher/resources", label: "Resources", icon: BookOpen },
-  { href: "/teacher/parents", label: "Parent Comms", icon: Users },
-  { href: "/teacher/showcases", label: "Showcases", icon: Presentation },
-  { href: "/teacher/risks", label: "Risk Flags", icon: AlertTriangle },
+  { href: "/teacher", labelKey: "overview", icon: LayoutDashboard, exact: true },
+  { href: "/teacher/teaching-mode", labelKey: "teachingMode", icon: Play },
+  { href: "/teacher/students", labelKey: "students", icon: Users },
+  { href: "/teacher/projects", labelKey: "projects", icon: FolderKanban },
+  { href: "/teacher/assignments", labelKey: "assignments", icon: ClipboardList },
+  { href: "/teacher/worksheets", labelKey: "worksheets", icon: FileText },
+  { href: "/teacher/rubrics", labelKey: "rubrics", icon: Star },
+  { href: "/teacher/checkpoints", labelKey: "checkpoints", icon: Flag },
+  { href: "/teacher/resources", labelKey: "resources", icon: BookOpen },
+  { href: "/teacher/parents", labelKey: "parents", icon: Users },
+  { href: "/teacher/showcases", labelKey: "showcases", icon: Presentation },
+  { href: "/teacher/risks", labelKey: "risks", icon: AlertTriangle },
 ];
 
 interface ShellProps {
@@ -48,6 +49,10 @@ interface ShellProps {
 export default function Shell({ children, title, introKey }: ShellProps) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tNav = useTranslations("nav");
+  const tNavTeacher = useTranslations("nav.teacher");
+  const tRoles = useTranslations("roles");
+  const tBrand = useTranslations("brandRow");
 
   function isActive(href: string, exact?: boolean) {
     if (exact) return pathname === href;
@@ -56,7 +61,6 @@ export default function Shell({ children, title, introKey }: ShellProps) {
 
   return (
     <div className="flex min-h-screen bg-deep-navy text-soft-gray">
-      {/* Mobile overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/60 z-30 md:hidden"
@@ -73,20 +77,21 @@ export default function Shell({ children, title, introKey }: ShellProps) {
           <div className="flex items-center gap-3">
             <Logo size={28} />
             <div>
-              <p className="text-xs font-bold text-soft-gray leading-tight">CAS Incubator</p>
-              <p className="text-[10px] text-gold font-semibold tracking-widest uppercase">Teacher</p>
+              <p className="text-xs font-bold text-soft-gray leading-tight">{tBrand("shortName")}</p>
+              <p className="text-[10px] text-gold font-semibold tracking-widest uppercase">{tRoles("teacher")}</p>
             </div>
           </div>
           <button
             className="md:hidden text-soft-gray/50 hover:text-soft-gray min-h-[44px] min-w-[44px] flex items-center justify-center"
             onClick={() => setSidebarOpen(false)}
+            aria-label={tNav("closeMenu")}
           >
             <X size={18} />
           </button>
         </div>
 
         <nav className="flex-1 py-4 px-3 space-y-0.5 overflow-y-auto">
-          {NAV.map(({ href, label, icon: Icon, exact }) => {
+          {NAV.map(({ href, labelKey, icon: Icon, exact }) => {
             const active = isActive(href, exact);
             return (
               <Link
@@ -100,7 +105,7 @@ export default function Shell({ children, title, introKey }: ShellProps) {
                 }`}
               >
                 <Icon size={16} className="flex-shrink-0" />
-                {label}
+                {tNavTeacher(labelKey)}
               </Link>
             );
           })}
@@ -114,7 +119,7 @@ export default function Shell({ children, title, introKey }: ShellProps) {
             <button
               className="md:hidden p-2 rounded-lg text-soft-gray/60 hover:text-soft-gray hover:bg-white/5 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
               onClick={() => setSidebarOpen(true)}
-              aria-label="Open menu"
+              aria-label={tNav("openMenu")}
             >
               <Menu size={20} />
             </button>

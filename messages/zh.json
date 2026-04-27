@@ -12,7 +12,69 @@
     "aiAssistant": "AI 助手",
     "resources": "資源",
     "community": "社群",
-    "settings": "設定"
+    "settings": "設定",
+    "openMenu": "開啟選單",
+    "closeMenu": "關閉選單",
+    "admin": {
+      "overview": "總覽",
+      "analytics": "數據分析",
+      "aiUsage": "AI 使用量",
+      "programs": "課程方案",
+      "cohorts": "班級",
+      "classCodes": "班級代碼",
+      "users": "用戶",
+      "projects": "專案",
+      "worksheets": "學習單",
+      "rubrics": "評量量表",
+      "checkpoints": "里程碑",
+      "curriculum": "課程素材",
+      "notes": "Notes Feed",
+      "communications": "通訊佇列",
+      "risks": "風險標記",
+      "showcases": "成果展示",
+      "methodStages": "方法階段",
+      "projectTypes": "專案類型",
+      "settings": "設定"
+    },
+    "teacher": {
+      "overview": "總覽",
+      "teachingMode": "授課模式",
+      "students": "學生",
+      "projects": "專案",
+      "assignments": "作業指派",
+      "worksheets": "學習單",
+      "rubrics": "評量量表",
+      "checkpoints": "里程碑",
+      "resources": "資源",
+      "parents": "家長溝通",
+      "showcases": "成果展示",
+      "risks": "風險標記"
+    },
+    "student": {
+      "overview": "總覽",
+      "project": "我的專案",
+      "method": "方法流程",
+      "worksheets": "學習單",
+      "checkpoints": "里程碑",
+      "showcase": "成果展示",
+      "resources": "資源"
+    },
+    "mentor": {
+      "overview": "總覽",
+      "projects": "專案",
+      "worksheetQueue": "學習單審閱",
+      "rubricEvaluate": "量表評分",
+      "checkpoints": "里程碑",
+      "resources": "資源",
+      "notes": "我的筆記",
+      "parents": "家長溝通",
+      "showcases": "成果展示",
+      "risks": "風險標記"
+    },
+    "parent": {
+      "overview": "總覽",
+      "updates": "更新通知"
+    }
   },
   "common": {
     "signIn": "登入",
@@ -22,7 +84,33 @@
     "save": "儲存",
     "cancel": "取消",
     "delete": "刪除",
-    "edit": "編輯"
+    "edit": "編輯",
+    "submit": "送出",
+    "back": "返回",
+    "next": "下一步",
+    "close": "關閉",
+    "open": "開啟",
+    "view": "查看",
+    "create": "新增",
+    "update": "更新",
+    "search": "搜尋",
+    "filter": "篩選",
+    "all": "全部",
+    "yes": "是",
+    "no": "否",
+    "noData": "尚無資料",
+    "loadMore": "載入更多",
+    "comingSoon": "即將推出",
+    "untitled": "未命名",
+    "optional": "選填",
+    "required": "必填",
+    "actions": "操作",
+    "name": "名稱",
+    "title": "標題",
+    "status": "狀態",
+    "createdAt": "建立時間",
+    "updatedAt": "更新時間",
+    "errorGeneric": "發生錯誤，請再試一次。"
   },
   "landing": {
     "hero": {
@@ -543,72 +631,11 @@
     }
   },
   "student": {
-    "intake": {
-      "title": "告訴我們更多關於你的事",
-      "step1": "基本資料",
-      "step2": "你的目標",
-      "step3": "AI 經驗",
-      "step4": "專案方向",
-      "step5": "課程同意",
-      "next": "下一步",
-      "back": "上一步",
-      "submit": "完成基本資料填寫",
-      "success": "基本資料填寫完成！",
-      "processing": "正在建立你的專案工作區…"
-    },
-    "project": {
-      "title": "我的專案",
-      "currentStage": "目前階段",
-      "progress": "階段已完成",
-      "save": "儲存變更",
-      "upload": "上傳檔案",
-      "fields": {
-        "title": "專案名稱",
-        "summary": "專案摘要",
-        "problem": "問題陳述",
-        "targetUser": "目標使用者",
-        "value": "價值主張",
-        "mvp": "MVP 定義",
-        "screenshots": "截圖與檔案"
-      },
-      "work": {
-        "title": "作品與連結",
-        "lastUpdated": "最後更新：{date}",
-        "notSubmitted": "尚未提交",
-        "openLink": "開啟連結",
-        "submitCta": "提交你的作品",
-        "fields": {
-          "liveProduct": "產品連結",
-          "demoVideo": "展示影片",
-          "slides": "簡報連結",
-          "github": "GitHub 儲存庫",
-          "figma": "設計稿連結",
-          "screenshots": "截圖與檔案"
-        },
-        "helperText": {
-          "liveProduct": "貼上你部署的產品連結，讓大家可以使用。",
-          "demoVideo": "YouTube、Loom 或其他展示影片連結。",
-          "slides": "Google 簡報、Canva 或其他簡報連結。",
-          "github": "貼上你的程式碼儲存庫連結。",
-          "figma": "分享你的設計稿或原型連結。",
-          "screenshots": "上傳專案的截圖或相關檔案。"
-        }
-      }
-    },
-    "method": {
-      "title": "方法流程管道",
-      "subtitle": "你在 10 個研究與專案階段中的學習旅程。",
-      "view": "開啟",
-      "inProgress": "進行中",
-      "submitted": "已提交 — 等待審閱",
-      "completed": "已完成",
-      "backToMethod": "返回流程管道",
-      "expectedOutputs": "預期產出",
-      "guidingQuestions": "引導問題",
-      "notes": "你的筆記",
-      "evidenceLabel": "佐證資料 / 檔案",
-      "submit": "提交審閱",
-      "submitting": "提交中…"
+    "todo": {
+      "title": "待辦事項",
+      "openWorksheet": "開啟作業單",
+      "noPending": "沒有待辦作業，您已完成所有任務！",
+      "assignedCount": "{count} 項待辦"
     }
   },
   "teacher": {
@@ -745,14 +772,13 @@
     "awaitingReview": "等待導師審閱。"
   },
   "curriculum": {
-    "assets": "課程素材",
-    "lessons": "課程",
-    "upload": "上傳素材",
-    "addAsset": "新增素材",
-    "visibility": "可見對象",
-    "lessonNumber": "課程編號",
-    "assetType": "素材類型",
-    "noAssets": "尚無可用資源。"
+    "lessonN": "第 {n} 課",
+    "previousLesson": "上一課",
+    "nextLesson": "下一課",
+    "printExport": "列印 / 匯出 PDF",
+    "openOriginal": "開啟原始文件",
+    "noContent": "尚無課程內容。",
+    "viewLesson": "查看"
   },
   "ai": {
     "generateSummary": "AI 摘要",
@@ -871,27 +897,25 @@
       "checkpoint_reviewed": "里程碑已審閱",
       "showcase_published": "展示頁已發布",
       "student_work_submitted": "學生已提交作品"
-    }
+    },
+    "viewAll": "查看所有通知",
+    "loading": "載入中…",
+    "unreadCount": "{count} 則未讀"
   },
   "emails": {
-    "parentUpdate": {
-      "subject": "{studentName} 的進度更新",
-      "viewInPlatform": "在平台查看",
-      "footer": "此更新關於 {studentName} 在 CAS Incubator 課程中的進度。"
+    "worksheetAssigned": {
+      "subject": "新作業單：{title} — 截止日期 {date}",
+      "greeting": "{name} 您好，",
+      "body": "您的老師 {teacher} 指派了一份新的作業單給您。",
+      "button": "開啟作業單",
+      "teachersNote": "老師的說明"
     },
-    "riskAlert": {
-      "subject": "風險警告 — {severity} — {studentName}",
-      "reviewFlag": "查看風險標記"
+    "worksheetReminder": {
+      "subject": "提醒：{title} 將在 {dueIn} 後到期",
+      "greeting": "{name}，請注意！",
+      "body": "您有一份作業單即將到期，請記得完成並提交。",
+      "button": "立即完成作業單"
     }
-  },
-  "curriculum": {
-    "lessonN": "第 {n} 課",
-    "previousLesson": "上一課",
-    "nextLesson": "下一課",
-    "printExport": "列印 / 匯出 PDF",
-    "openOriginal": "開啟原始文件",
-    "noContent": "尚無課程內容。",
-    "viewLesson": "查看"
   },
   "assignments": {
     "assignTo": "指派給",
@@ -944,27 +968,40 @@
       }
     }
   },
-  "student": {
-    "todo": {
-      "title": "待辦事項",
-      "openWorksheet": "開啟作業單",
-      "noPending": "沒有待辦作業，您已完成所有任務！",
-      "assignedCount": "{count} 項待辦"
+  "roles": {
+    "admin": "管理者",
+    "teacher": "教師",
+    "student": "學生",
+    "mentor": "導師",
+    "parent": "家長",
+    "superAdmin": "超級管理員"
+  },
+  "brandRow": {
+    "shortName": "CAS Incubator"
+  },
+  "errorPage": {
+    "title": "發生錯誤",
+    "body": "發生未預期的錯誤，我們的團隊已收到通知。",
+    "errorId": "錯誤代碼：{id}",
+    "retry": "重新嘗試",
+    "goHome": "回首頁"
+  },
+  "notFound": {
+    "title": "此功能尚未建置",
+    "body": "此頁面建置中，您可以：",
+    "goToDashboard": "前往{label}",
+    "backHome": "回首頁",
+    "signIn": "登入",
+    "dashboards": {
+      "admin": "管理者控制台",
+      "teacher": "教師控制台",
+      "mentor": "導師控制台",
+      "student": "學生控制台",
+      "parent": "家長控制台"
     }
   },
-  "emails": {
-    "worksheetAssigned": {
-      "subject": "新作業單：{title} — 截止日期 {date}",
-      "greeting": "{name} 您好，",
-      "body": "您的老師 {teacher} 指派了一份新的作業單給您。",
-      "button": "開啟作業單",
-      "teachersNote": "老師的說明"
-    },
-    "worksheetReminder": {
-      "subject": "提醒：{title} 將在 {dueIn} 後到期",
-      "greeting": "{name}，請注意！",
-      "body": "您有一份作業單即將到期，請記得完成並提交。",
-      "button": "立即完成作業單"
-    }
+  "comingSoon": {
+    "title": "即將推出",
+    "body": "此功能即將上線。"
   }
 }

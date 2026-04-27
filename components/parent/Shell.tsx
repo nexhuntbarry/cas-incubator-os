@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { UserButton } from "@clerk/nextjs";
 import Logo from "@/components/Logo";
 import NotificationBell from "@/components/NotificationBell";
@@ -11,14 +12,13 @@ import PageIntro from "@/components/shared/PageIntro";
 import {
   LayoutDashboard,
   Mail,
-  Users,
   Menu,
   X,
 } from "lucide-react";
 
 const NAV = [
-  { href: "/parent", label: "Overview", icon: LayoutDashboard, exact: true },
-  { href: "/parent/updates", label: "Updates", icon: Mail },
+  { href: "/parent", labelKey: "overview", icon: LayoutDashboard, exact: true },
+  { href: "/parent/updates", labelKey: "updates", icon: Mail },
 ];
 
 interface ShellProps {
@@ -30,6 +30,10 @@ interface ShellProps {
 export default function Shell({ children, title, introKey }: ShellProps) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const tNav = useTranslations("nav");
+  const tNavParent = useTranslations("nav.parent");
+  const tRoles = useTranslations("roles");
+  const tBrand = useTranslations("brandRow");
 
   function isActive(href: string, exact?: boolean) {
     if (exact) return pathname === href;
@@ -38,7 +42,6 @@ export default function Shell({ children, title, introKey }: ShellProps) {
 
   return (
     <div className="flex min-h-screen bg-deep-navy text-soft-gray">
-      {/* Mobile overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/60 z-30 md:hidden"
@@ -55,20 +58,21 @@ export default function Shell({ children, title, introKey }: ShellProps) {
           <div className="flex items-center gap-3">
             <Logo size={28} />
             <div>
-              <p className="text-xs font-bold text-soft-gray leading-tight">CAS Incubator</p>
-              <p className="text-[10px] text-vivid-teal font-semibold tracking-widest uppercase">Parent</p>
+              <p className="text-xs font-bold text-soft-gray leading-tight">{tBrand("shortName")}</p>
+              <p className="text-[10px] text-vivid-teal font-semibold tracking-widest uppercase">{tRoles("parent")}</p>
             </div>
           </div>
           <button
             className="md:hidden text-soft-gray/50 hover:text-soft-gray min-h-[44px] min-w-[44px] flex items-center justify-center"
             onClick={() => setSidebarOpen(false)}
+            aria-label={tNav("closeMenu")}
           >
             <X size={18} />
           </button>
         </div>
 
         <nav className="flex-1 py-4 px-3 space-y-0.5 overflow-y-auto">
-          {NAV.map(({ href, label, icon: Icon, exact }) => {
+          {NAV.map(({ href, labelKey, icon: Icon, exact }) => {
             const active = isActive(href, exact);
             return (
               <Link
@@ -82,7 +86,7 @@ export default function Shell({ children, title, introKey }: ShellProps) {
                 }`}
               >
                 <Icon size={16} className="flex-shrink-0" />
-                {label}
+                {tNavParent(labelKey)}
               </Link>
             );
           })}
@@ -96,7 +100,7 @@ export default function Shell({ children, title, introKey }: ShellProps) {
             <button
               className="md:hidden p-2 rounded-lg text-soft-gray/60 hover:text-soft-gray hover:bg-white/5 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
               onClick={() => setSidebarOpen(true)}
-              aria-label="Open menu"
+              aria-label={tNav("openMenu")}
             >
               <Menu size={20} />
             </button>

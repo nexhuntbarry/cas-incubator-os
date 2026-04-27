@@ -1,5 +1,8 @@
+'use client';
+
 import { Construction } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface ComingSoonProps {
   title?: string;
@@ -16,18 +19,20 @@ const ROLE_DASHBOARD: Record<string, string> = {
   parent: "/parent",
 };
 
-const ROLE_LABEL: Record<string, string> = {
-  super_admin: "Admin",
-  admin: "Admin",
-  teacher: "Teacher",
-  mentor: "Mentor",
-  student: "Student",
-  parent: "Parent",
+const ROLE_KEY: Record<string, string> = {
+  super_admin: "admin",
+  admin: "admin",
+  teacher: "teacher",
+  mentor: "mentor",
+  student: "student",
+  parent: "parent",
 };
 
 export function ComingSoon({ title, description, role }: ComingSoonProps) {
+  const t = useTranslations("notFound");
+  const tComing = useTranslations("comingSoon");
   const dashboardHref = role ? (ROLE_DASHBOARD[role] ?? "/") : "/";
-  const dashboardLabel = role ? (ROLE_LABEL[role] ?? "Dashboard") : "Dashboard";
+  const dashboardKey = role ? (ROLE_KEY[role] ?? "admin") : "admin";
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[40vh] py-16 px-6 text-center">
@@ -38,19 +43,18 @@ export function ComingSoon({ title, description, role }: ComingSoonProps) {
       <p className="text-4xl mb-3">🚧</p>
 
       <h2 className="text-xl font-bold text-soft-gray mb-2">
-        {title ?? "此功能尚未建置"}
+        {title ?? tComing("title")}
       </h2>
 
       <p className="text-sm text-soft-gray/50 max-w-sm leading-relaxed mb-8">
-        {description ??
-          "We're working on this. Check back soon or return to your dashboard."}
+        {description ?? tComing("body")}
       </p>
 
       <Link
         href={dashboardHref}
         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-electric-blue text-white text-sm font-semibold hover:bg-electric-blue/90 transition-colors min-h-[44px]"
       >
-        Go to {dashboardLabel}
+        {t("goToDashboard", { label: t(`dashboards.${dashboardKey}`) })}
       </Link>
     </div>
   );

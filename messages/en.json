@@ -12,7 +12,69 @@
     "aiAssistant": "AI Assistant",
     "resources": "Resources",
     "community": "Community",
-    "settings": "Settings"
+    "settings": "Settings",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "admin": {
+      "overview": "Overview",
+      "analytics": "Analytics",
+      "aiUsage": "AI Usage",
+      "programs": "Programs",
+      "cohorts": "Cohorts",
+      "classCodes": "Class Codes",
+      "users": "Users",
+      "projects": "Projects",
+      "worksheets": "Worksheets",
+      "rubrics": "Rubrics",
+      "checkpoints": "Checkpoints",
+      "curriculum": "Curriculum",
+      "notes": "Notes Feed",
+      "communications": "Comms Queue",
+      "risks": "Risk Flags",
+      "showcases": "Showcases",
+      "methodStages": "Method Stages",
+      "projectTypes": "Project Types",
+      "settings": "Settings"
+    },
+    "teacher": {
+      "overview": "Overview",
+      "teachingMode": "Teaching Mode",
+      "students": "Students",
+      "projects": "Projects",
+      "assignments": "Assignments",
+      "worksheets": "Worksheets",
+      "rubrics": "Rubrics",
+      "checkpoints": "Checkpoints",
+      "resources": "Resources",
+      "parents": "Parent Comms",
+      "showcases": "Showcases",
+      "risks": "Risk Flags"
+    },
+    "student": {
+      "overview": "Overview",
+      "project": "My Project",
+      "method": "Method Pipeline",
+      "worksheets": "Worksheets",
+      "checkpoints": "Checkpoints",
+      "showcase": "Showcase",
+      "resources": "Resources"
+    },
+    "mentor": {
+      "overview": "Overview",
+      "projects": "Projects",
+      "worksheetQueue": "Worksheet Queue",
+      "rubricEvaluate": "Rubric Evaluate",
+      "checkpoints": "Checkpoints",
+      "resources": "Resources",
+      "notes": "My Notes",
+      "parents": "Parent Comms",
+      "showcases": "Showcases",
+      "risks": "Risk Flags"
+    },
+    "parent": {
+      "overview": "Overview",
+      "updates": "Updates"
+    }
   },
   "common": {
     "signIn": "Sign In",
@@ -22,7 +84,33 @@
     "save": "Save",
     "cancel": "Cancel",
     "delete": "Delete",
-    "edit": "Edit"
+    "edit": "Edit",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "close": "Close",
+    "open": "Open",
+    "view": "View",
+    "create": "Create",
+    "update": "Update",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "yes": "Yes",
+    "no": "No",
+    "noData": "No data",
+    "loadMore": "Load more",
+    "comingSoon": "Coming soon",
+    "untitled": "Untitled",
+    "optional": "optional",
+    "required": "required",
+    "actions": "Actions",
+    "name": "Name",
+    "title": "Title",
+    "status": "Status",
+    "createdAt": "Created",
+    "updatedAt": "Updated",
+    "errorGeneric": "Something went wrong. Please try again."
   },
   "landing": {
     "hero": {
@@ -543,72 +631,11 @@
     }
   },
   "student": {
-    "intake": {
-      "title": "Tell Us About Yourself",
-      "step1": "Personal Info",
-      "step2": "Your Goals",
-      "step3": "AI Experience",
-      "step4": "Project Direction",
-      "step5": "Program Agreement",
-      "next": "Next",
-      "back": "Back",
-      "submit": "Complete Intake",
-      "success": "Intake Complete!",
-      "processing": "Setting up your project workspace…"
-    },
-    "project": {
-      "title": "My Project",
-      "currentStage": "Current Stage",
-      "progress": "stages complete",
-      "save": "Save Changes",
-      "upload": "Upload File",
-      "fields": {
-        "title": "Project Title",
-        "summary": "Project Summary",
-        "problem": "Problem Statement",
-        "targetUser": "Target User",
-        "value": "Value Proposition",
-        "mvp": "MVP Definition",
-        "screenshots": "Screenshots & Files"
-      },
-      "work": {
-        "title": "Your Work & Live Links",
-        "lastUpdated": "Last updated {date}",
-        "notSubmitted": "Not submitted yet",
-        "openLink": "Open link",
-        "submitCta": "Submit Your Work",
-        "fields": {
-          "liveProduct": "Live Product URL",
-          "demoVideo": "Demo Video URL",
-          "slides": "Presentation Slides URL",
-          "github": "GitHub Repo URL",
-          "figma": "Figma / Design URL",
-          "screenshots": "Screenshots & Files"
-        },
-        "helperText": {
-          "liveProduct": "Where can people use it? Paste your deployed product link.",
-          "demoVideo": "YouTube, Loom, or any video link showing your product in action.",
-          "slides": "Google Slides, Canva, or any slide deck link.",
-          "github": "Paste your repository link — your code lives here.",
-          "figma": "Share your design mockups or wireframes.",
-          "screenshots": "Upload screenshots or files from your project."
-        }
-      }
-    },
-    "method": {
-      "title": "Method Pipeline",
-      "subtitle": "Your learning journey through 10 research and project stages.",
-      "view": "Open",
-      "inProgress": "In Progress",
-      "submitted": "Submitted — Awaiting Review",
-      "completed": "Completed",
-      "backToMethod": "Back to Pipeline",
-      "expectedOutputs": "Expected Outputs",
-      "guidingQuestions": "Guiding Questions",
-      "notes": "Your Notes",
-      "evidenceLabel": "Evidence / Files",
-      "submit": "Submit for Review",
-      "submitting": "Submitting…"
+    "todo": {
+      "title": "Your To-Do",
+      "openWorksheet": "Open Worksheet",
+      "noPending": "No pending assignments. You're all caught up!",
+      "assignedCount": "{count} pending"
     }
   },
   "teacher": {
@@ -745,14 +772,13 @@
     "awaitingReview": "Awaiting mentor review."
   },
   "curriculum": {
-    "assets": "Curriculum Assets",
-    "lessons": "Lessons",
-    "upload": "Upload Asset",
-    "addAsset": "Add Asset",
-    "visibility": "Visible to",
-    "lessonNumber": "Lesson #",
-    "assetType": "Asset Type",
-    "noAssets": "No resources available yet."
+    "lessonN": "Lesson {n}",
+    "previousLesson": "Previous Lesson",
+    "nextLesson": "Next Lesson",
+    "printExport": "Print / Export PDF",
+    "openOriginal": "Open original document",
+    "noContent": "No lesson content available yet.",
+    "viewLesson": "View"
   },
   "ai": {
     "generateSummary": "AI Summary",
@@ -871,27 +897,25 @@
       "checkpoint_reviewed": "Checkpoint reviewed",
       "showcase_published": "Showcase published",
       "student_work_submitted": "Student submitted work"
-    }
+    },
+    "viewAll": "View all notifications",
+    "loading": "Loading…",
+    "unreadCount": "{count} unread"
   },
   "emails": {
-    "parentUpdate": {
-      "subject": "Update on {studentName}'s Progress",
-      "viewInPlatform": "View in Platform",
-      "footer": "This update is about {studentName}'s progress in the CAS Incubator program."
+    "worksheetAssigned": {
+      "subject": "New worksheet assigned: {title} — Due {date}",
+      "greeting": "Hi {name},",
+      "body": "Your teacher {teacher} has assigned you a new worksheet to complete.",
+      "button": "Open Worksheet",
+      "teachersNote": "Teacher's Note"
     },
-    "riskAlert": {
-      "subject": "Risk Alert — {severity} — {studentName}",
-      "reviewFlag": "Review Risk Flag"
+    "worksheetReminder": {
+      "subject": "Reminder: {title} due in {dueIn}",
+      "greeting": "Reminder, {name}!",
+      "body": "You have a worksheet due soon. Don't forget to complete and submit it.",
+      "button": "Complete Worksheet Now"
     }
-  },
-  "curriculum": {
-    "lessonN": "Lesson {n}",
-    "previousLesson": "Previous Lesson",
-    "nextLesson": "Next Lesson",
-    "printExport": "Print / Export PDF",
-    "openOriginal": "Open original document",
-    "noContent": "No lesson content available yet.",
-    "viewLesson": "View"
   },
   "assignments": {
     "assignTo": "Assign to",
@@ -944,27 +968,40 @@
       }
     }
   },
-  "student": {
-    "todo": {
-      "title": "Your To-Do",
-      "openWorksheet": "Open Worksheet",
-      "noPending": "No pending assignments. You're all caught up!",
-      "assignedCount": "{count} pending"
+  "roles": {
+    "admin": "Admin",
+    "teacher": "Teacher",
+    "student": "Student",
+    "mentor": "Mentor",
+    "parent": "Parent",
+    "superAdmin": "Super Admin"
+  },
+  "brandRow": {
+    "shortName": "CAS Incubator"
+  },
+  "errorPage": {
+    "title": "Something went wrong",
+    "body": "An unexpected error occurred. Our team has been notified.",
+    "errorId": "Error ID: {id}",
+    "retry": "Try again",
+    "goHome": "Go home"
+  },
+  "notFound": {
+    "title": "This feature is under construction",
+    "body": "This page is being built. Meanwhile, here's what you can do:",
+    "goToDashboard": "Go to {label}",
+    "backHome": "Back to home",
+    "signIn": "Sign in",
+    "dashboards": {
+      "admin": "Admin Dashboard",
+      "teacher": "Teacher Dashboard",
+      "mentor": "Mentor Dashboard",
+      "student": "Student Dashboard",
+      "parent": "Parent Dashboard"
     }
   },
-  "emails": {
-    "worksheetAssigned": {
-      "subject": "New worksheet assigned: {title} — Due {date}",
-      "greeting": "Hi {name},",
-      "body": "Your teacher {teacher} has assigned you a new worksheet to complete.",
-      "button": "Open Worksheet",
-      "teachersNote": "Teacher's Note"
-    },
-    "worksheetReminder": {
-      "subject": "Reminder: {title} due in {dueIn}",
-      "greeting": "Reminder, {name}!",
-      "body": "You have a worksheet due soon. Don't forget to complete and submit it.",
-      "button": "Complete Worksheet Now"
-    }
+  "comingSoon": {
+    "title": "Coming soon",
+    "body": "This feature is on the way."
   }
 }
