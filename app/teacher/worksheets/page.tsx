@@ -1,7 +1,10 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { getLocale } from "next-intl/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
+import { localizedField } from "@/lib/i18n-content";
+import { isLocale, defaultLocale } from "@/i18n/config";
 import Shell from "@/components/teacher/Shell";
 
 interface TemplateStat {
@@ -101,10 +104,13 @@ export default async function TeacherWorksheetsPage() {
 
   const { count: pendingCount } = await pendingQuery;
 
+  const localeStr = await getLocale();
+  const locale = isLocale(localeStr) ? localeStr : defaultLocale;
+
   // Get templates with stage info
   const { data: templates } = await supabase
     .from("worksheet_templates")
-    .select("id, title, template_type, linked_lesson_number, linked_method_stage_id, required_status, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey(stage_number, name)")
+    .select("id, title, template_type, linked_lesson_number, linked_method_stage_id, required_status, i18n, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey(stage_number, name)")
     .eq("is_active", true)
     .order("linked_lesson_number", { ascending: true });
 
@@ -165,9 +171,10 @@ export default async function TeacherWorksheetsPage() {
     const stageDef = Array.isArray(t.method_stage_definitions)
       ? (t.method_stage_definitions[0] as { stage_number: number; name: string } | undefined)
       : (t.method_stage_definitions as { stage_number: number; name: string } | null);
+    const tWithI18n = t as typeof t & { i18n?: Record<string, { title?: string }> | null };
     return {
       id: t.id,
-      title: t.title,
+      title: (localizedField(tWithI18n, "title", locale) ?? t.title) as string,
       template_type: t.template_type,
       linked_lesson_number: t.linked_lesson_number,
       linked_method_stage_id: t.linked_method_stage_id,

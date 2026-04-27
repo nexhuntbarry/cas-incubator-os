@@ -1,7 +1,10 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { getLocale } from "next-intl/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
+import { localizedField } from "@/lib/i18n-content";
+import { isLocale, defaultLocale } from "@/i18n/config";
 import Shell from "@/components/teacher/Shell";
 import { lessonNumberToStage } from "@/lib/curriculum/lesson-to-stage";
 import {
@@ -16,6 +19,7 @@ interface LessonRow {
   title: string;
   lesson_number: number | null;
   stage_number: number | null;
+  i18n?: Record<string, { title?: string }> | null;
 }
 
 const PHASE: Record<number, { num: number; label: string }> = {
@@ -46,16 +50,20 @@ export default async function TeachingModePage() {
   if (!user) redirect("/sign-in");
   if (user.role !== "teacher" && user.role !== "super_admin") redirect("/");
 
+  const localeStr = await getLocale();
+  const locale = isLocale(localeStr) ? localeStr : defaultLocale;
+
   const supabase = getServiceClient();
 
   const { data: lessons } = await supabase
     .from("curriculum_assets")
-    .select("id, title, lesson_number, stage_number")
+    .select("id, title, lesson_number, stage_number, i18n")
     .not("lesson_number", "is", null)
     .order("lesson_number", { ascending: true });
 
   const filtered = ((lessons ?? []) as LessonRow[])
-    .filter((l) => l.lesson_number !== null && l.lesson_number >= 1 && l.lesson_number <= 20);
+    .filter((l) => l.lesson_number !== null && l.lesson_number >= 1 && l.lesson_number <= 20)
+    .map((l) => ({ ...l, title: (localizedField(l, "title", locale) ?? l.title) as string }));
 
   // Dedup by lesson_number (curriculum_assets may have duplicate rows per lesson)
   const seen = new Set<number>();
@@ -113,7 +121,9 @@ export default async function TeachingModePage() {
                 {items.map((lesson) => {
                   const stage = lessonNumberToStage(lesson.lesson_number);
                   const sc = stageColors(stage);
-                  const titleNoPrefix = lesson.title.replace(/^Lesson\s+\d+:\s*/i, "");
+                  const titleNoPrefix = lesson.title
+                    .replace(/^Lesson\s+\d+[:：]?\s*/i, "")
+                    .replace(/^第\s*\d+\s*課[:：]?\s*/, "");
                   const dueCp = lesson.lesson_number ? checkpointDueAtLesson(lesson.lesson_number) : null;
                   return (
                     <Link

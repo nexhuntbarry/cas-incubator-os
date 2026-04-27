@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
+import { localizedField } from "@/lib/i18n-content";
+import { isLocale, defaultLocale } from "@/i18n/config";
 import Shell from "@/components/teacher/Shell";
 import { Star } from "lucide-react";
 
@@ -28,20 +31,41 @@ interface RubricRow {
   max_score: number | null;
   guidance_notes: string | null;
   rating_scale_json: RatingScale | null;
+  i18n: Record<string, { name?: string; guidance_notes?: string; criteria?: RubricCriterion[] }> | null;
 }
 
 export default async function TeacherRubricsPage() {
   const user = await getCurrentUser();
   if (!user || (user.role !== "teacher" && user.role !== "super_admin")) redirect("/");
 
+  const localeStr = await getLocale();
+  const locale = isLocale(localeStr) ? localeStr : defaultLocale;
+
   const supabase = getServiceClient();
   const { data: rubricsRaw } = await supabase
     .from("rubric_templates")
-    .select("id, name, stage_number, is_active, created_at, criteria, max_score, guidance_notes, rating_scale_json")
+    .select("id, name, stage_number, is_active, created_at, criteria, max_score, guidance_notes, rating_scale_json, i18n")
     .eq("is_active", true)
     .order("stage_number", { ascending: true });
 
-  const rubrics = (rubricsRaw ?? []) as RubricRow[];
+  const rubrics = ((rubricsRaw ?? []) as RubricRow[]).map((r) => {
+    const baseCriteria = (r.criteria ?? []) as RubricCriterion[];
+    const overrideCriteria = r.i18n?.[locale]?.criteria ?? null;
+    let mergedCriteria: RubricCriterion[] = baseCriteria;
+    if (overrideCriteria && overrideCriteria.length > 0) {
+      const oMap = new Map(overrideCriteria.map((c) => [c.key, c]));
+      mergedCriteria = baseCriteria.map((c) => {
+        const ov = oMap.get(c.key);
+        return ov ? { ...c, ...ov, levels: { ...c.levels, ...(ov.levels ?? {}) } } : c;
+      });
+    }
+    return {
+      ...r,
+      name: (localizedField(r, "name", locale) ?? r.name) as string,
+      guidance_notes: (localizedField(r, "guidance_notes", locale) ?? r.guidance_notes) as string | null,
+      criteria: mergedCriteria,
+    };
+  });
 
   return (
     <Shell title="Rubrics" introKey="teacher.rubrics">

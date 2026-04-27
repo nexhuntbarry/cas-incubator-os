@@ -1,7 +1,10 @@
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
+import { getLocale } from "next-intl/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
+import { localizedField } from "@/lib/i18n-content";
+import { isLocale, defaultLocale } from "@/i18n/config";
 import Shell from "@/components/teacher/Shell";
 import LessonMarkdown from "@/components/teacher/LessonMarkdown";
 import PushToClassButton from "@/components/teacher/PushToClassButton";
@@ -49,17 +52,22 @@ export default async function TeachingModeLessonPage({
     notFound();
   }
 
+  const localeStr = await getLocale();
+  const locale = isLocale(localeStr) ? localeStr : defaultLocale;
+
   const supabase = getServiceClient();
 
   // 1. Lesson asset (richest content_md preferred)
   const { data: lessonRows } = await supabase
     .from("curriculum_assets")
-    .select("id, title, lesson_number, content_md, url, stage_number")
+    .select("id, title, lesson_number, content_md, url, stage_number, i18n")
     .eq("lesson_number", lessonNumber);
 
   const lesson = (lessonRows ?? [])
     .sort((a, b) => (b.content_md?.length ?? 0) - (a.content_md?.length ?? 0))[0];
   if (!lesson) notFound();
+  const lessonTitle = localizedField(lesson, "title", locale) ?? lesson.title;
+  const lessonContentMd = localizedField(lesson, "content_md", locale) ?? lesson.content_md;
 
   // 2. Stage — prefer DB stage_number, else curated map
   let stageNumber: number | null = null;
@@ -68,13 +76,13 @@ export default async function TeachingModeLessonPage({
   if (lesson.stage_number != null) {
     const { data: stageRow } = await supabase
       .from("method_stage_definitions")
-      .select("stage_number, name, description")
+      .select("stage_number, name, description, i18n")
       .eq("stage_number", lesson.stage_number)
       .single();
     if (stageRow) {
       stageNumber = stageRow.stage_number;
-      stageName = stageRow.name;
-      stageDescription = stageRow.description ?? null;
+      stageName = (localizedField(stageRow, "name", locale) ?? stageRow.name) as string;
+      stageDescription = (localizedField(stageRow, "description", locale) ?? stageRow.description ?? null) as string | null;
     }
   }
   if (stageNumber == null) {
@@ -82,11 +90,11 @@ export default async function TeachingModeLessonPage({
     if (stageNumber) {
       const { data: stageRow } = await supabase
         .from("method_stage_definitions")
-        .select("name, description")
+        .select("name, description, i18n")
         .eq("stage_number", stageNumber)
         .single();
-      stageName = stageRow?.name ?? null;
-      stageDescription = stageRow?.description ?? null;
+      stageName = (stageRow ? (localizedField(stageRow, "name", locale) ?? stageRow.name) : null) as string | null;
+      stageDescription = (stageRow ? (localizedField(stageRow, "description", locale) ?? stageRow.description ?? null) : null) as string | null;
     }
   }
 
@@ -96,13 +104,14 @@ export default async function TeachingModeLessonPage({
   if (stageLessonNumbers.length > 0) {
     const { data: stageLessonRows } = await supabase
       .from("curriculum_assets")
-      .select("lesson_number, title")
+      .select("lesson_number, title, i18n")
       .in("lesson_number", stageLessonNumbers);
     const seenL = new Set<number>();
-    for (const r of (stageLessonRows ?? []) as { lesson_number: number; title: string }[]) {
+    for (const r of (stageLessonRows ?? []) as { lesson_number: number; title: string; i18n: Record<string, { title?: string }> | null }[]) {
       if (r.lesson_number != null && !seenL.has(r.lesson_number)) {
         seenL.add(r.lesson_number);
-        stageLessons.push({ lesson_number: r.lesson_number, title: r.title });
+        const localizedTitle = (localizedField(r, "title", locale) ?? r.title) as string;
+        stageLessons.push({ lesson_number: r.lesson_number, title: localizedTitle });
       }
     }
     stageLessons.sort((a, b) => a.lesson_number - b.lesson_number);
@@ -111,12 +120,12 @@ export default async function TeachingModeLessonPage({
   // All lesson titles for the timeline tooltip strip
   const { data: allLessonsRaw } = await supabase
     .from("curriculum_assets")
-    .select("lesson_number, title")
+    .select("lesson_number, title, i18n")
     .not("lesson_number", "is", null);
   const lessonTitles: Record<number, string> = {};
-  for (const r of (allLessonsRaw ?? []) as { lesson_number: number; title: string }[]) {
+  for (const r of (allLessonsRaw ?? []) as { lesson_number: number; title: string; i18n: Record<string, { title?: string }> | null }[]) {
     if (r.lesson_number && !lessonTitles[r.lesson_number]) {
-      lessonTitles[r.lesson_number] = r.title;
+      lessonTitles[r.lesson_number] = (localizedField(r, "title", locale) ?? r.title) as string;
     }
   }
 
@@ -141,12 +150,13 @@ export default async function TeachingModeLessonPage({
       fields_schema: unknown;
       template_type: string;
       linked_lesson_number: number | null;
+      i18n: Record<string, { title?: string; description?: string }> | null;
     } | null;
   };
   const { data: lessonWsRows } = await supabase
     .from("lesson_worksheets")
     .select(
-      "usage_type, display_order, notes, worksheet_templates(id, title, description, fields_schema, template_type, linked_lesson_number)"
+      "usage_type, display_order, notes, worksheet_templates(id, title, description, fields_schema, template_type, linked_lesson_number, i18n)"
     )
     .eq("lesson_number", lessonNumber);
 
@@ -166,24 +176,27 @@ export default async function TeachingModeLessonPage({
   if (lessonWsRows && lessonWsRows.length > 0) {
     worksheets = ((lessonWsRows as unknown) as LessonWsJoin[])
       .filter((r) => r.worksheet_templates && r.worksheet_templates.id)
-      .map((r) => ({
-        id: r.worksheet_templates!.id,
-        title: r.worksheet_templates!.title,
-        description: r.worksheet_templates!.description,
-        fields_schema: r.worksheet_templates!.fields_schema,
-        template_type: r.worksheet_templates!.template_type,
-        linked_lesson_number: r.worksheet_templates!.linked_lesson_number,
-        usage_type: r.usage_type,
-        display_order: r.display_order ?? 0,
-        notes: r.notes,
-      }));
+      .map((r) => {
+        const w = r.worksheet_templates!;
+        return {
+          id: w.id,
+          title: (localizedField(w, "title", locale) ?? w.title) as string,
+          description: (localizedField(w, "description", locale) ?? w.description) as string | null,
+          fields_schema: w.fields_schema,
+          template_type: w.template_type,
+          linked_lesson_number: w.linked_lesson_number,
+          usage_type: r.usage_type,
+          display_order: r.display_order ?? 0,
+          notes: r.notes,
+        };
+      });
   } else {
     // Legacy fallback (pre-0014): linked_lesson_number + stage match.
     const [{ data: byLessonWs }, { data: byStageWs }] = await Promise.all([
       supabase
         .from("worksheet_templates")
         .select(
-          "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey(stage_number, name)"
+          "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, i18n, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey(stage_number, name)"
         )
         .eq("is_active", true)
         .eq("linked_lesson_number", lessonNumber),
@@ -191,20 +204,27 @@ export default async function TeachingModeLessonPage({
         ? supabase
             .from("worksheet_templates")
             .select(
-              "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey!inner(stage_number, name)"
+              "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, i18n, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey!inner(stage_number, name)"
             )
             .eq("is_active", true)
             .eq("method_stage_definitions.stage_number", stageNumber)
         : Promise.resolve({ data: [] as unknown[] }),
     ]);
-    type LegacyRow = Omit<WorksheetRow, "usage_type" | "display_order" | "notes">;
+    type LegacyRow = Omit<WorksheetRow, "usage_type" | "display_order" | "notes"> & {
+      i18n: Record<string, { title?: string; description?: string }> | null;
+    };
     const map = new Map<string, LegacyRow>();
     for (const w of (byLessonWs ?? []) as LegacyRow[]) map.set(w.id, w);
     for (const w of (byStageWs ?? []) as LegacyRow[]) {
       if (!map.has(w.id)) map.set(w.id, w);
     }
     worksheets = Array.from(map.values()).map((w) => ({
-      ...w,
+      id: w.id,
+      title: (localizedField(w, "title", locale) ?? w.title) as string,
+      description: (localizedField(w, "description", locale) ?? w.description) as string | null,
+      fields_schema: w.fields_schema,
+      template_type: w.template_type,
+      linked_lesson_number: w.linked_lesson_number,
       // Worksheets whose own linked_lesson_number === current = first-time fill.
       // Anything else inherited via stage match is treated as reference reading.
       usage_type:
@@ -269,20 +289,30 @@ export default async function TeachingModeLessonPage({
   if (stageNumber) {
     const { data: rubricRow } = await supabase
       .from("rubric_templates")
-      .select("id, name, stage_number, criteria, max_score, guidance_notes")
+      .select("id, name, stage_number, criteria, max_score, guidance_notes, i18n")
       .eq("stage_number", stageNumber)
       .eq("is_active", true)
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
     if (rubricRow) {
+      const baseCriteria = (rubricRow.criteria ?? []) as RubricCriterion[];
+      const overrideCriteria = (rubricRow.i18n?.[locale]?.criteria ?? null) as RubricCriterion[] | null;
+      const overrideMap = new Map<string, Partial<RubricCriterion>>();
+      if (overrideCriteria) {
+        for (const c of overrideCriteria) overrideMap.set(c.key, c);
+      }
+      const mergedCriteria: RubricCriterion[] = baseCriteria.map((c) => {
+        const ov = overrideMap.get(c.key);
+        return ov ? { ...c, ...ov, levels: { ...c.levels, ...(ov.levels ?? {}) } } : c;
+      });
       rubric = {
         id: rubricRow.id,
-        name: rubricRow.name,
+        name: (localizedField(rubricRow, "name", locale) ?? rubricRow.name) as string,
         stage_number: rubricRow.stage_number,
-        criteria: (rubricRow.criteria ?? []) as RubricCriterion[],
+        criteria: mergedCriteria,
         max_score: rubricRow.max_score,
-        guidance_notes: rubricRow.guidance_notes ?? null,
+        guidance_notes: (localizedField(rubricRow, "guidance_notes", locale) ?? rubricRow.guidance_notes ?? null) as string | null,
       };
     }
   }
@@ -291,7 +321,7 @@ export default async function TeachingModeLessonPage({
   const { data: allCheckpoints } = await supabase
     .from("checkpoint_templates")
     .select(
-      "id, checkpoint_name, checkpoint_number, description, required_artifacts_json, required_rubrics_json, approval_rules_json, linked_method_stage_ids_json"
+      "id, checkpoint_name, checkpoint_number, description, required_artifacts_json, required_rubrics_json, approval_rules_json, linked_method_stage_ids_json, i18n"
     )
     .eq("active_status", true)
     .order("checkpoint_number", { ascending: true });
@@ -305,14 +335,34 @@ export default async function TeachingModeLessonPage({
     required_rubrics_json: Array<{ stage_number: number; min_score: number }> | null;
     approval_rules_json: Record<string, unknown> | null;
     linked_method_stage_ids_json: number[] | null;
+    i18n: Record<string, { checkpoint_name?: string; description?: string; required_artifacts_json?: Array<{ artifact_type: string; label: string }> }> | null;
   };
-  const relevantCheckpoints = ((allCheckpoints ?? []) as CheckpointRow[]).filter((cp) => {
-    const dueAfter = (cp.approval_rules_json?.due_after_lesson as number | undefined) ?? null;
-    const stages = cp.linked_method_stage_ids_json ?? [];
-    const stageMatch = stageNumber != null && stages.includes(stageNumber);
-    const lessonNear = dueAfter != null && Math.abs(dueAfter - lessonNumber) <= 3;
-    return stageMatch || lessonNear;
-  });
+  const relevantCheckpoints = ((allCheckpoints ?? []) as CheckpointRow[])
+    .filter((cp) => {
+      const dueAfter = (cp.approval_rules_json?.due_after_lesson as number | undefined) ?? null;
+      const stages = cp.linked_method_stage_ids_json ?? [];
+      const stageMatch = stageNumber != null && stages.includes(stageNumber);
+      const lessonNear = dueAfter != null && Math.abs(dueAfter - lessonNumber) <= 3;
+      return stageMatch || lessonNear;
+    })
+    .map((cp) => {
+      const overrideArtifacts = cp.i18n?.[locale]?.required_artifacts_json;
+      const baseArtifacts = cp.required_artifacts_json ?? [];
+      let mergedArtifacts = baseArtifacts;
+      if (overrideArtifacts && overrideArtifacts.length > 0) {
+        const oMap = new Map(overrideArtifacts.map((a) => [a.artifact_type, a]));
+        mergedArtifacts = baseArtifacts.map((a) => {
+          const ov = oMap.get(a.artifact_type);
+          return ov ? { ...a, ...ov } : a;
+        });
+      }
+      return {
+        ...cp,
+        checkpoint_name: (localizedField(cp, "checkpoint_name", locale) ?? cp.checkpoint_name) as string,
+        description: (localizedField(cp, "description", locale) ?? cp.description) as string | null,
+        required_artifacts_json: mergedArtifacts,
+      };
+    });
 
   // 6. Teacher's cohorts for the Push-to-Class button
   let cohorts: { id: string; name: string }[] = [];
@@ -341,7 +391,7 @@ export default async function TeachingModeLessonPage({
     return Array.isArray(s.fields) ? s.fields.length : 0;
   }
 
-  const titleNoPrefix = lesson.title.replace(/^Lesson\s+\d+:\s*/i, "");
+  const titleNoPrefix = (lessonTitle as string).replace(/^Lesson\s+\d+[:：]?\s*/i, "");
   const prevLesson = lessonNumber > 1 ? lessonNumber - 1 : null;
   const nextLesson = lessonNumber < 20 ? lessonNumber + 1 : null;
 
@@ -415,8 +465,8 @@ export default async function TeachingModeLessonPage({
               <BookOpenCheck size={16} className="text-electric-blue" />
               <h2 className="text-sm font-bold text-electric-blue uppercase tracking-wider">A. Lesson Plan</h2>
             </div>
-            {lesson.content_md ? (
-              <LessonMarkdown content={lesson.content_md} />
+            {lessonContentMd ? (
+              <LessonMarkdown content={lessonContentMd as string} />
             ) : (
               <p className="text-soft-gray/40 text-sm">
                 No lesson plan content seeded.

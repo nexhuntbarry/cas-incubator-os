@@ -1,7 +1,10 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { getLocale } from "next-intl/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
+import { localizedField } from "@/lib/i18n-content";
+import { isLocale, defaultLocale } from "@/i18n/config";
 import Shell from "@/components/teacher/Shell";
 import { stageColors } from "@/lib/curriculum/checkpoint-helpers";
 import { Flag, Star, FileText, ShieldCheck } from "lucide-react";
@@ -29,23 +32,44 @@ interface CheckpointRow {
   required_rubrics_json: RequiredRubric[] | null;
   approval_rules_json: ApprovalRules | null;
   linked_method_stage_ids_json: number[] | null;
+  i18n: Record<string, { checkpoint_name?: string; description?: string; required_artifacts_json?: RequiredArtifact[] }> | null;
 }
 
 export default async function TeacherCheckpointsPage() {
   const user = await getCurrentUser();
   if (!user || (user.role !== "teacher" && user.role !== "super_admin")) redirect("/");
 
+  const localeStr = await getLocale();
+  const locale = isLocale(localeStr) ? localeStr : defaultLocale;
+
   const supabase = getServiceClient();
 
   const { data: checkpointsRaw } = await supabase
     .from("checkpoint_templates")
     .select(
-      "id, checkpoint_name, checkpoint_number, description, required_artifacts_json, required_rubrics_json, approval_rules_json, linked_method_stage_ids_json"
+      "id, checkpoint_name, checkpoint_number, description, required_artifacts_json, required_rubrics_json, approval_rules_json, linked_method_stage_ids_json, i18n"
     )
     .eq("active_status", true)
     .order("checkpoint_number", { ascending: true });
 
-  const checkpoints = (checkpointsRaw ?? []) as CheckpointRow[];
+  const checkpoints = ((checkpointsRaw ?? []) as CheckpointRow[]).map((cp) => {
+    const overrideArtifacts = cp.i18n?.[locale]?.required_artifacts_json;
+    const baseArtifacts = cp.required_artifacts_json ?? [];
+    let mergedArtifacts: RequiredArtifact[] = baseArtifacts;
+    if (overrideArtifacts && overrideArtifacts.length > 0) {
+      const oMap = new Map(overrideArtifacts.map((a) => [a.artifact_type, a]));
+      mergedArtifacts = baseArtifacts.map((a) => {
+        const ov = oMap.get(a.artifact_type);
+        return ov ? { ...a, ...ov } : a;
+      });
+    }
+    return {
+      ...cp,
+      checkpoint_name: (localizedField(cp, "checkpoint_name", locale) ?? cp.checkpoint_name) as string,
+      description: (localizedField(cp, "description", locale) ?? cp.description) as string | null,
+      required_artifacts_json: mergedArtifacts,
+    };
+  });
 
   return (
     <Shell title="Checkpoints" introKey="teacher.checkpoints">

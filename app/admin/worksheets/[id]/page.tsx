@@ -26,7 +26,9 @@ export default function EditWorksheetPage({ params }: { params: Promise<{ id: st
   const [tab, setTab] = useState<"edit" | "preview">(initialTab);
 
   useEffect(() => {
-    fetch(`/api/admin/worksheets/${id}`)
+    // Edit form needs the untranslated base columns so updates don't overwrite
+    // the source-of-truth English values with localized strings.
+    fetch(`/api/admin/worksheets/${id}?raw=1`)
       .then((r) => r.json())
       .then((d) => {
         setTitle(d.title ?? "");

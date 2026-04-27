@@ -14,12 +14,12 @@ import type { Locale } from "@/i18n/config";
 type WithI18n<T> = T & { i18n?: Record<string, Partial<T>> | null };
 
 /** Read a single field with locale fallback to the base column. */
-export function localizedField<T extends Record<string, unknown>, K extends keyof T>(
+export function localizedField<T extends object, K extends keyof T>(
   row: WithI18n<T>,
   field: K,
   locale: Locale,
 ): T[K] {
-  const override = row.i18n?.[locale]?.[field];
+  const override = (row.i18n as Record<string, Partial<T>> | null | undefined)?.[locale]?.[field];
   return (override ?? row[field]) as T[K];
 }
 
@@ -27,7 +27,7 @@ export function localizedField<T extends Record<string, unknown>, K extends keyo
  * Merge an array of objects with a per-locale override array, matching by `keyField`.
  * Useful for `worksheet_templates.fields_schema`, `rubric_templates.criteria`, etc.
  */
-export function localizedArrayByKey<T extends Record<string, unknown>>(
+export function localizedArrayByKey<T extends object>(
   base: T[] | null | undefined,
   override: T[] | null | undefined,
   keyField: keyof T,
