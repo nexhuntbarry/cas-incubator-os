@@ -32,7 +32,7 @@ export async function POST(req: Request) {
   // Check if user already exists in users table
   const { data: existing } = await supabase
     .from("users")
-    .select("id, role, account_status")
+    .select("id, role")
     .eq("email", email)
     .maybeSingle();
 
@@ -62,8 +62,7 @@ export async function POST(req: Request) {
       email,
       role,
       display_name: displayName ?? email.split("@")[0],
-      account_status: "pending",
-      metadata: { invited: true, invited_at: new Date().toISOString() },
+      metadata: { invited: true, invited_at: new Date().toISOString(), status: "pending" },
     })
     .select("id")
     .single();
