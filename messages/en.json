@@ -636,6 +636,22 @@
       "openWorksheet": "Open Worksheet",
       "noPending": "No pending assignments. You're all caught up!",
       "assignedCount": "{count} pending"
+    },
+    "worksheets": {
+      "intro": "Worksheets your teacher has assigned to you. Sorted by due date.",
+      "emptyTitle": "No worksheets assigned yet.",
+      "emptyBody": "Your teacher will share assignments here.",
+      "feedbackAvailable": "Feedback available",
+      "statusPending": "Pending",
+      "statusInProgress": "In Progress",
+      "statusSubmitted": "Submitted",
+      "statusReviewed": "Reviewed",
+      "statusRevisionRequested": "Revision Needed",
+      "overdue": "Overdue",
+      "dueSoon": "Due soon",
+      "dueInHours": "Due in {count}h",
+      "dueInDays": "Due in {count}d",
+      "dueOn": "Due {date}"
     }
   },
   "teacher": {
@@ -945,6 +961,15 @@
     "noWorksheetsLinked": "No worksheets linked to this lesson.",
     "closeAssignment": "Close assignment",
     "extendDeadline": "Extend deadline",
+    "assignNew": "Assign New Worksheet",
+    "pageIntro": "Assign worksheets to a cohort, set due dates, and track who's pending.",
+    "pickWorksheet": "Worksheet",
+    "notesForStudents": "Notes for students (optional)",
+    "alreadyAssigned": "Assigned {date}",
+    "submittedRatio": "({submitted}/{total} submitted)",
+    "viewSubmissions": "View submissions",
+    "assignAgain": "Assign again",
+    "pushToClass": "Push to Class",
     "usageType": {
       "fill": {
         "label": "Fill",

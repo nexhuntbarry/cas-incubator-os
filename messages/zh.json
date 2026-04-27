@@ -636,6 +636,22 @@
       "openWorksheet": "開啟作業單",
       "noPending": "沒有待辦作業，您已完成所有任務！",
       "assignedCount": "{count} 項待辦"
+    },
+    "worksheets": {
+      "intro": "老師指派給您的作業單，依截止日期排序。",
+      "emptyTitle": "目前沒有作業。",
+      "emptyBody": "老師指派作業後會出現在這裡。",
+      "feedbackAvailable": "已有回饋",
+      "statusPending": "待完成",
+      "statusInProgress": "進行中",
+      "statusSubmitted": "已繳交",
+      "statusReviewed": "已批改",
+      "statusRevisionRequested": "需修改",
+      "overdue": "已逾期",
+      "dueSoon": "即將到期",
+      "dueInHours": "{count} 小時內到期",
+      "dueInDays": "{count} 天內到期",
+      "dueOn": "{date} 截止"
     }
   },
   "teacher": {
@@ -945,6 +961,15 @@
     "noWorksheetsLinked": "此課程沒有連結的作業單。",
     "closeAssignment": "關閉作業",
     "extendDeadline": "延長截止日期",
+    "assignNew": "指派新作業單",
+    "pageIntro": "指派作業單給班級、設定截止日，並追蹤誰還沒交。",
+    "pickWorksheet": "作業單",
+    "notesForStudents": "給學生的補充說明（選填）",
+    "alreadyAssigned": "已於 {date} 指派",
+    "submittedRatio": "（{submitted}/{total} 已繳交）",
+    "viewSubmissions": "檢視繳交狀況",
+    "assignAgain": "再次指派",
+    "pushToClass": "推送給班級",
     "usageType": {
       "fill": {
         "label": "Fill",

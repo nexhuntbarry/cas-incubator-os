@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/teacher/Shell";
 import AssignmentProgressBar from "@/components/assignments/AssignmentProgressBar";
+import AssignNewWorksheetButton from "@/components/assignments/AssignNewWorksheetButton";
 import { BookOpen, Clock, AlertCircle } from "lucide-react";
 
 interface AssignmentRow {
@@ -119,6 +120,14 @@ export default async function TeacherAssignmentsPage({ searchParams }: PageProps
   return (
     <Shell title="Assignments" introKey="teacher.assignments">
       <div className="space-y-6">
+        {/* Top action row */}
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <p className="text-sm text-soft-gray/50">
+            Assign worksheets to a cohort, set due dates, and track who&apos;s pending.
+          </p>
+          <AssignNewWorksheetButton />
+        </div>
+
         {/* Tabs */}
         <div className="flex items-center gap-1 border-b border-white/8">
           {tabs.map((tab) => (

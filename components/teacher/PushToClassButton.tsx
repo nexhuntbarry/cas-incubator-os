@@ -1,11 +1,20 @@
 'use client';
 
 import { useState } from "react";
-import { Send, Loader2, Check, AlertTriangle } from "lucide-react";
+import Link from "next/link";
+import { Send, Loader2, Check, AlertTriangle, ExternalLink } from "lucide-react";
 
 interface Cohort {
   id: string;
   name: string;
+}
+
+export interface ExistingAssignment {
+  id: string;
+  cohort_id: string | null;
+  due_date: string;
+  submitted: number;
+  total: number;
 }
 
 interface Props {
@@ -13,24 +22,36 @@ interface Props {
   templateTitle: string;
   cohorts: Cohort[];
   lessonNumber: number;
+  // Existing assignments for THIS template that target one of the teacher's cohorts.
+  existingAssignments?: ExistingAssignment[];
 }
 
 function defaultDueDate(): string {
-  // 7 days from today, set to end-of-day local
   const d = new Date();
   d.setDate(d.getDate() + 7);
   d.setHours(23, 59, 0, 0);
-  // YYYY-MM-DDTHH:mm
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-export default function PushToClassButton({ templateId, templateTitle, cohorts, lessonNumber }: Props) {
+function formatShortDate(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
+
+export default function PushToClassButton({
+  templateId,
+  templateTitle,
+  cohorts,
+  lessonNumber,
+  existingAssignments = [],
+}: Props) {
   const [open, setOpen] = useState(false);
   const [cohortId, setCohortId] = useState(cohorts[0]?.id ?? "");
   const [dueLocal, setDueLocal] = useState<string>(defaultDueDate());
   const [submitting, setSubmitting] = useState(false);
-  const [result, setResult] = useState<{ ok: boolean; msg: string } | null>(null);
+  const [result, setResult] = useState<{ ok: boolean; msg: string; assignmentId?: string } | null>(null);
+  const [justAssigned, setJustAssigned] = useState<ExistingAssignment[]>([]);
 
   if (cohorts.length === 0) {
     return (
@@ -39,6 +60,13 @@ export default function PushToClassButton({ templateId, templateTitle, cohorts, 
       </span>
     );
   }
+
+  // Compose visible assignments (existing + just-assigned in this session)
+  const allAssignments = [...existingAssignments, ...justAssigned];
+
+  // If the active first cohort already has an assignment, show that as the primary state.
+  const primaryCohortId = cohorts[0]?.id;
+  const primaryAssignment = allAssignments.find((a) => a.cohort_id === primaryCohortId);
 
   async function handleSubmit() {
     if (!cohortId || !dueLocal) return;
@@ -60,7 +88,18 @@ export default function PushToClassButton({ templateId, templateTitle, cohorts, 
       if (!res.ok) {
         setResult({ ok: false, msg: json?.error ?? "Failed to assign" });
       } else {
-        setResult({ ok: true, msg: "Assigned to class." });
+        setResult({ ok: true, msg: "Assigned to class.", assignmentId: json.id });
+        // Track locally so badge appears without page refresh
+        setJustAssigned((prev) => [
+          ...prev,
+          {
+            id: json.id,
+            cohort_id: cohortId,
+            due_date: due.toISOString(),
+            submitted: 0,
+            total: 0,
+          },
+        ]);
         setTimeout(() => {
           setOpen(false);
           setResult(null);
@@ -71,6 +110,41 @@ export default function PushToClassButton({ templateId, templateTitle, cohorts, 
     } finally {
       setSubmitting(false);
     }
+  }
+
+  // If there's already an assignment for the primary cohort, render the badge instead of the button.
+  if (primaryAssignment) {
+    return (
+      <div className="inline-flex flex-wrap items-center gap-2">
+        <span className="inline-flex items-center gap-1.5 rounded-lg border border-status-success/40 bg-status-success/15 px-2.5 py-1 text-[11px] font-semibold text-status-success">
+          <Check size={11} />
+          Assigned {formatShortDate(primaryAssignment.due_date)}
+          {primaryAssignment.total > 0 && (
+            <span className="text-status-success/80 font-normal">
+              {" "}
+              ({primaryAssignment.submitted}/{primaryAssignment.total} submitted)
+            </span>
+          )}
+        </span>
+        <Link
+          href={`/teacher/assignments/${primaryAssignment.id}`}
+          className="inline-flex items-center gap-1 text-[11px] text-electric-blue hover:underline"
+        >
+          View submissions
+          <ExternalLink size={10} />
+        </Link>
+        {/* Allow re-assigning to a different cohort or new cycle */}
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="text-[11px] text-soft-gray/50 hover:text-soft-gray underline-offset-2 hover:underline"
+        >
+          Assign again
+        </button>
+
+        {open && renderModal()}
+      </div>
+    );
   }
 
   return (
@@ -84,78 +158,82 @@ export default function PushToClassButton({ templateId, templateTitle, cohorts, 
         Push to Class
       </button>
 
-      {open && (
-        <div
-          className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4"
-          onClick={() => !submitting && setOpen(false)}
-        >
-          <div
-            className="w-full max-w-md rounded-2xl border border-white/10 bg-deep-navy p-6 space-y-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div>
-              <p className="text-xs text-soft-gray/40 uppercase tracking-wider">Assign Worksheet</p>
-              <p className="text-base font-semibold text-soft-gray mt-0.5">{templateTitle}</p>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <label className="block text-xs text-soft-gray/60 mb-1.5 font-medium">Cohort</label>
-                <select
-                  value={cohortId}
-                  onChange={(e) => setCohortId(e.target.value)}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-soft-gray"
-                >
-                  {cohorts.map((c) => (
-                    <option key={c.id} value={c.id} className="bg-deep-navy">{c.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs text-soft-gray/60 mb-1.5 font-medium">Due date</label>
-                <input
-                  type="datetime-local"
-                  value={dueLocal}
-                  onChange={(e) => setDueLocal(e.target.value)}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-soft-gray"
-                />
-              </div>
-            </div>
-
-            {result && (
-              <div
-                className={`rounded-lg px-3 py-2 text-xs flex items-center gap-2 ${
-                  result.ok ? "bg-vivid-teal/15 text-vivid-teal" : "bg-status-warning/15 text-status-warning"
-                }`}
-              >
-                {result.ok ? <Check size={12} /> : <AlertTriangle size={12} />}
-                {result.msg}
-              </div>
-            )}
-
-            <div className="flex items-center justify-end gap-2 pt-2">
-              <button
-                type="button"
-                disabled={submitting}
-                onClick={() => setOpen(false)}
-                className="text-xs text-soft-gray/60 hover:text-soft-gray px-3 py-1.5"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                disabled={submitting || !cohortId || !dueLocal}
-                onClick={handleSubmit}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-electric-blue text-white text-xs font-semibold px-4 py-2 hover:bg-electric-blue/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {submitting ? <Loader2 size={12} className="animate-spin" /> : <Send size={12} />}
-                {submitting ? "Assigning…" : "Assign"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {open && renderModal()}
     </>
   );
+
+  function renderModal() {
+    return (
+      <div
+        className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4"
+        onClick={() => !submitting && setOpen(false)}
+      >
+        <div
+          className="w-full max-w-md rounded-2xl border border-white/10 bg-deep-navy p-6 space-y-4"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div>
+            <p className="text-xs text-soft-gray/40 uppercase tracking-wider">Assign Worksheet</p>
+            <p className="text-base font-semibold text-soft-gray mt-0.5">{templateTitle}</p>
+          </div>
+
+          <div className="space-y-3">
+            <div>
+              <label className="block text-xs text-soft-gray/60 mb-1.5 font-medium">Cohort</label>
+              <select
+                value={cohortId}
+                onChange={(e) => setCohortId(e.target.value)}
+                className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-soft-gray"
+              >
+                {cohorts.map((c) => (
+                  <option key={c.id} value={c.id} className="bg-deep-navy">{c.name}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs text-soft-gray/60 mb-1.5 font-medium">Due date</label>
+              <input
+                type="datetime-local"
+                value={dueLocal}
+                onChange={(e) => setDueLocal(e.target.value)}
+                className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-soft-gray"
+              />
+            </div>
+          </div>
+
+          {result && (
+            <div
+              className={`rounded-lg px-3 py-2 text-xs flex items-center gap-2 ${
+                result.ok ? "bg-vivid-teal/15 text-vivid-teal" : "bg-status-warning/15 text-status-warning"
+              }`}
+            >
+              {result.ok ? <Check size={12} /> : <AlertTriangle size={12} />}
+              {result.msg}
+            </div>
+          )}
+
+          <div className="flex items-center justify-end gap-2 pt-2">
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={() => setOpen(false)}
+              className="text-xs text-soft-gray/60 hover:text-soft-gray px-3 py-1.5"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              disabled={submitting || !cohortId || !dueLocal}
+              onClick={handleSubmit}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-electric-blue text-white text-xs font-semibold px-4 py-2 hover:bg-electric-blue/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {submitting ? <Loader2 size={12} className="animate-spin" /> : <Send size={12} />}
+              {submitting ? "Assigning…" : "Assign"}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }

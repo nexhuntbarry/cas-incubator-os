@@ -384,6 +384,74 @@ export default async function TeachingModeLessonPage({
       .map((c) => ({ id: c.id, name: c.name }));
   }
 
+  // 6b. Existing OPEN assignments for these worksheet templates targeting any of the teacher's cohorts.
+  // Used by PushToClassButton to render an "Already assigned" badge instead of the button.
+  const cohortIds = cohorts.map((c) => c.id);
+  const templateIds = worksheets.map((w) => w.id);
+  type AssignmentLite = {
+    id: string;
+    template_id: string;
+    cohort_id: string | null;
+    due_date: string;
+  };
+  let existingAssignmentsByTemplate: Record<
+    string,
+    { id: string; cohort_id: string | null; due_date: string; submitted: number; total: number }[]
+  > = {};
+  if (cohortIds.length > 0 && templateIds.length > 0) {
+    const { data: existingRows } = await supabase
+      .from("worksheet_assignments")
+      .select("id, template_id, cohort_id, due_date")
+      .in("template_id", templateIds)
+      .in("cohort_id", cohortIds)
+      .eq("status", "open")
+      .order("created_at", { ascending: false });
+
+    const rows = (existingRows ?? []) as AssignmentLite[];
+
+    // Compute submission counts per template_id+cohort once
+    const cohortMembership = new Map<string, number>();
+    if (cohortIds.length > 0) {
+      const { data: enrollments } = await supabase
+        .from("enrollment_records")
+        .select("cohort_id, student_user_id")
+        .in("cohort_id", cohortIds)
+        .in("status", ["active", "completed"]);
+      for (const e of (enrollments ?? []) as { cohort_id: string }[]) {
+        cohortMembership.set(e.cohort_id, (cohortMembership.get(e.cohort_id) ?? 0) + 1);
+      }
+    }
+
+    // Submission counts per template (across all students)
+    const submittedByTemplate = new Map<string, number>();
+    if (templateIds.length > 0) {
+      // Use a single query and count per template_id client-side
+      const { data: subs } = await supabase
+        .from("worksheet_submissions")
+        .select("template_id, status")
+        .in("template_id", templateIds)
+        .in("status", ["submitted", "reviewed", "approved"]);
+      for (const s of (subs ?? []) as { template_id: string }[]) {
+        submittedByTemplate.set(s.template_id, (submittedByTemplate.get(s.template_id) ?? 0) + 1);
+      }
+    }
+
+    existingAssignmentsByTemplate = rows.reduce<typeof existingAssignmentsByTemplate>((acc, a) => {
+      const total = a.cohort_id ? cohortMembership.get(a.cohort_id) ?? 0 : 0;
+      const submitted = submittedByTemplate.get(a.template_id) ?? 0;
+      const enriched = {
+        id: a.id,
+        cohort_id: a.cohort_id,
+        due_date: a.due_date,
+        submitted,
+        total,
+      };
+      if (!acc[a.template_id]) acc[a.template_id] = [];
+      acc[a.template_id].push(enriched);
+      return acc;
+    }, {});
+  }
+
   // Field count helper
   function countFields(schema: unknown): number {
     if (!schema || typeof schema !== "object") return 0;
@@ -529,6 +597,7 @@ export default async function TeachingModeLessonPage({
                           templateTitle={w.title}
                           cohorts={cohorts}
                           lessonNumber={lessonNumber}
+                          existingAssignments={existingAssignmentsByTemplate[w.id] ?? []}
                         />
                       </div>
                     </div>
