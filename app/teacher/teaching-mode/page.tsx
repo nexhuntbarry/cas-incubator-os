@@ -4,7 +4,12 @@ import { getCurrentUser } from "@/lib/auth";
 import { getServiceClient } from "@/lib/supabase";
 import Shell from "@/components/teacher/Shell";
 import { lessonNumberToStage } from "@/lib/curriculum/lesson-to-stage";
-import { Play, ArrowRight } from "lucide-react";
+import {
+  checkpointDueAtLesson,
+  CHECKPOINT_DUE_LESSONS,
+  stageColors,
+} from "@/lib/curriculum/checkpoint-helpers";
+import { Play, ArrowRight, Flag } from "lucide-react";
 
 interface LessonRow {
   id: string;
@@ -84,6 +89,13 @@ export default async function TeachingModePage() {
             <p className="text-xs text-soft-gray/60 leading-relaxed">
               Each lesson opens a teaching page bundling its plan, the worksheets to push to your class, the rubric for grading, and any checkpoints due near it.
             </p>
+            <p className="text-xs text-soft-gray/50 leading-relaxed mt-2 flex items-center gap-1.5">
+              <Flag size={11} className="text-status-warning" />
+              <span>
+                Lessons marked with a flag have a checkpoint due. There are{" "}
+                <span className="text-status-warning font-semibold">{CHECKPOINT_DUE_LESSONS.length}</span> across the 20-lesson course.
+              </span>
+            </p>
           </div>
         </div>
 
@@ -100,19 +112,26 @@ export default async function TeachingModePage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {items.map((lesson) => {
                   const stage = lessonNumberToStage(lesson.lesson_number);
+                  const sc = stageColors(stage);
                   const titleNoPrefix = lesson.title.replace(/^Lesson\s+\d+:\s*/i, "");
+                  const dueCp = lesson.lesson_number ? checkpointDueAtLesson(lesson.lesson_number) : null;
                   return (
                     <Link
                       key={lesson.id}
                       href={`/teacher/teaching-mode/${lesson.lesson_number}`}
-                      className="group flex flex-col rounded-xl border border-white/8 bg-white/3 hover:bg-white/5 hover:border-electric-blue/40 transition-all p-4 min-h-[140px]"
+                      className={`group relative flex flex-col rounded-xl border bg-white/3 hover:bg-white/5 transition-all p-4 min-h-[140px] ${
+                        dueCp ? "border-status-warning/40 hover:border-status-warning/60" : "border-white/8 hover:border-electric-blue/40"
+                      }`}
                     >
+                      {/* Stage color bar at top */}
+                      <span aria-hidden className={`absolute top-0 left-0 right-0 h-[3px] rounded-t-xl ${sc.dot}`} />
+
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-mono text-[11px] text-soft-gray/40 bg-white/5 px-2 py-0.5 rounded">
                           Lesson {lesson.lesson_number}
                         </span>
                         {stage && (
-                          <span className="text-[10px] uppercase tracking-wider text-electric-blue/80 font-semibold">
+                          <span className={`text-[10px] uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded border ${sc.bg} ${sc.border} ${sc.text}`}>
                             Stage {stage}
                           </span>
                         )}
@@ -120,6 +139,12 @@ export default async function TeachingModePage() {
                       <p className="text-sm font-semibold text-soft-gray leading-snug flex-1">
                         {titleNoPrefix}
                       </p>
+                      {dueCp && (
+                        <div className="mt-2 flex items-center gap-1.5 text-[11px] text-status-warning font-semibold">
+                          <Flag size={11} />
+                          <span>Checkpoint {dueCp.number}: {dueCp.name}</span>
+                        </div>
+                      )}
                       <div className="mt-3 flex items-center justify-end text-xs text-electric-blue/70 group-hover:text-electric-blue gap-1">
                         Teach
                         <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />

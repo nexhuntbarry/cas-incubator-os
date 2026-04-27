@@ -187,7 +187,7 @@
       },
       "teachingModeLesson": {
         "title": "Teach this Lesson",
-        "body": "Everything for one class period in one place — the lesson plan, the worksheets to assign, the rubric for grading, and the checkpoints due near this lesson."
+        "body": "Everything for one class period in one place — the lesson plan, the worksheets to assign, the rubric for grading, and the checkpoints due near this lesson. The breadcrumb at top shows your method stage and the next checkpoint; the right rail shows the full 20-lesson timeline so you always know where this class sits in the bigger arc."
       },
       "students": {
         "title": "Your Students",
