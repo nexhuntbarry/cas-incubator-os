@@ -920,7 +920,29 @@
     "recentAssignments": "Recent assignments",
     "noWorksheetsLinked": "No worksheets linked to this lesson.",
     "closeAssignment": "Close assignment",
-    "extendDeadline": "Extend deadline"
+    "extendDeadline": "Extend deadline",
+    "usageType": {
+      "fill": {
+        "label": "Fill",
+        "labelZh": "新填",
+        "tooltip": "Students complete this worksheet for the first time."
+      },
+      "review": {
+        "label": "Review",
+        "labelZh": "回顧",
+        "tooltip": "Students revisit and read what they previously wrote."
+      },
+      "edit": {
+        "label": "Edit",
+        "labelZh": "修改",
+        "tooltip": "Students return to revise an earlier worksheet."
+      },
+      "reference": {
+        "label": "Reference",
+        "labelZh": "參考",
+        "tooltip": "Worksheet is shown as supporting context only."
+      }
+    }
   },
   "student": {
     "todo": {

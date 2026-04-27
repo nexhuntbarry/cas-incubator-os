@@ -920,7 +920,29 @@
     "recentAssignments": "近期指派",
     "noWorksheetsLinked": "此課程沒有連結的作業單。",
     "closeAssignment": "關閉作業",
-    "extendDeadline": "延長截止日期"
+    "extendDeadline": "延長截止日期",
+    "usageType": {
+      "fill": {
+        "label": "Fill",
+        "labelZh": "新填",
+        "tooltip": "學生第一次填寫這份作業單。"
+      },
+      "review": {
+        "label": "Review",
+        "labelZh": "回顧",
+        "tooltip": "學生回頭閱讀先前填寫的內容。"
+      },
+      "edit": {
+        "label": "Edit",
+        "labelZh": "修改",
+        "tooltip": "學生重新修訂先前完成的作業單。"
+      },
+      "reference": {
+        "label": "Reference",
+        "labelZh": "參考",
+        "tooltip": "作業單僅作為背景參考使用。"
+      }
+    }
   },
   "student": {
     "todo": {

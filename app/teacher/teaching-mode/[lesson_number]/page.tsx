@@ -120,25 +120,35 @@ export default async function TeachingModeLessonPage({
     }
   }
 
-  // 3. Worksheets — prefer those linked to this lesson; fall back to stage match
-  const [{ data: byLessonWs }, { data: byStageWs }] = await Promise.all([
-    supabase
-      .from("worksheet_templates")
-      .select(
-        "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey(stage_number, name)"
-      )
-      .eq("is_active", true)
-      .eq("linked_lesson_number", lessonNumber),
-    stageNumber
-      ? supabase
-          .from("worksheet_templates")
-          .select(
-            "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey!inner(stage_number, name)"
-          )
-          .eq("is_active", true)
-          .eq("method_stage_definitions.stage_number", stageNumber)
-      : Promise.resolve({ data: [] as unknown[] }),
-  ]);
+  // 3. Worksheets — prefer the lesson_worksheets join (per-lesson usage_type).
+  //    Fall back to legacy linked_lesson_number / stage match so unseeded
+  //    environments still render something useful.
+  type UsageType = "fill" | "review" | "edit" | "reference";
+  const usageOrder: Record<UsageType, number> = {
+    fill: 0,
+    review: 1,
+    edit: 2,
+    reference: 3,
+  };
+  type LessonWsJoin = {
+    usage_type: UsageType;
+    display_order: number | null;
+    notes: string | null;
+    worksheet_templates: {
+      id: string;
+      title: string;
+      description: string | null;
+      fields_schema: unknown;
+      template_type: string;
+      linked_lesson_number: number | null;
+    } | null;
+  };
+  const { data: lessonWsRows } = await supabase
+    .from("lesson_worksheets")
+    .select(
+      "usage_type, display_order, notes, worksheet_templates(id, title, description, fields_schema, template_type, linked_lesson_number)"
+    )
+    .eq("lesson_number", lessonNumber);
 
   type WorksheetRow = {
     id: string;
@@ -147,20 +157,105 @@ export default async function TeachingModeLessonPage({
     fields_schema: unknown;
     template_type: string;
     linked_lesson_number: number | null;
+    usage_type: UsageType;
+    display_order: number;
+    notes: string | null;
   };
-  const worksheetMap = new Map<string, WorksheetRow>();
-  for (const w of (byLessonWs ?? []) as WorksheetRow[]) {
-    worksheetMap.set(w.id, w);
+
+  let worksheets: WorksheetRow[] = [];
+  if (lessonWsRows && lessonWsRows.length > 0) {
+    worksheets = ((lessonWsRows as unknown) as LessonWsJoin[])
+      .filter((r) => r.worksheet_templates && r.worksheet_templates.id)
+      .map((r) => ({
+        id: r.worksheet_templates!.id,
+        title: r.worksheet_templates!.title,
+        description: r.worksheet_templates!.description,
+        fields_schema: r.worksheet_templates!.fields_schema,
+        template_type: r.worksheet_templates!.template_type,
+        linked_lesson_number: r.worksheet_templates!.linked_lesson_number,
+        usage_type: r.usage_type,
+        display_order: r.display_order ?? 0,
+        notes: r.notes,
+      }));
+  } else {
+    // Legacy fallback (pre-0014): linked_lesson_number + stage match.
+    const [{ data: byLessonWs }, { data: byStageWs }] = await Promise.all([
+      supabase
+        .from("worksheet_templates")
+        .select(
+          "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey(stage_number, name)"
+        )
+        .eq("is_active", true)
+        .eq("linked_lesson_number", lessonNumber),
+      stageNumber
+        ? supabase
+            .from("worksheet_templates")
+            .select(
+              "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey!inner(stage_number, name)"
+            )
+            .eq("is_active", true)
+            .eq("method_stage_definitions.stage_number", stageNumber)
+        : Promise.resolve({ data: [] as unknown[] }),
+    ]);
+    type LegacyRow = Omit<WorksheetRow, "usage_type" | "display_order" | "notes">;
+    const map = new Map<string, LegacyRow>();
+    for (const w of (byLessonWs ?? []) as LegacyRow[]) map.set(w.id, w);
+    for (const w of (byStageWs ?? []) as LegacyRow[]) {
+      if (!map.has(w.id)) map.set(w.id, w);
+    }
+    worksheets = Array.from(map.values()).map((w) => ({
+      ...w,
+      // Worksheets whose own linked_lesson_number === current = first-time fill.
+      // Anything else inherited via stage match is treated as reference reading.
+      usage_type:
+        w.linked_lesson_number === lessonNumber ? ("fill" as const) : ("reference" as const),
+      display_order: 0,
+      notes: null,
+    }));
   }
-  for (const w of (byStageWs ?? []) as WorksheetRow[]) {
-    if (!worksheetMap.has(w.id)) worksheetMap.set(w.id, w);
-  }
-  const worksheets = Array.from(worksheetMap.values()).sort((a, b) => {
-    const an = a.linked_lesson_number ?? 999;
-    const bn = b.linked_lesson_number ?? 999;
-    if (an !== bn) return an - bn;
+  worksheets.sort((a, b) => {
+    if (a.display_order !== b.display_order) return a.display_order - b.display_order;
+    const ua = usageOrder[a.usage_type];
+    const ub = usageOrder[b.usage_type];
+    if (ua !== ub) return ua - ub;
     return a.title.localeCompare(b.title);
   });
+
+  // Usage-type badge styling (deep-navy + electric-blue palette friendly).
+  const usageBadge: Record<UsageType, { bg: string; border: string; text: string; labelEn: string; labelZh: string; tooltip: string }> = {
+    fill: {
+      bg: "bg-status-success/15",
+      border: "border-status-success/40",
+      text: "text-status-success",
+      labelEn: "Fill",
+      labelZh: "新填",
+      tooltip: "Students complete this worksheet for the first time.",
+    },
+    review: {
+      bg: "bg-incubator-gold/15",
+      border: "border-incubator-gold/40",
+      text: "text-incubator-gold",
+      labelEn: "Review",
+      labelZh: "回顧",
+      tooltip: "Students revisit and read what they previously wrote.",
+    },
+    edit: {
+      bg: "bg-orange-500/15",
+      border: "border-orange-500/40",
+      text: "text-orange-400",
+      labelEn: "Edit",
+      labelZh: "修改",
+      tooltip: "Students return to revise an earlier worksheet.",
+    },
+    reference: {
+      bg: "bg-electric-blue/15",
+      border: "border-electric-blue/40",
+      text: "text-electric-blue",
+      labelEn: "Reference",
+      labelZh: "參考",
+      tooltip: "Worksheet is shown as supporting context only.",
+    },
+  };
 
   // 4. Rubric for this stage
   let rubric: {
@@ -344,37 +439,51 @@ export default async function TeachingModeLessonPage({
               <p className="text-soft-gray/40 text-sm">No worksheets linked to this lesson or stage.</p>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {worksheets.map((w) => (
-                  <div
-                    key={w.id}
-                    className="rounded-xl border border-white/8 bg-deep-navy/50 p-4 flex flex-col"
-                  >
-                    <p className="text-sm font-semibold text-soft-gray leading-snug">{w.title}</p>
-                    {w.description && (
-                      <p className="text-xs text-soft-gray/60 mt-1.5 leading-relaxed line-clamp-2">{w.description}</p>
-                    )}
-                    <p className="text-[11px] text-soft-gray/40 mt-2">
-                      {countFields(w.fields_schema)} fields · {w.template_type}
-                      {w.linked_lesson_number && w.linked_lesson_number !== lessonNumber && (
-                        <> · Lesson {w.linked_lesson_number}</>
+                {worksheets.map((w) => {
+                  const badge = usageBadge[w.usage_type];
+                  return (
+                    <div
+                      key={`${w.id}-${w.usage_type}`}
+                      className="rounded-xl border border-white/8 bg-deep-navy/50 p-4 flex flex-col"
+                    >
+                      <div className="flex items-start justify-between gap-2 mb-1.5">
+                        <p className="text-sm font-semibold text-soft-gray leading-snug flex-1 min-w-0">{w.title}</p>
+                        <span
+                          title={badge.tooltip}
+                          className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border flex-shrink-0 ${badge.bg} ${badge.border} ${badge.text}`}
+                        >
+                          {badge.labelEn} · {badge.labelZh}
+                        </span>
+                      </div>
+                      {w.description && (
+                        <p className="text-xs text-soft-gray/60 mt-0.5 leading-relaxed line-clamp-2">{w.description}</p>
                       )}
-                    </p>
-                    <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/5">
-                      <Link
-                        href={`/admin/worksheets/${w.id}`}
-                        className="text-[11px] text-soft-gray/60 hover:text-soft-gray border border-white/10 px-2.5 py-1 rounded-lg inline-flex items-center gap-1"
-                      >
-                        <ExternalLink size={10} /> Preview
-                      </Link>
-                      <PushToClassButton
-                        templateId={w.id}
-                        templateTitle={w.title}
-                        cohorts={cohorts}
-                        lessonNumber={lessonNumber}
-                      />
+                      {w.notes && (
+                        <p className="text-[11px] text-soft-gray/50 mt-1.5 italic leading-relaxed">{w.notes}</p>
+                      )}
+                      <p className="text-[11px] text-soft-gray/40 mt-2">
+                        {countFields(w.fields_schema)} fields · {w.template_type}
+                        {w.linked_lesson_number && w.linked_lesson_number !== lessonNumber && (
+                          <> · originally Lesson {w.linked_lesson_number}</>
+                        )}
+                      </p>
+                      <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/5">
+                        <Link
+                          href={`/admin/worksheets/${w.id}`}
+                          className="text-[11px] text-soft-gray/60 hover:text-soft-gray border border-white/10 px-2.5 py-1 rounded-lg inline-flex items-center gap-1"
+                        >
+                          <ExternalLink size={10} /> Preview
+                        </Link>
+                        <PushToClassButton
+                          templateId={w.id}
+                          templateTitle={w.title}
+                          cohorts={cohorts}
+                          lessonNumber={lessonNumber}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </section>
