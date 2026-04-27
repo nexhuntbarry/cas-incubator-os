@@ -104,7 +104,7 @@ export default async function TeacherWorksheetsPage() {
   // Get templates with stage info
   const { data: templates } = await supabase
     .from("worksheet_templates")
-    .select("id, title, template_type, linked_lesson_number, linked_method_stage_id, required_status, method_stage_definitions(stage_number, name)")
+    .select("id, title, template_type, linked_lesson_number, linked_method_stage_id, required_status, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey(stage_number, name)")
     .eq("is_active", true)
     .order("linked_lesson_number", { ascending: true });
 

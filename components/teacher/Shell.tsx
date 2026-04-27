@@ -19,6 +19,7 @@ import {
   Presentation,
   Play,
   AlertTriangle,
+  Flag,
   Menu,
   X,
 } from "lucide-react";
@@ -31,6 +32,7 @@ const NAV = [
   { href: "/teacher/assignments", label: "Assignments", icon: ClipboardList },
   { href: "/teacher/worksheets", label: "Worksheets", icon: FileText },
   { href: "/teacher/rubrics", label: "Rubrics", icon: Star },
+  { href: "/teacher/checkpoints", label: "Checkpoints", icon: Flag },
   { href: "/teacher/resources", label: "Resources", icon: BookOpen },
   { href: "/teacher/parents", label: "Parent Comms", icon: Users },
   { href: "/teacher/showcases", label: "Showcases", icon: Presentation },

@@ -54,22 +54,22 @@ export default async function TeachingModeLessonPage({
   // 1. Lesson asset (richest content_md preferred)
   const { data: lessonRows } = await supabase
     .from("curriculum_assets")
-    .select("id, title, lesson_number, content_md, url, linked_method_stage_id")
+    .select("id, title, lesson_number, content_md, url, stage_number")
     .eq("lesson_number", lessonNumber);
 
   const lesson = (lessonRows ?? [])
     .sort((a, b) => (b.content_md?.length ?? 0) - (a.content_md?.length ?? 0))[0];
   if (!lesson) notFound();
 
-  // 2. Stage — prefer DB linked_method_stage_id, else curated map
+  // 2. Stage — prefer DB stage_number, else curated map
   let stageNumber: number | null = null;
   let stageName: string | null = null;
   let stageDescription: string | null = null;
-  if (lesson.linked_method_stage_id) {
+  if (lesson.stage_number != null) {
     const { data: stageRow } = await supabase
       .from("method_stage_definitions")
       .select("stage_number, name, description")
-      .eq("id", lesson.linked_method_stage_id)
+      .eq("stage_number", lesson.stage_number)
       .single();
     if (stageRow) {
       stageNumber = stageRow.stage_number;
@@ -125,7 +125,7 @@ export default async function TeachingModeLessonPage({
     supabase
       .from("worksheet_templates")
       .select(
-        "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, method_stage_definitions(stage_number, name)"
+        "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey(stage_number, name)"
       )
       .eq("is_active", true)
       .eq("linked_lesson_number", lessonNumber),
@@ -133,7 +133,7 @@ export default async function TeachingModeLessonPage({
       ? supabase
           .from("worksheet_templates")
           .select(
-            "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, method_stage_definitions!inner(stage_number, name)"
+            "id, title, description, fields_schema, template_type, linked_lesson_number, linked_method_stage_id, method_stage_definitions!worksheet_templates_linked_method_stage_id_fkey!inner(stage_number, name)"
           )
           .eq("is_active", true)
           .eq("method_stage_definitions.stage_number", stageNumber)

@@ -15,7 +15,7 @@ interface LessonRow {
   id: string;
   title: string;
   lesson_number: number | null;
-  linked_method_stage_id: string | null;
+  stage_number: number | null;
 }
 
 const PHASE: Record<number, { num: number; label: string }> = {
@@ -50,7 +50,7 @@ export default async function TeachingModePage() {
 
   const { data: lessons } = await supabase
     .from("curriculum_assets")
-    .select("id, title, lesson_number, linked_method_stage_id")
+    .select("id, title, lesson_number, stage_number")
     .not("lesson_number", "is", null)
     .order("lesson_number", { ascending: true });
 
