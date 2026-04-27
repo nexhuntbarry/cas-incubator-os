@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Search, UserPlus } from "lucide-react";
+import { Search, UserPlus, Trash2 } from "lucide-react";
 import InviteUserModal from "@/components/admin/InviteUserModal";
 
 interface User {
@@ -39,6 +39,18 @@ export default function UsersTable({ users }: { users: User[] }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ role }),
     });
+    setUpdating(null);
+    router.refresh();
+  }
+
+  async function handleDelete(userId: string, label: string) {
+    if (!confirm(`Delete "${label}"? Email + Clerk login will also be removed. Cannot be undone.`)) return;
+    setUpdating(userId);
+    const res = await fetch(`/api/admin/users/${userId}`, { method: "DELETE" });
+    if (!res.ok) {
+      const text = await res.text();
+      alert(`Delete failed: ${text.slice(0, 200)}`);
+    }
     setUpdating(null);
     router.refresh();
   }
@@ -86,6 +98,7 @@ export default function UsersTable({ users }: { users: User[] }) {
               <th className="px-4 py-3 text-left text-xs font-semibold text-soft-gray/50 uppercase tracking-wider">
                 {t("users.joined")}
               </th>
+              <th className="px-4 py-3 text-right text-xs font-semibold text-soft-gray/50 uppercase tracking-wider"></th>
             </tr>
           </thead>
           <tbody>
@@ -116,12 +129,22 @@ export default function UsersTable({ users }: { users: User[] }) {
                 <td className="px-4 py-3 text-soft-gray/40 text-xs">
                   {new Date(u.created_at).toLocaleDateString()}
                 </td>
+                <td className="px-4 py-3 text-right">
+                  <button
+                    onClick={() => handleDelete(u.id, u.display_name || u.email)}
+                    disabled={updating === u.id}
+                    title="Delete user"
+                    className="p-1.5 rounded text-status-error/70 hover:text-status-error hover:bg-status-error/10 disabled:opacity-40 transition-colors"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </td>
               </tr>
             ))}
             {filtered.length === 0 && (
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={5}
                   className="px-4 py-8 text-center text-soft-gray/30"
                 >
                   {t("users.empty")}
