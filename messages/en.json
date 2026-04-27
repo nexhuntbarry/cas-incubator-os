@@ -181,6 +181,14 @@
         "title": "Teacher Dashboard",
         "body": "Your at-a-glance view of the cohorts you teach — what needs review, who needs a nudge, and where your students are in the method pipeline."
       },
+      "teachingMode": {
+        "title": "Teaching Mode",
+        "body": "Pick today's lesson and teach with the same standard every time. Each lesson opens a teaching page with the plan, the worksheets to push to your class, the rubric, and any checkpoints due near it."
+      },
+      "teachingModeLesson": {
+        "title": "Teach this Lesson",
+        "body": "Everything for one class period in one place — the lesson plan, the worksheets to assign, the rubric for grading, and the checkpoints due near this lesson."
+      },
       "students": {
         "title": "Your Students",
         "body": "Every student in the cohorts you teach. Click in to see their project, worksheet history, and method progress in one place."
