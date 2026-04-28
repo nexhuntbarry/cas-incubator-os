@@ -25,6 +25,9 @@ const PUBLIC_ROUTES: TestCase[] = [
   { path: "/sign-up", description: "Sign-up page", expectedStatuses: [200] },
   { path: "/join", description: "Join with class code", expectedStatuses: [200] },
   { path: "/showcase", description: "Public showcase", expectedStatuses: [200, 404] },
+  { path: "/legal/privacy", description: "Legal — privacy policy", expectedStatuses: [200, 404] },
+  { path: "/legal/terms", description: "Legal — terms of service", expectedStatuses: [200, 404] },
+  { path: "/legal/disclaimer", description: "Legal — disclaimer", expectedStatuses: [200, 404] },
 ];
 
 // Auth-required routes redirect unauth users to Clerk-hosted sign-in.
@@ -43,6 +46,9 @@ const AUTH_REQUIRED_ROUTES: TestCase[] = [
   { path: "/student", description: "Student dashboard", expectedStatuses: [302, 307, 200, 404] },
   { path: "/parent", description: "Parent dashboard", expectedStatuses: [302, 307, 200, 404] },
   { path: "/notifications", description: "Notifications page", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/teacher/teaching-mode/8", description: "Teaching Mode — new L8 (AI/CAS Setup)", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/teacher/teaching-mode/17", description: "Teaching Mode — L17 (Model Comparison)", expectedStatuses: [302, 307, 200, 404] },
+  { path: "/teacher/teaching-mode/20", description: "Teaching Mode — L20 (Showcase)", expectedStatuses: [302, 307, 200, 404] },
 ];
 
 const API_ROUTES: TestCase[] = [

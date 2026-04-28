@@ -8,7 +8,10 @@
  * lesson scheduling.
  */
 
-export const CHECKPOINT_DUE_LESSONS = [2, 4, 6, 10, 14, 18, 20] as const;
+// Updated for migration 0017 lesson restructure (new L8 inserted, old L8..L18
+// shifted +1, old L19+L20 merged into L20). Checkpoints 4–6 shifted +1 to
+// stay attached to the same content; 1–3 and 7 unchanged.
+export const CHECKPOINT_DUE_LESSONS = [2, 4, 6, 11, 15, 19, 20] as const;
 
 export interface CheckpointMeta {
   number: number;
@@ -21,9 +24,9 @@ const CHECKPOINTS: CheckpointMeta[] = [
   { number: 1, name: "Topic Selected",      dueAfterLesson: 2,  linkedStages: [1, 2] },
   { number: 2, name: "Problem Validated",   dueAfterLesson: 4,  linkedStages: [2, 3] },
   { number: 3, name: "MVP Defined",         dueAfterLesson: 6,  linkedStages: [4, 5, 6] },
-  { number: 4, name: "Prototype v1 Built",  dueAfterLesson: 10, linkedStages: [7] },
-  { number: 5, name: "User-Tested",         dueAfterLesson: 14, linkedStages: [8] },
-  { number: 6, name: "Polished v2",         dueAfterLesson: 18, linkedStages: [9] },
+  { number: 4, name: "Prototype v1 Built",  dueAfterLesson: 11, linkedStages: [7] },
+  { number: 5, name: "User-Tested",         dueAfterLesson: 15, linkedStages: [8] },
+  { number: 6, name: "Polished v2",         dueAfterLesson: 19, linkedStages: [9] },
   { number: 7, name: "Showcase-Ready",      dueAfterLesson: 20, linkedStages: [10] },
 ];
 

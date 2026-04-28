@@ -17,6 +17,16 @@ export function getAnonClient() {
  * Never expose to the browser.
  */
 export function getServiceClient() {
+  // Defense in depth: throw loudly if a client component ever imports + calls
+  // this — surfaces the leak in dev/CI before the service-role JWT ships to
+  // the browser bundle.
+  if (typeof window !== "undefined") {
+    throw new Error(
+      "[supabase] getServiceClient() called in the browser. " +
+        "Service-role key must never reach client code. " +
+        "Use getAnonClient() for client-side reads.",
+    );
+  }
   return createClient(supabaseUrl, supabaseServiceRoleKey, {
     auth: {
       autoRefreshToken: false,
