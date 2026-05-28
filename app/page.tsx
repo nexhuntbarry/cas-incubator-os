@@ -29,21 +29,27 @@ function HeroSection({ dashboardHref }: { dashboardHref: string | null }) {
   const tDash = useTranslations("landing");
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-24 overflow-hidden">
-      {/* Background grid */}
+    // Hero is the only light section on the page — the rest of the
+    // landing (Features, Stages, Footer) and inner dashboards keep the
+    // deep-navy theme. bg-white is locked here so the section "wins"
+    // against the body's deep-navy background.
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-24 overflow-hidden bg-white text-deep-navy">
+      {/* Background grid — lifted from 5% to 35% so the blue lines
+          read on white without flattening. */}
       <div
-        className="absolute inset-0 opacity-5"
+        className="absolute inset-0 opacity-[0.35]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(37,99,235,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.3) 1px, transparent 1px)",
+            "linear-gradient(rgba(37,99,235,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.18) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
         }}
       />
 
-      {/* Glow orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl bg-electric-blue" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-10 blur-3xl bg-vivid-teal" />
-      <div className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full opacity-8 blur-3xl bg-violet" />
+      {/* Glow orbs — softened on white so they read as ambient color
+          rather than glaring discs. */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-15 blur-3xl bg-electric-blue" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-15 blur-3xl bg-vivid-teal" />
+      <div className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full opacity-10 blur-3xl bg-violet" />
 
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         <div className="flex justify-center mb-10">
@@ -58,7 +64,7 @@ function HeroSection({ dashboardHref }: { dashboardHref: string | null }) {
           {t("title")}
         </h1>
 
-        <p className="text-soft-gray/70 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+        <p className="text-deep-navy/70 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
           {t("subtitle")}
         </p>
 
@@ -80,7 +86,7 @@ function HeroSection({ dashboardHref }: { dashboardHref: string | null }) {
               </Link>
               <Link
                 href="/sign-in"
-                className="px-8 py-4 rounded-xl font-semibold text-soft-gray border border-soft-gray/20 hover:border-soft-gray/40 hover:bg-white/5 transition-all duration-200"
+                className="px-8 py-4 rounded-xl font-semibold text-deep-navy border border-deep-navy/20 hover:border-deep-navy/40 hover:bg-deep-navy/5 transition-all duration-200"
               >
                 {tCommon("signIn")}
               </Link>
@@ -89,7 +95,7 @@ function HeroSection({ dashboardHref }: { dashboardHref: string | null }) {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-soft-gray/30 text-xs">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-deep-navy/40 text-xs">
         <div className="w-px h-12 bg-gradient-to-b from-transparent to-electric-blue/60" />
       </div>
     </section>
